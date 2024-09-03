@@ -1,27 +1,27 @@
-= An Example Quick Course
+= Create OpenShift AI Lab Environment
 :navtitle: Home
 
 == Introduction
 
-Course Title: Course title FIXME
+Course Title: OpenShift AI Lab environment instructions
 
 Description:
-Course description FIXME
+Course description: Instructions on how to create a lab environment for OpenShift AI 2.12
 
-Duration: FIXME hours
+Duration: 1 hour
 
 == Objectives
 
-On completing this course, you should be able to:
+On completing this course, you will have a lab environment for OpenShift AI 
 
-* Observable, measurable objective...
-* Observable, measurable objective...
-* Observable, measurable objective...
+* Using version 2.12
+* No GPU Support
+* Ability to run all OpenShift AI services / solutions
 
 == Prerequisites
 
 This course assumes that you have the following prior experience:
 
-* Course or experience...
-* Course or experience...
-* Course or experience...
+* Basic OpenShift Container Platform knowledge
+* Access to the Demo Hub lab platform
+
