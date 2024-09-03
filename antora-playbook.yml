@@ -1,6 +1,6 @@
 site:
-  title: FIXME Course Title
-  start_page: REPLACEREPONAME::index.adoc
+  title: OpenShift AI Lab environment instructions
+  start_page: rhoai-demo-instr::index.adoc
 
 content:
   sources:
