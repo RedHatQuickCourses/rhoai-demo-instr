@@ -1,6 +1,6 @@
 name: REPLACEREPONAME
-title: FIXME Course Title
-version: 1
+title: OpenShift AI Lab environment instructions
+version: 2.12
 nav:
 - modules/ROOT/nav.adoc
 - modules/LABENV/nav.adoc
