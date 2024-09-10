@@ -1,7 +1,127 @@
-= Chapter 2
+= TL3 Course Design AsciiDocs
 
-In this section, we cover... FIXME
+This section describes a way to create Git Repository based courses. Specifically - for users that don't enjoy working in a command line environment, therefore focuses on visual interaction with their AsciiDoc based course content creation.
+
+ * AsciiDoc is a plain text markup language for writing technical content. It's packed with semantic elements and equipped with features to modularize and reuse content. AsciiDoc content can be:
+ 
+ ** composed using a text editor - we use VSCode
+ ** managed in a version control system - we use Git
+ ** published to multiple output formats -we use Webpages via Git Pages / Red Hat LMS 
+
+== Install Software Tools:
+
+=== VScode
+
+Think of this as the word processer for editing course text. Use the link below to download and install VScode on your workstation.
+
+https://code.visualstudio.com/[*Visual Studio Code:*, window=blank]
+
+Visual Studio Code is a lightweight but powerful source code editor which runs on your desktop and is available for Windows, macOS and Linux. It comes with built-in support for JavaScript, TypeScript and Node.js and has a rich ecosystem of extensions for other languages and runtimes (such as C++, C#, Java, Python, PHP, Go, .NET).
 
 
-- Add or remove section entries in the `antora.yaml` file as needed.
-- Ensure you create or delete the corresponding directory for the chapter accordingly.
+=== Github 
+
+GitHub is a cloud-based platform that allows developers to store, share, and collaborate on code. It's a web-based interface that uses Git, an open source version control software.
+
+==== Github Organization for PERT:
+
+https://github.com/RedHatQuickCourses[RedHatQuickCourses, window=blank]
+
+Organizations are shared accounts where businesses and open-source projects can collaborate across many projects at once, with sophisticated security and administrative features.
+
+==== Github Desktop:
+https://desktop.github.com/download/[Download Github Desktop, window=blank]
+
+With GitHub Desktop, you can interact with GitHub using a GUI instead of the command line or a web browser. You can use GitHub Desktop to complete most Git commands from your desktop, such as pushing to, pulling from, and cloning remote repositories, attributing commits, and creating pull requests, with visual confirmation of changes.
+
+Github desktop documentation:  https://docs.github.com/en/desktop
+
+Quick reference guide:
+https://rogerdudler.github.io/git-guide/
+
+
+=== Antora / AsciiDocs
+
+With Antora, you manage docs as code. That means your documentation process benefits from the same practices used to produce successful software. Some of these practices include:
+
+ * Storing content in a version control system.
+ * Separating content, configuration, and presentation.
+ * Leveraging automation for compilation, validation, verification, and publishing.
+ * Reusing shared materials (DRY).
+
+Antora Documentation has been the most user friendly place to find feature usage
+https://docs.antora.org/antora/latest/
+
+== Cloning the Git Repository 
+
+Bring the files stores in Github to your local machine as duplicate copy. This section assumes you have already installed Github Desktop and Visual Studio Code.
+
+[NOTE]
+
+Clone - point to an existing repo and make a clone or copy of that repo at in a new directory, at another location. 
+
+image::clone_repo.gif[width=600]
+
+ . Using a web browser to access Github, locate the repository that contains you plan to edit. 
+
+ . Click on the green `CODE` button dropdown, select the option to `open with Github Desktop`.
+
+ . If shown, Approve the message allow the web browser to open Github Desktop
+ .. feel free to check the box to avoid seeing this message in the future.
++
+Once Github Desktop opens a pop-up window will appears asking you to confirm the source url for the repository.
++
+Also shown will be the local path to where the files will be stored. you can change this path by selecting choose and browsing to new directory.
++
+ . Click Clone to continue and the files will begin the clone process.
+
+[TIP]
+Create a single directory for all your github projects in location where you full control of the files such as `Documents` directory.  My prefered path is Documents/Github, which is hightlighted in the gif.
+
+In Github Desktop once the files are copies, the window displayed will show no local changes.
+
+== Creating a Branch
+
+Before making changes to the files, create branch, which creates virual duplicate of the original files that you can change. 
+
+[WARNING]
+Do not make changes to the main branch.  Branching allows teams of developers to easily collaborate inside of one central code base. When a developer creates a branch, the version control system creates a copy of the code base at that point in time. Changes to the branch don't affect other developers on the team.
+
+image::create_branch.gif[width=600]
+
+ .  Click the current branch menu in top navigation bar
+
+ .. From the drop down, ensure the Branch tab is selected
+
+  . In the filter /search bar, type the name of the new branch, in this example: initial_changes is used as the name of the branch to be created.
+
+ .. since the name is not found, the option to Create a new branch appears
+
+ .. Either the button the right, or the new blue select button will create the new branch. 
+
+. Confirm the branch will be created from main, Select Create Branch.
+
+The *current branch* top menu of Github Desktop should now display the new branch new.
+
+There are few options for how to proceed with depending on personal preferences.
+
+ * you can publish your branch to the remote (Github Repository) to let's other know about your branch.
+
+ * you can click the `open the repository in your local editor`, which is the process followed in this guide.
+
+Select the `Open in Visual Studio Code` button.
+
+
+
+== Anotora Document Structure
+
+== Editing the Files
+
+== Viewing Changes Locally with NPM
+
+== Commiting Changes
+
+== Pushing the Changes to Github
+
+== Merging Changes
+
