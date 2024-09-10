@@ -4,4 +4,5 @@ version: 2.12
 nav:
 - modules/ROOT/nav.adoc
 - modules/LABENV/nav.adoc
+- modules/chapter2/nav.adoc
 - modules/appendix/nav.adoc
