@@ -126,7 +126,9 @@ The primary folders to explore to edit the course files are located in the `modu
 
 Modules are where the course chapters are stored.
 
+image::navigation_structure.gif[width=600]
 
+image::navigation_structurev2.gif[width=600]
 
 == Editing the Files
 
@@ -259,4 +261,6 @@ image::pull_request.gif[width=600]
 == Github Actions
 
 TBD
+
+image::merge_actions.gif[width=600]
 
