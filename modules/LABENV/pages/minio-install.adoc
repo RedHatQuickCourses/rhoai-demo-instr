@@ -2,7 +2,7 @@
 
 // video::llm_minio_v3.mp4[width=640]
 
-== Deploy MinIO as S3 compatible storage
+== Deploy MinIO as S3 compatible storage [Update this...]
 
 === MinIO overview
 
