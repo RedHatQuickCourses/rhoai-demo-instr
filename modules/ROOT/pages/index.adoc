@@ -3,7 +3,7 @@
 
 == Introduction
 
-Course Title: OpenShift AI Lab environment instructions
+Course Title: This is a demo
 
 Description:
 Course description: Instructions on how to create a lab environment for OpenShift AI 2.12
