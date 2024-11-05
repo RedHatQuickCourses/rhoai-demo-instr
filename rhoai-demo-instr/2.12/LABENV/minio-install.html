@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>MinIO S3 Compatible Storage Setup :: OpenShift AI Lab environment instructions</title>
-    <link rel="prev" href="index.html">
-    <link rel="next" href="../chapter2/index.html">
+    <link rel="prev" href="oai_install.html">
+    <link rel="next" href="hyperscaler_lab_env.html">
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -50,8 +50,20 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="index.html">Lab Environment</a>
 <ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rhoai_self_managed.html">OpenShift AI Lab</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="oai_install.html">OpenShift AI Install</a>
+  </li>
   <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="minio-install.html">MinIO S3 Compatible Storage Setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="hyperscaler_lab_env.html">Cloud Provider Lab Environments</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="red-hat-docs.html">Red Hat Documentation Reference</a>
   </li>
 </ul>
   </li>
@@ -153,6 +165,7 @@ This version of MinIO should not be used in production-grade environments. Addit
 <div class="content">
 <img src="_images/minio_install.gif" alt="minio install" width="600">
 </div>
+<div class="title">Figure 1. Animated - Deployment of Minio on OpenShift</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -163,14 +176,18 @@ This version of MinIO should not be used in production-grade environments. Addit
 <p>In the new window, we will paste the following YAML file.  In the YAML below its recommended to change the default user name &amp; password.</p>
 </li>
 <li>
-<p>Click on the Project Selection list dropdown and select the "fraud-detection" project or the data science project you created in the previous step.</p>
+<p>Click on the Project Selection list dropdown and select the <strong>"fraud-detection"</strong> project or the data science project you created in the previous step.</p>
 </li>
 </ol>
 </div>
+<div class="sect2">
+<h3 id="_minio_deployment_code"><a class="anchor" href="#_minio_deployment_code"></a>Minio Deployment Code</h3>
+<details>
+<summary class="title">Click to view and copy Minio deployment code.</summary>
+<div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
-kind: PersistentVolumeClaim
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: minio-pvc
@@ -332,8 +349,11 @@ spec:
     insecureEdgeTerminationPolicy: Redirect</code></pre>
 </div>
 </div>
+</div>
+</details>
 <div class="paragraph">
 <p><strong>This should finish in a few seconds. Now it&#8217;s time to deploy our storage buckets.</strong></p>
+</div>
 </div>
 </div>
 </div>
@@ -344,6 +364,7 @@ spec:
 <div class="content">
 <img src="_images/minio_setup.gif" alt="minio setup" width="600">
 </div>
+<div class="title">Figure 2. Animated - Logon and storage bucket creation in Minio dashboard</div>
 </div>
 <div class="paragraph">
 <p>From the OCP Dashboard:</p>
@@ -404,13 +425,13 @@ spec:
 </ol>
 </div>
 <div class="paragraph">
-<p>This completes the pre-work to configure the data scicence pipeline lab environment. With our S3 Compatible storage ready to go, let&#8217;s head to next section of the course and learn more about DSP concepts.</p>
+<p>This completes the pre-work, with our S3 Compatible storage ready to go, let&#8217;s head to next section of the course and learn more about Red Hat OpenShift AI Model serving  with Rag.</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="index.html">Lab Environment</a></span>
-  <span class="next"><a href="../chapter2/index.html">TL3 Course Edit Guide</a></span>
+  <span class="prev"><a href="oai_install.html">OpenShift AI Install</a></span>
+  <span class="next"><a href="hyperscaler_lab_env.html">Cloud Provider Lab Environments</a></span>
 </nav>
 </article>
   </div>
