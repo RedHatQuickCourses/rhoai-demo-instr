@@ -1,4 +1,4 @@
-= TL3 Course Edit Guide
+= TL3 Course Edit Guide [Update]
 
 This segment of learning describes a way to edit / modify Git Repository based courses. Specifically - for users that don't enjoy working in a command line environment, therefore focuses on visual interaction with their AsciiDoc based course content creation.
 
