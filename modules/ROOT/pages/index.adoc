@@ -8,7 +8,7 @@ Course Title: This is a demo for how to create a lab environment.....
 Description:
 Course description: Instructions on how to create a lab environment for OpenShift AI 2.12
 
-Duration: 1 hour
+Duration: 2 hours
 
 == Objectives
 
