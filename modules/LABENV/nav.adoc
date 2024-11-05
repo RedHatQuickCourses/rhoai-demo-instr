@@ -1,2 +1,6 @@
 * xref:index.adoc[]
+** xref:rhoai_self_managed.adoc[]
+** xref:oai_install.adoc[]
 ** xref:minio-install.adoc[]
+** xref:hyperscaler_lab_env.adoc[]
+** xref:red-hat-docs.adoc[]

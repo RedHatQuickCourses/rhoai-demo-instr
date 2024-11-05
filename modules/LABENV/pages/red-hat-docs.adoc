@@ -1,0 +1,16 @@
+= Red Hat Documentation Reference
+
+This section includes links to documentation reference for OpenShift AI and RHEL AI in that order. 
+
+== Red Hat OpenShift AI Cloud Service
+
+Red Hat OpenShift AI Cloud Service Main Dashboard
+
+* https://docs.redhat.com/en/documentation/red_hat_openshift_ai_cloud_service/1[Red Hat OpenShift AI Cloud Service Documentation, window=blank]
+
+== Red Hat Enterprise Linux AI 1.2 Documentation
+
+Red Hat Enterprise Linux AI is a platform that allows you to develop enterprise applications on open source Large Language Models (LLMs). RHEL AI is built from the Red Hat InstructLab open source project. For more detailed information about InstructLab, see the "InstructLab and RHEL AI" section.
+
+https://docs.redhat.com/en/documentation/red_hat_enterprise_linux_ai/1.2[Red Hat Enterprise Linux AI 1.2, window =blank]
+
