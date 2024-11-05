@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>OpenShift AI Lab :: OpenShift AI Lab environment instructions</title>
+    <link rel="prev" href="index.html">
+    <link rel="next" href="oai_install.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">OpenShift AI Lab environment instructions</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhoai-demo-instr" data-version="2.12">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">OpenShift AI Lab environment instructions</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">Lab Environment</a>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="rhoai_self_managed.html">OpenShift AI Lab</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="oai_install.html">OpenShift AI Install</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="minio-install.html">MinIO S3 Compatible Storage Setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="hyperscaler_lab_env.html">Cloud Provider Lab Environments</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="red-hat-docs.html">Red Hat Documentation Reference</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/index.html">TL3 Course Edit Guide [Update]</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/section1.html">Section 1</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../appendix/appendix.html">Appendix</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">OpenShift AI Lab environment instructions</span>
+    <span class="version">2.12</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">OpenShift AI Lab environment instructions</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.12</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">OpenShift AI Lab environment instructions</a></li>
+    <li><a href="index.html">Lab Environment</a></li>
+    <li><a href="rhoai_self_managed.html">OpenShift AI Lab</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">OpenShift AI Lab</h1>
+<div class="sect1">
+<h2 id="_openshift_container_cluster_platform_ocp_environment"><a class="anchor" href="#_openshift_container_cluster_platform_ocp_environment"></a>OpenShift Container Cluster Platform (OCP) Environment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use the <a href="https://demo.redhat.com/catalog?item=babylon-catalog-prod%2Fopenshift-cnv.ocpmulti-wksp-cnv.prod" target="_blank" rel="noopener"><strong>Red Hat OpenShift Container Platform Cluster (AWS)</strong></a> catalog item in the Red Hat Demo Platform (RHDP) to run the hands-on exercises in this course.
+The reason to utlize this lab over other selections are large worker node machine instance types m5.4xlarge (16vCPU x 64GB memory) which provides resources to explore while following along with the lab without hitting allocation limits.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/demo_platform_catalog.gif" alt="demo platform catalog" width="600">
+</div>
+<div class="title">Figure 1. Animated - Walkthrough of Demo Hub order selections</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The lab environment on average takes ~40-60 minutes to enter the ready state.  While your lab environment is provisioning, I recommend that you read through the course once, then return and complete the lab portions once your <strong>OpenShift Container Cluster Platform</strong> environment is ready to go.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When ordering this catalog item in RHDP:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Select Practice/Enablement for the Activity field</p>
+</li>
+<li>
+<p>Select Learning about the Product for the Purpose field</p>
+</li>
+<li>
+<p>Leave the Salesforce ID field blank</p>
+</li>
+<li>
+<p>Scroll to the bottom, read the usage cost section, then check the box to confirm acceptance of terms and conditions</p>
+</li>
+<li>
+<p>Click 'order'</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For Red Hat partners who do not have access to RHDP, you need to provision an OpenShift AI cluster on-premises, or in the supported cloud environments by following the product documentation at <a href="https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/2.12/html/installing_and_uninstalling_openshift_ai_self-managed/index" target="_blank" rel="noopener">Product Documentation for installing Red Hat OpenShift AI 2.14</a>.</p>
+</div>
+<div class="paragraph">
+<p>The OCP environment will provide the foundation infrastructure for Red Hat OpenShift AI (RHOAI). Once logged into the OCP dashboard, we need to install the Operators to enable RHOAI components in the OCP platform.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="index.html">Lab Environment</a></span>
+  <span class="next"><a href="oai_install.html">OpenShift AI Install</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
