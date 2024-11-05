@@ -1,0 +1,27 @@
+= Cloud Provider Lab Environments
+
+This section provides links to Demo Platform catalog items for Cloud Provider Open Environments.  *Cost is billed to your business unit.*
+
+This is a course on Red Hat AI on AWS, however Red Hat AI services are avialable on multiple Cloud Providers and therefore it's important to understand each Cloud Provider basic features such as networking, kubernetes services, accounts, identity management, and insert your reason here. 
+
+This course will maintain a list of best *cloud-demo* environments for all supported hyperscalers.  
+Use these to explore Cloud provider resources to better understand how they work, to research customer technologies, and explore what possible at the largest web services providers on the planet.
+
+These are provided as a resource to explore hyperscaler environments to practice theories, learn skills, or test out customer solutions with Red Hat products. 
+
+== HyperScaler Lab Environment Options
+
+These are the current open environments available on Demo Hub. 
+
+These environments have zero running resources.  They are blank canvases for your exploration and resource creation.  They serve as a great way to get hands-on with a blog article, white paper or a way to connect cloud resources to an Red Hat AI lab to test access and capability across applications. 
+
+=== Demo Hub Lab Links
+
+ * https://demo.redhat.com/catalog?search=aws&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-open.prod[AWS - AWS Blank Open Environment, window=blank]
+
+ * https://demo.redhat.com/catalog?category=Open_Environments&item=babylon-catalog-prod%2Fazure-gpte.open-environment-azure-subscription.prod[Microsoft Azure Subscription Based Blank Open Environment, window=blank]
+
+ * https://demo.redhat.com/catalog?category=Open_Environments&item=babylon-catalog-prod%2Fibm.sandbox-ibm.prod[IBM Public Cloud Blank Open Environment, window=blank]
+
+ * https://demo.redhat.com/catalog?category=Open_Environments&item=babylon-catalog-prod%2Fgcp-gpte.open-environment-gcp.prod[Google Cloud Platform (GCP) Blank Open Environment, window=blank]
+

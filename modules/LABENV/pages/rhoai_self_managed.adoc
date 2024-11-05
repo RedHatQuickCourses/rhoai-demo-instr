@@ -1,0 +1,31 @@
+= OpenShift AI Lab
+
+== OpenShift Container Cluster Platform (OCP) Environment
+
+
+Use the https://demo.redhat.com/catalog?item=babylon-catalog-prod%2Fopenshift-cnv.ocpmulti-wksp-cnv.prod[*Red Hat OpenShift Container Platform Cluster (AWS)*, window=_blank] catalog item in the Red Hat Demo Platform (RHDP) to run the hands-on exercises in this course.
+The reason to utlize this lab over other selections are large worker node machine instance types m5.4xlarge (16vCPU x 64GB memory) which provides resources to explore while following along with the lab without hitting allocation limits.
+
+.Animated - Walkthrough of Demo Hub order selections
+image::demo_platform_catalog.gif[width=600]
+
+[TIP]
+The lab environment on average takes ~40-60 minutes to enter the ready state.  While your lab environment is provisioning, I recommend that you read through the course once, then return and complete the lab portions once your *OpenShift Container Cluster Platform* environment is ready to go. 
+
+
+When ordering this catalog item in RHDP:
+
+  . Select Practice/Enablement for the Activity field
+
+  . Select Learning about the Product for the Purpose field
+
+  . Leave the Salesforce ID field blank
+
+  . Scroll to the bottom, read the usage cost section, then check the box to confirm acceptance of terms and conditions
+
+  . Click 'order'
+
+For Red Hat partners who do not have access to RHDP, you need to provision an OpenShift AI cluster on-premises, or in the supported cloud environments by following the product documentation at https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/2.12/html/installing_and_uninstalling_openshift_ai_self-managed/index[Product Documentation for installing Red Hat OpenShift AI 2.14, window=_blank].
+
+The OCP environment will provide the foundation infrastructure for Red Hat OpenShift AI (RHOAI). Once logged into the OCP dashboard, we need to install the Operators to enable RHOAI components in the OCP platform.
+

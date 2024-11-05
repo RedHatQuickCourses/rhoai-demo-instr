@@ -17,17 +17,24 @@ This version of MinIO should not be used in production-grade environments. Addit
 
 To Deploy MinIO, we will utilize the OpenShift Dashboard. 
 
+.Animated - Deployment of Minio on OpenShift 
 image::minio_install.gif[width=600]
 
  . Then Select the + (plus) icon from the top right of the dashboard.
 
  .  In the new window, we will paste the following YAML file.  In the YAML below its recommended to change the default user name & password. 
 
- . Click on the Project Selection list dropdown and select the "fraud-detection" project or the data science project you created in the previous step. 
+ . Click on the Project Selection list dropdown and select the *"fraud-detection"* project or the data science project you created in the previous step. 
 
 
+=== Minio Deployment Code
+ 
+// The title attribute is used as
+// clickable text to open the example block.
+.Click to view and copy Minio deployment code.
+[%collapsible]
+====
 ```yaml
----
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -189,13 +196,14 @@ spec:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
 ```
+====
 
 *This should finish in a few seconds. Now it's time to deploy our storage buckets.*
 
 == MinIO Storage Bucket Creation
 
 
-
+.Animated - Logon and storage bucket creation in Minio dashboard
 image::minio_setup.gif[width=600]
 
 From the OCP Dashboard:
@@ -228,4 +236,4 @@ Once logged into the MinIO Console:
    ..  *models* (optional) 
 
 
-This completes the pre-work to configure the data scicence pipeline lab environment. With our S3 Compatible storage ready to go, let's head to next section of the course and learn more about DSP concepts.
+This completes the pre-work, with our S3 Compatible storage ready to go, let's head to next section of the course and learn more about Red Hat OpenShift AI Model serving  with Rag.
