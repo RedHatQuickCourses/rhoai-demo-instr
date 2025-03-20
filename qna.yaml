@@ -144,10 +144,10 @@ seed_examples:
           interfere with their job responsibilities, avoid soliciting others within Citi, clients, or suppliers for
           support, and inform any third parties they engage with about their employment at Citi.
 document_outline: |
-  Information about the Phoenix Constellation including the
-  history, characteristics, and features of the stars in the constellation.
+  Outlines guidelines for managing conflicts of interest, prohibited activities, disclosure and approval processes,
+  time management, and ethical behavior, ensuring the organization's integrity and legal compliance.
 document:
-  repo: https://github.com/juliadenham/Summit_knowledge
-  commit: 0a1f2672b9b90582e6115333e3ed62fd628f1c0f
+  repo: https://github.com/RedHatQuickCourses/rhoai-demo-instr.git/rhelai_files
+  commit: d2e2c4cd5128ebc302751f3b114114caa765e2f2
   patterns:
-    - phoenix_constellation.md
+    - codeofconduct.md

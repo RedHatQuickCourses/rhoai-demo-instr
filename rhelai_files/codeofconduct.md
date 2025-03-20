@@ -12,7 +12,7 @@ This means taking action if you feel something is not right. It means immediatel
 
 It also means ensuring your own daily decisions stay true to our Mission and Value Proposition and are in our clients' interests, create economic value and are systemically responsible.
 
-Our success as a firm relies on our collective accountability. Just one crack in the foundation of trust can undermine our ability to deliver for each other and our clients. We each have a role at Citi, and we must hold ourselves and each other accountable in our daily work to achieve our goals. As you do so, know that we prohibit any form of retaliatory action against anyone who raises concerns about actual or potential wrongdoing.
+Our success as a firm relies on our collective accountability. Just one crack in the foundation of trust can undermine our ability to deliver for each other and our clients. We each have a role at Citi, and we must hold ourselves and each other accountable in our daily work to achieve our goals. As you do so, know that we prohibit any form of retaliatory action against anyone who raises concerns about actual or potential wrong doing.
 
 Thank you for taking the time to review the Code of Conduct and please continue taking ownership and challenging each other to achieve a higher standard of excellence in everything we do.
 
