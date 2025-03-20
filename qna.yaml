@@ -34,43 +34,62 @@ seed_examples:
         answer: |
           Citi prohibits any form of retaliatory action against anyone who raises concerts about actual or potential wrong doing. 
   - context: |
-      
+      Citi's mission is to serve as a trusted partner to our clients by responsibly providing financial services that enable growth
+      and economic progress. Our core activities are safeguarding assets, lending money, making payments, and accessing the capital
+      markets on behalf of our clients. We have more than 200 years of experience helping our clients meet the world's toughest
+      challenges and embrace its greatest opportunities. We are Citi, the global bank an institution connecting millions of
+      people across hundreds of countries and cities.
+      We protect people's savings and help them make the purchases - from everyday transactions to buying a home - that improve
+      the quality of their lives. We advise people on how to invest for future needs, such as their children's education and
+      their own retirement, and help them buy securities such as stocks and bonds.
+      We work with companies to optimize their daily operations, whether they need working capital, to make payroll, or export
+      their goods overseas. By lending to companies large and small, we help them grow, creating jobs and real economic value
+      at home and in communities around the world. We provide financing and support to governments at all levels, so they
+      can build sustainable infrastructure, such as housing, transportation, schools, and other vital public works.
     questions_and_answers:
       - question: |
-          What is the brightest star in the Phoenix constellation
-          called?
+          What is Citi's primary mission as a financial institution?
         answer: |
-          Alpha Phoenicis or Ankaa is the brightest star in the Phoenix
-          Constellation.
-      - question: Where did the Phoenix constellation first appear?
+          Citi's primary mission is to serve as a trusted partner to its clients by responsibly providing financial services
+          that enable growth and economic progress.
+      - question: What are the core activities of Citi in serving its clients?
         answer: |
-          The Phoenix constellation first appeared on a 35-cm diameter
-          celestial globe published in 1597 (or 1598) in Amsterdam by
-          Plancius with Jodocus Hondius.
+          The core activities of Citi include safeguarding assets, lending money, making payments, and accessing
+          the capital markets on behalf of its clients.
       - question: |
-          What does "The Bird Phoenix" symbolize?
+          How does Citi assist individuals in managing their finances and investments?
         answer: |
-          "The Bird Phoenix" symbolizes the phoenix of classical mythology.
+          Citi assists individuals by protecting their savings, helping them make purchases (from everyday
+          transactions to buying a home), advising them on how to invest for future needs such as children's
+          education and retirement, and enabling them to buy securities like stocks and bonds.
   - context: |
-      
+      You may report your concern to the Citi Ethics Office , located in the U.S., by:
+      Reporting online through website submission at: http://www.citigroup.com/citi/investor/ethics\_hotline.html
+      Calling the Citi Ethics Hotline (available 24/7 in multiple languages) by:
+      - · Looking up the dialing options available in your location in the Country Dialing Instructions;
+      - · Dialing 1-866-ETHIC-99 (1-866-384-4299); or
+      - · Dialing 1-212-559-5842 (direct or collect)
+      Calls may result in charges from your carrier. Please check with your carrier before dialing.
+      Reports to the Ethics Office about human resources-related matters are forwarded to Human Resources and
+      Employee Relations for review and follow-up.
     questions_and_answers:
-      - question: What are the characteristics of the Phoenix constellation?
+      - question: 
+          How can one report a concern to the Citi Ethics Office?
         answer: |
-          Phoenix is a small constellation bordered by Fornax and Sculptor to
-          the north, Grus to the west, Tucana to the south, touching on the
-          corner of Hydrus to the south, and Eridanus to the east and southeast.
-          The bright star Achernar is nearby.
+          One can report a concern to the Citi Ethics Office by submitting an online form through the
+          website at http://www.citigroup.com/citi/investor/ethics\_hotline.html or by calling the
+          Citi Ethics Hotline (available 24/7 in multiple languages).
       - question: |
-          When is the phoenix constellation most visible?
+          What are the dialing options for contacting the Citi Ethics Hotline?
         answer: |
-          Phoenix is most visible from locations such as Australia and
-          South Africa during late Southern Hemisphere spring.
+          To call the Citi Ethics Hotline, one can look up the dialing options available in their
+          location using the Country Dialing Instructions, dial 1-866-ETHIC-99 (1-866-384-4299),
+          or dial 1-212-559-5842 directly or collect.
       - question: |
-          What are the Phoenix Constellation boundaries?
+          What happens to reports related to human resources-related matters at the Citi Ethics Office?
         answer: |
-          The official constellation boundaries for Phoenix, as set by Belgian
-          astronomer Eugène Delporte in 1930, are defined by a polygon of 10
-          segments.
+          Reports to the Ethics Office about human resources-related matters are forwarded to Human
+           Resources and Employee Relations for review and follow-up.
   - context: |
       
     questions_and_answers:
