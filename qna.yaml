@@ -69,7 +69,8 @@ seed_examples:
       - · Looking up the dialing options available in your location in the Country Dialing Instructions;
       - · Dialing 1-866-ETHIC-99 (1-866-384-4299); or
       - · Dialing 1-212-559-5842 (direct or collect)
-      Calls may result in charges from your carrier. Please check with your carrier before dialing.
+      Calls may result in charges from your carrier. Please check with your carrie
+      r before dialing.
       Reports to the Ethics Office about human resources-related matters are forwarded to Human Resources and
       Employee Relations for review and follow-up.
     questions_and_answers:
@@ -91,43 +92,57 @@ seed_examples:
           Reports to the Ethics Office about human resources-related matters are forwarded to Human
            Resources and Employee Relations for review and follow-up.
   - context: |
-      
+      We best serve our clients when we maintain the skills and knowledge needed to perform our job responsibilities.
+      To maintain and improve your professional skills, you must:
+       - · Personally complete required training in a timely manner.
+       - · Not direct or allow someone else to take training on your behalf.
+       - · Satisfy and maintain any certification, licensing, or registration required by Citi, applicable regulators, or applicable law.
+       - · Promptly disclose criminal, financial, or regulatory information as required to keep your licenses or
+      registrations to your ICRM Officer or as otherwise directed under applicable local disclosure procedure.\
     questions_and_answers:
-      - question: In the Phoenix constellation, how many stars have planets?
+      - question: What is the primary focus for serving clients effectively at Citi?
         answer: |
-          In the Phoenix constellation, ten stars have been found to have
-          planets to date, and four planetary systems have been discovered
-          with the SuperWASP project.
+          The primary focus for serving clients effectively at Citi is maintaining and improving professional skills needed to perform job responsibilities.
       - question: |
-          What is HD 142?
+          What are the specific actions required to maintain professional skills at Citi?
         answer: |
-          HD 142 is a yellow giant that has an apparent magnitude of 5.7, and
-          has a planet (HD 142 b) 1.36 times the mass of Jupiter which
-          orbits every 328 days.
+          To maintain professional skills, one must personally complete required training in a timely manner, not direct
+          or allow someone else to take training on their behalf, satisfy and maintain any certification, licensing,
+          or registration required by Citi, applicable regulators, or applicable law, and promptly disclose criminal,
+          financial, or regulatory information as required.
       - question: |
-          Are WASP-4 and WASP-5 solar-type yellow stars?
+          What is the consequence of not adhering to these professional skill maintenance requirements at Citi?
         answer: |
-          Yes, WASP-4 and WASP-5 are solar-type yellow stars around 1000 light
-          years distant and of 13th magnitude, each with a single planet
-          larger than Jupiter.
+          The context does not provide specific consequences for not adhering to these requirements; however,
+          it emphasizes their importance in maintaining and improving professional skills.
   - context: |
-      
+      We do not let outside business activities interfere with the interests of Citi or our clients.
+      To avoid conflicts of interest from outside activities, you must:
+       - · Not engage in outside business activities that are similar to, or might be in competition with, any products or services offered by Citi; that might put your personal interests ahead of the best interests of Citi and/or our clients; or that will require you to render investment advice.
+       - · Disclose all outside activities as required by the Outside Directorships and Business Interests Policy to your manager and receive all necessary approvals before participating.
+       - · Not allow your outside business activities, or the time you spend on them, to interfere with your Citi job responsibilities.
+       - · Not solicit others within Citi, clients, or Citi suppliers to participate in, contribute to, or otherwise support the activities of the outside business organization.
+       - · Alert any company, entity, or other third party with which you engage in outside business activities that you are an employee of Cit
     questions_and_answers:
       - question: |
-          Is the Phoenix Constellation part of the Milky Way?
+          What is the policy regarding outside business activities for Citi employees?
         answer: |
-          The Phoenix constellation does not lie on the galactic plane of
-          the Milky Way, and there are no prominent star clusters.
+          The policy requires that outside business activities do not interfere with the
+          interests of Citi or its clients, and must be disclosed to the manager for necessary
+          approvals before participation.
       - question: |
-          How many light years away is NGC 625?
+          Which types of outside business activities are prohibited for Citi employees?
         answer: |
-          NGC 625 is 24000 light years in diameter and is an outlying
-          member of the Sculptor Group.
+          Citi employees are prohibited from engaging in outside business activities that are similar to or
+          competitive with Citi's products/services, put personal interests ahead of Citi and clients' best
+          interests, require rendering investment advice, or interfere with their job responsibilities.
       - question: |
-          What is Robert's Quartet composed of?
+          What steps should Citi employees take when participating in outside business activities?
         answer: |
-          Robert's Quartet is composed of the irregular galaxy NGC 87,
-          and three spiral galaxies NGC 88, NGC 89 and NGC 92.
+          Citi employees must disclose all outside activities as required by the Outside Directorships and Business Interests
+          Policy to their manager, receive necessary approvals before participating, ensure that these activities do not
+          interfere with their job responsibilities, avoid soliciting others within Citi, clients, or suppliers for
+          support, and inform any third parties they engage with about their employment at Citi.
 document_outline: |
   Information about the Phoenix Constellation including the
   history, characteristics, and features of the stars in the constellation.
