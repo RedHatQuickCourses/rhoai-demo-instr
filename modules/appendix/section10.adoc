@@ -1,4 +1,4 @@
-= Welcome to Building the Enterprise AI Launchpad!
+= Building the Enterprise AI Launchpad!
 
 [%hardbreaks]
 
@@ -36,20 +36,14 @@ This lab consists of *three* main sections, each building upon the last:
 
 * _LLM Optimization - The High-Performance Boot Camp_: In this section, we make our agent lean, mean, and enterprise-ready. You will use the *LLM Compressor* to quantize the model, drastically reducing its memory and compute costs. We will then use *GuideLLM* and *lm-eval harness* to benchmark performance and accuracy, proving our optimizations deliver a solution that is both fast and smart.
 
-== Requirements for the Lab Environment
-
-* Participant needs to have their own computer with a web browser and internet access.
-* Chromium-based browsers are recommended.
-* Remote access console uses the US keyboard layout by default.
+[IMPORTANT]
+.Time and Resource Commitment
+====
+This is an advanced lab that requires a significant time commitment to master the concepts and complete the hands-on exercises. The labs involve deploying and training models on high-cost GPU resources. Please plan accordingly to ensure you can dedicate the necessary focus to move through the material, as the concepts build upon one another. Successfully completing this course will equip you with a rare and valuable skill set, positioning you as an expert in delivering enterprise-grade Generative AI solutions.
+====
 
 === Credentials for the OpenShift Console
 
-Your OpenShift cluster console is available {openshift_cluster_console_url}[here^].
-
-Your login is available with:
-
-* *User:* {openshift_cluster_admin_username}
-* *Password:* {openshift_cluster_admin_password}
 
 === Version Information
 

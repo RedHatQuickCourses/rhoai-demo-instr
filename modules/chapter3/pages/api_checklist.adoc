@@ -1,4 +1,4 @@
-= The API Gateway: Front Door of the AI Factory
+= The API Gateway
 
 == The Gateway's Critical Role
 
