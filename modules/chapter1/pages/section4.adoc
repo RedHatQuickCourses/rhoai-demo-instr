@@ -1,0 +1,113 @@
+= Multi-Instance GPU (MIG)
+
+== From Underutilized Powerhouse to Efficient Utility
+
+=== The Challenge: Wasted Potential in Powerful GPUs
+
+Modern GPUs like the NVIDIA A100 and H100 are immensely powerful, but their resources are often wasted. A single development task, inference model, or training job rarely consumes the entire 80GB+ of memory or thousands of CUDA cores available.
+
+This leads to a critical business problem: expensive hardware sits idle. Before MIG, your options for sharing were limited and flawed: you could either risk out-of-memory errors with simple time-sharing or waste resources by allocating a full GPU to a small workload.
+
+=== The Solution: Multi-Instance GPU (MIG)
+
+MIG is a hardware partitioning technology that solves this problem by allowing you to carve a single physical GPU into up to seven smaller, fully isolated "virtual GPUs" known as **GPU Instances**.
+
+Think of a physical GPU as an apartment building. MIG is the feature that allows you to build out fully-walled, separate apartment units inside. Each tenant (workload) gets their own guaranteed space and resources, and one tenant's activity has no impact on another's.
+
+.Each MIG instance provides:
+* **Dedicated Memory:** No sharing or interference between instances.
+* **Isolated Compute Resources:** A guaranteed slice of the GPU's processing power.
+* **Hardware-Level Isolation:** Each instance operates as a completely independent GPU.
+* **Guaranteed Quality of Service (QoS):** Predictable, consistent performance for every workload.
+
+image::gpu-mig-overview.jpg[MIG Overview, 600]
+
+[NOTE]
+.Why This Matters for Production
+====
+MIG is the enterprise standard for GPU multi-tenancy. It enables you to:
+* **Isolate** development and production workloads on the same hardware.
+* **Maximize ROI** by safely running multiple models or experiments simultaneously.
+* **Offer guaranteed resource tiers** to different teams, just like a cloud provider.
+====
+
+'''
+
+== Understanding the MIG Architecture
+
+To configure MIG effectively, you need to understand its fundamental building blocks.
+
+=== Core Terminology
+
+GPU Instance (GI):::
+    This is your "virtual GPU." It is a combination of dedicated compute resources (SM Slices) and dedicated memory (Memory Slices) that are fully isolated from the rest of the physical GPU. This is the primary resource that your workloads will consume.
+
+Compute Instance (CI):::
+    A further subdivision of the compute resources *within* a GPU Instance. Multiple CIs within the same GI share that GI's memory. This is a more advanced feature for fine-tuning workloads that can benefit from sharing memory.
+
+[TIP]
+For most use cases, you will primarily work with **GPU Instances (GIs)**. Think of a GI as the main resource partition you create and assign to a container or user.
+
+=== How Partitioning Works: Creating MIG Profiles
+
+MIG works by allowing you to combine slices of the GPU's total memory and compute power into different "profiles." These profiles determine the size and capability of your virtual GPU instances.
+
+For example, on an A100-40GB GPU, you can create instances with different profiles:
+
+* `1g.5gb`: A small instance with 5GB of memory, ideal for small models or development tasks. You can fit up to **seven** of these on a single A100.
+* `2g.10gb`: A medium instance with 10GB of memory, suitable for moderately sized models. You can fit up to **three** of these.
+* `3g.20gb`: A large instance with 20GB of memory for more demanding production workloads. You can fit up to **two** of these.
+* `7g.40gb`: An instance that uses the entire GPU.
+
+This flexibility allows you to tailor your GPU resources precisely to the needs of your applications, ensuring no power is wasted.
+
+.A visual example of MIG partitioning
+image::mig-example.png[MIG partitioning, 600]
+
+'''
+
+== Hardware and Software Requirements
+
+MIG is a hardware feature and requires specific GPUs, drivers, and software to function.
+
+=== Supported GPU Architectures
+
+MIG is available on NVIDIA GPUs starting with the **Ampere architecture**.
+
+* **Ampere:** A100, A30
+* **Hopper:** H100, H200
+* **Blackwell:** B200, RTX 6000 Ada Generation
+
+=== Minimum Software Versions
+
+|===
+| GPU Family | Minimum CUDA Version | Minimum Driver Version
+
+| Ampere (A100/A30)
+| CUDA 11
+| R450 (>= 450.80.02)
+
+| Hopper (H100/H200)
+| CUDA 12
+| R525 (>= 525.53)
+
+| Blackwell (B200)
+| CUDA 12
+| R570 (>= 570.x)
+|===
+
+=== System and Orchestration Requirements
+
+* **OS:** A supported Linux distribution.
+* **Container Toolkit:** NVIDIA Container Toolkit v2.5.0+
+* **Kubernetes/OpenShift:** NVIDIA K8s Device Plugin v0.7.0+ and GPU Feature Discovery v0.2.0+ are required to expose and manage MIG devices within the cluster.
+
+'''
+
+== Additional Resources
+
+For deeper technical details and specific configuration commands, refer to the official NVIDIA documentation.
+
+* **NVIDIA MIG User Guide:** https://docs.nvidia.com/datacenter/tesla/mig-user-guide/
+* **NVIDIA K8s Device Plugin for Kubernetes:** https://github.com/NVIDIA/k8s-device-plugin
+* **NVIDIA GPU Operator for OpenShift:** The recommended way to manage drivers and plugins in an OpenShift environment.

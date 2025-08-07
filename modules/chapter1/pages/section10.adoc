@@ -1,0 +1,76 @@
+= Expert Parallelism
+
+== The New Frontier: Scaling Beyond Density
+
+We've learned how to scale models by splitting them across GPUs (Tensor) and nodes (Pipeline). But how do models like Mixtral 8x7B or GPT-4 scale to hundreds of billions or even trillions of parameters without requiring an impossibly large amount of computation for every single token?
+
+The answer lies in a revolutionary shift in model architecture: the **Mixture of Experts (MoE)**. Expert Parallelism is the specialized strategy designed exclusively to run these highly efficient, sparse models.
+
+'''
+
+== First, Understand the Model: Mixture of Experts (MoE)
+
+Before learning the parallelism strategy, you must understand the unique architecture it serves.
+
+=== The "Panel of Specialist Doctors" Analogy
+
+Imagine a traditional AI model as a single, brilliant general practitioner doctor. This one doctor has to know everything about every possible medical condition. It's effective, but not very scalable.
+
+An MoE model works like a modern medical clinic:
+* **The Patient (A Token):** An input token arrives needing processing.
+* **The Triage Nurse (The Router):** A small, fast neural network called a "router" looks at the patient (the token) and decides which specialists are best suited to handle it.
+* **The Panel of Specialists (The Experts):** The clinic has many specialist doctors (e.g., a cardiologist, a neurologist, an oncologist). Each is a smaller neural network, highly specialized in one area.
+* **Sparse Activation:** The triage nurse doesn't send the patient to *every* doctor. It sends them to only the most relevant ones (e.g., the top 2). The other doctors remain idle, saving their energy.
+
+This is **sparse activation**. Instead of using the entire massive model for every token, you only use a small fraction of it—the relevant experts. This allows the model to have a huge number of parameters (many specialists) while keeping the actual computation per token incredibly low.
+
+.A visual of the MoE Architecture
+image::gpu7.png[MoE Architecture, 600]
+
+'''
+
+== Second, Understand the Strategy: Expert Parallelism
+
+Expert Parallelism aligns the hardware layout with the MoE architecture. It's a simple concept: **you put different experts on different GPUs.**
+
+When the router decides which two experts to use for a specific token, vLLM sends that token *only* to the two GPUs hosting those specific experts. The other GPUs hosting the other experts remain idle for that token, saving power and memory bandwidth.
+
+.A high-level view of Expert Parallelism
+image::gpu5.png[Expert Parallelism Overview, 600]
+
+'''
+
+== When to Use Expert Parallelism
+
+This is the most straightforward rule of all the parallelism strategies.
+
+[IMPORTANT]
+.Guideline
+====
+Use Expert Parallelism if, and only if, you are deploying a **Mixture of Experts (MoE) model**. This technique is purpose-built for that architecture and is not applicable to standard, dense models.
+====
+
+'''
+
+== Practical Configuration with vLLM
+
+vLLM handles the complex routing automatically. You simply need to tell it how your experts are distributed.
+
+=== Combining with Tensor Parallelism
+
+Often, a single "expert" in a large MoE model is itself too large to fit on one GPU. In this case, you combine Expert Parallelism with Tensor Parallelism.
+
+.Example: Deploying a model with 8 experts, where each expert is large and requires 2 GPUs.
+----
+# Total GPUs needed = 8 experts * 2 GPUs/expert = 16 GPUs
+
+# Distribute the 8 experts across the cluster
+expert_parallel_size = 8
+
+# Within each of those expert groups, use 2 GPUs for Tensor Parallelism
+tensor_parallel_size = 2
+----
+
+This configuration tells vLLM:
+1.  "I have 8 specialist doctors (experts)."
+2.  "Each specialist doctor's 'brain' is so large that it needs a team of 2 chefs (GPUs using Tensor Parallelism) to function."

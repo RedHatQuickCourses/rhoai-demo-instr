@@ -1,0 +1,86 @@
+= Tensor Parallelism
+
+== The Problem: Your Model is Too Big for One GPU
+
+You've been asked to deploy a powerful new Large Language Model, but when you try to load it, you hit the most common roadblock in AI infrastructure: the `CUDA out of memory` error. The model's weights and its runtime KV cache are simply too large to fit into the memory of a single GPU, even a top-tier one like an A100 or H100.
+
+This is where GPU aggregation strategies become essential. The first and most common strategy for this scenario is **Tensor Parallelism**.
+
+'''
+
+== How It Works: The "Team of Chefs" Analogy
+
+Tensor Parallelism solves the memory problem by splitting a model's layers *horizontally* across multiple GPUs within a single server.
+
+Imagine a team of chefs (your GPUs) tasked with preparing an incredibly complex recipe (a single layer of the AI model).
+
+* **Instead of one chef doing all the work**, the recipe is split. Chef 1 handles the vegetables, Chef 2 handles the sauces, and so on.
+* **They work simultaneously**, which dramatically speeds up the preparation time. This is how Tensor Parallelism reduces latency.
+* **At the end**, they must quickly combine their finished components to create the final dish. This requires constant, high-speed communication between the chefs.
+
+In technical terms, each GPU holds a "shard" or a slice of the model's weight matrices. They process their portion of the data in parallel and then use a high-speed interconnect to exchange the results, a process known as an `all-reduce` operation.
+
+.A high-level view of Tensor Parallelism
+image::tensor-parallelism-overview.png[Tensor Parallelism, 600]
+
+'''
+
+== The Critical Prerequisite: High-Speed Interconnect
+
+The "communication between chefs" is the most critical part of this process. The performance of Tensor Parallelism is fundamentally dependent on the bandwidth of the connection between the GPUs.
+
+[IMPORTANT]
+====
+Tensor Parallelism is designed to be used with high-speed, direct interconnects like **NVIDIA NVLink** or NVSwitch. Using it over a slower interconnect like standard PCIe will create a severe communication bottleneck, negating the performance benefits and potentially leading to slower results than using a single GPU.
+
+**A consultant's key takeaway:** When designing a server for Tensor Parallelism, NVLink is not just a nice-to-have; it is a core requirement.
+====
+
+'''
+
+== When to Use Tensor Parallelism
+
+The rule for using Tensor Parallelism is simple and prescriptive.
+
+[NOTE]
+.Guideline
+====
+Use Tensor Parallelism when your AI model is **too large to fit on a single GPU**, but it **can fit within the combined memory of all GPUs in a single server**.
+====
+
+It is the ideal solution for scaling up within the bounds of a single, powerful, multi-GPU node.
+
+'''
+
+== Practical Configuration with vLLM
+
+vLLM makes it simple to enable Tensor Parallelism. You just need to specify how many GPUs you want to use.
+
+.Example: Deploying Llama 3 70B on a server with 2 GPUs
+A 70-billion parameter model like Llama 3 requires ~140GB of memory, which will not fit on a single 80GB H100 GPU. However, it will fit across two.
+
+You would configure vLLM with `tensor_parallel_size=2`.
+
+=== Command-Line Configuration
+
+When launching vLLM from the command line, use the `--tensor-parallel-size` argument.
+
+```bash
+# Launch vLLM using 2 GPUs for Tensor Parallelism
+python -m vllm.entrypoints.api_server \
+    --model "meta-llama/Llama-3-70B-Instruct" \
+    --tensor-parallel-size 2
+
+=== Python Code Configuration
+
+When using vLLM within your Python application, set the tensor_parallel_size in the EngineArgs.
+
+[]
+from vllm import EngineArgs, LLMEngine
+
+engine_args = EngineArgs(
+    model="meta-llama/Llama-3-70B-Instruct",
+    tensor_parallel_size=2
+)
+
+llm_engine = LLMEngine.from_engine_args(engine_args)

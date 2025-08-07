@@ -1,0 +1,66 @@
+= Mastering Enterprise Generative AI: A Blueprint for Delivery
+:toc:
+:icons: font
+
+This is your starting point for mastering the enterprise-grade patterns that turn Generative AI concepts into real-world business value. This series of technical overview and hands on labs provides a comprehensive blueprint for delivering a modern, scalable, and cost-effective AI platform using Red Hat AI.
+
+Whether you're attending the live ETX Delivery Workshop or taking this course on-demand, you'll gain the hands-on skills needed to lead successful customer engagements. You will learn to build and deploy solutions that accelerate your customers' journey into Generative AI, transforming their operations and unlocking new innovations.
+
+== The Learning Journey: Three Core Pillars
+
+This enablement lab is built on three interconnected pillars that form a complete, enterprise-ready AI strategy.  Each pillar represents a stage in the AI lifecycle, from foundational infrastructure to intelligent automation and performance optimization.
+
+image::three_pillars.png[Three Pillars: MaaS, Agentic AI, and Optimization, align="center"]
+
+'''
+
+== Pillar 1: Models-as-a-Service (MaaS)
+
+The first part of this journey focuses on building the "AI Factory". You'll learn to create a centralized, self-service platform that democratizes access to AI models across an entire organization. This approach eliminates redundant infrastructure, slashes costs, and provides a single point of control for security and governance.
+
+*Key Learning Objectives:*
+
+ * *Architect and Design*: Create a high-level MaaS architecture tailored to customer requirements, integrating with tools like 3scale and Keycloak for security. 
+
+ * *Deploy and Configure*: Execute hands-on deployments of model serving environments on Red Hat OpenShift AI across multi-GPU and multi-node setups. 
+
+ * *Manage and Advise*: Use GitOps to manage the model server lifecycle and advise customers on complex topics like GPU virtualization (MIG vs. MPS) and resource calculation. 
+
+'''
+
+== Pillar 2: Agentic AI
+
+Once the factory is built, you'll learn how to give the models "hands and feet" by creating an AI agent. = This moves beyond simple queries to building autonomous systems that can execute tasks, automate complex workflows, and solve real-world problems. 
+
+Our central use case will be an *intelligent build pipeline troubleshooter*. 
+
+=== You will build an agent that:
+
+ . Is automatically triggered when a build fails in an SDLC pipeline.
+ . Uses *tool-calling* to query OpenShift for the failed pod's logs.
+ . Leverages its reasoning engine, potentially augmented with Retrieval-Augmented Generation (RAG) from internal documentation, to diagnose the problem.
+ . Submits a detailed issue in GitHub with the root cause analysis and a suggested fix.
+
+*Key Learning Objectives:*
+ 
+ * *Design and Architect*: Propose and design a complete agentic AI solution that integrates models and tools within a customer's SDLC. 
+ * *Build and Deploy*: Use *LlamaStack* to implement a full agentic AI stack on OpenShift, managed via GitOps.
+ * *Secure and Enhance*: Apply security practices to mitigate prompt injection and use prompt engineering and RAG to improve agent accuracy and reliability. 
+
+'''
+
+== Pillar 3: Model Optimization
+
+An AI strategy without an optimization plan is a money pit.  The final pillar is the key to profitability and scalability, ensuring the AI solutions you build are not just powerful, but also fast and cost-effective. 
+
+*Key Learning Objectives:*
+
+ * *Quantize and Compress*: Use tools like *LLM Compressor* to perform hands-on model quantization, shrinking models to reduce their memory footprint and hardware costs. 
+ * *Benchmark and Evaluate*: Leverage *GuideLLM* for performance benchmarking to identify server bottlenecks and use the *lm-eval harness* to measure model accuracy, ensuring performance gains don't come at the cost of quality. 
+ * *Strategize and Advise*: Explain the trade-offs between model size, latency, and accuracy to customers, and architect solutions that maximize performance on available hardware. 
+
+[IMPORTANT]
+.Time and Resource Commitment
+====
+This is an advanced lab that requires a significant time commitment to master the concepts and complete the hands-on exercises. The labs involve deploying and training models on high-cost GPU resources. Please plan accordingly to ensure you can dedicate the necessary focus to move through the material, as the concepts build upon one another. Successfully completing this course will equip you with a rare and valuable skill set, positioning you as an expert in delivering enterprise-grade Generative AI solutions.
+====

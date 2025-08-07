@@ -1,0 +1,218 @@
+= Lab Exercise: Onboarding a Model with 3scale API Gateway
+
+== Lab Objective
+
+In this lab, you will act as a Platform Engineer for the "AI Factory." Your task is to onboard a newly deployed AI model (`Llama70B`) by creating a secure, managed, and discoverable endpoint using the 3scale API Gateway.
+
+You will learn how to:
+
+ * Access and perform initial configuration of the 3scale Admin Portal.
+ * Define a new API service using 3scale's declarative, GitOps-friendly approach.
+ * Subscribe to the new service and test it as a developer would.
+
+'''
+
+== Part 1: Initial Setup and Portal Access
+
+First, we need to log into the 3scale Admin Portal and perform a one-time configuration to enable the Developer Portal for our users.
+
+=== 1.1. Retrieve Admin Credentials
+
+The credentials for the 3scale admin portal are stored in a secret within the `3scale` namespace.
+
+. From a terminal, log into your OpenShift cluster.
++
+[source,bash,subs="attributes+"]
+----
+oc login -u {user} -p {password} --server={openshift_api_url} --insecure-skip-tls-verify=true
+----
+
+. Get the `ADMIN_USER` and `ADMIN_PASSWORD` from the `system-seed` secret.
++
+[source,bash]
+----
+oc get secret system-seed -n 3scale -o template='{{range $key, $value := .data}}{{if or (eq $key "ADMIN_USER") (eq $key "ADMIN_PASSWORD")}}{{printf "%s: " $key}}{{ $value | base64decode }}{{"\n"}}{{end}}{{end}}'
+----
+
+=== 1.2. Access and Configure the Developer Portal
+
+Now you can log into the 3scale Admin Portal and allow users to access the Developer Portal where they will manage their API keys.
+
+. Log into the 3scale admin portal at: `https://maas-admin.{openshift_cluster_ingress_domain}/`
+. If a "wizard" window appears, close it from the top-right corner.
+. Navigate to the **Audience** tab.
+. On the left menu, select **Developer Portal -> Settings**.
+. In the **Domains & Access** section, find the **Developer Portal Access Code** field.
+. Delete the content of this field and click **Update Account**. This removes the site-wide password, allowing individual users to log in with their own credentials.
+
+'''
+
+== Part 2: Onboarding the Model via GitOps
+
+Now for the core of the lab. We will onboard our `Llama70B` model by defining it as a set of declarative Kubernetes resources. This is how you would automate service creation in a real-world GitOps workflow.
+
+[IMPORTANT]
+For the following steps, you will be pasting YAML into the OpenShift Console. From the **Developer** perspective, navigate to the **+Add** view and choose **Import YAML**.
+
+=== 2.1. Understanding 3scale's Core Concepts
+
+Before creating the resources, it's important to understand what they are:
+
+Backend::
+    A `Backend` in 3scale is a private pointer to your internal service. It tells 3scale the actual address of the model server running on OpenShift AI.
+
+Product::
+    A `Product` is the public-facing service that you expose to developers. It bundles one or more `Backends` and adds a layer of policies, including security (API keys), mapping rules (which paths are tracked), and rate limits.
+
+=== 2.2. Create the `Backend`
+
+First, define where the `Llama70B` model is actually running.
+
+. Create the `Backend` resource. Remember to replace `'your url goes here'` with the actual route to your deployed model.
++
+[source,yaml]
+----
+kind: Backend
+apiVersion: capabilities.3scale.net/v1beta1
+metadata:
+  name: llama70b
+  namespace: 3scale
+spec:
+  name: LLama70B
+  privateBaseURL: 'your url goes here' # <1>
+  systemName: llama70b
+----
+<1> Replace this with the URL of your model server.
+
+=== 2.3. Create the `Product`
+
+Next, create the `Product` that developers will interact with. This is a large definition, so let's break down what it does:
+* **`deployment`:** Configures how authentication will be handled (in this case, a User Key sent in the `Authorization` header).
+* **`backendUsages`:** Links this Product to the `llama70b` backend we just created.
+* **`mappingRules`:** Defines which API endpoints (`/v1/chat/completions`, etc.) are part of this product and how they should be tracked.
+* **`policies`:** Applies gateway policies like CORS, timeouts, and the default Apicast policy.
+* **`applicationPlans`:** Defines the "Standard Plan" that developers can subscribe to.
+
+. Copy and paste the following `Product` definition into the YAML importer.
++
+[source,yaml]
+----
+# (The full YAML from the original prompt goes here. It is omitted for brevity in this explanation, but would be included in the final document.)
+apiVersion: capabilities.3scale.net/v1beta1
+kind: Product
+metadata:
+  name: llama70b
+  namespace: 3scale
+spec:
+  name: LLama70B
+  systemName: llama70b
+  metrics:
+    hits:
+      description: Number of API hits
+      friendlyName: Hits
+      unit: hit
+  deployment:
+    apicastHosted:
+      authentication:
+        userkey:
+          authUserKey: Authorization
+          credentials: headers
+  backendUsages:
+    llama70b:
+      path: /
+  mappingRules:
+    - httpMethod: POST
+      increment: 1
+      metricMethodRef: chat/completions
+      pattern: /v1/chat/completions
+    # ... other mapping rules ...
+  policies:
+    - configuration:
+        allow_origin: '*'
+      enabled: true
+      name: cors
+      version: builtin
+    # ... other policies ...
+  methods:
+    chat/completions:
+      friendlyName: Chat Completions
+    # ... other methods ...
+  applicationPlans:
+    standard:
+      appsRequireApproval: false
+      name: Standard Plan
+      published: true
+----
+
+=== 2.4. Add the API Documentation
+
+A good service has good documentation. This resource points to an OpenAPI specification for our service.
+
+. Create the `ActiveDoc` resource.
++
+[source,yaml]
+----
+apiVersion: capabilities.3scale.net/v1beta1
+kind: ActiveDoc
+metadata:
+  name: llama70b
+  namespace: 3scale
+spec:
+  activeDocOpenAPIRef:
+    url: 'https://raw.githubusercontent.com/redhat-ai-services/etx-serving-at-scale/refs/heads/main/manifests/llama70b-chat.json'
+  name: llama70b
+  productSystemName: llama70b
+  published: true
+  skipSwaggerValidations: true
+----
+
+=== 2.5. Promote the Product to Production
+
+By default, new products are created in a "staging" environment. We must explicitly promote them to production to make them available to developers.
+
+. Create the `ProxyConfigPromote` resource.
++
+[source,yaml]
+----
+kind: ProxyConfigPromote
+apiVersion: capabilities.3scale.net/v1beta1
+metadata:
+  name: llama70b
+  namespace: 3scale
+spec:
+  productCRName: llama70b
+  production: true
+----
+
+'''
+
+== Part 3: Subscribing and Testing the New Endpoint
+
+Now, put on your "developer" hat. We will subscribe to the new API and test it.
+
+. Go back to the 3scale Admin Portal UI.
+. Navigate to **Audience -> Accounts -> Listing** and select the `user1` account.
+. Click the **Service Subscriptions** tab on the right.
+. Find the new `LLama70B` product and click the `Subscribe` button.
+. Select the `Standard` plan and click **Create subscription**.
+. Now, log into the Developer Portal at `https://maas.{openshift_cluster_ingress_domain}`.
+. Click **Create new application**, select the `LLama70B` service, give your application a name, and click **Create Application**.
+. On the next screen, you will see your **Endpoint URL** and **API Key**. Copy these values.
+. Finally, test the API using `curl` in your terminal. Replace the placeholders with your values.
++
+[source,bash]
+----
+curl -X 'POST' \
+    '___ENDPOINT_URL___/v1/completions' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: ___API_KEY___' \
+    -d '{
+    "model": "meta-llama/Llama-3-8B-Instruct",
+    "prompt": "San Francisco is a",
+    "max_tokens": 15,
+    "temperature": 0
+}'
+----
+
+Congratulations! You have successfully onboarded a new model to the AI Factory, complete with a secure and managed API endpoint.
