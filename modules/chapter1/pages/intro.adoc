@@ -47,4 +47,5 @@ The final module focuses on making your models accessible and secure. A model is
 
  * *Defining Gateway Requirements:* We will establish a clear checklist of functional capabilities and validation criteria necessary for an API Gateway to support a MaaS platform.
  * *Designing a Secure Gateway Architecture:* You will learn how to architect a secure solution using Red Hat 3scale for API management and Keycloak for authentication and authorization.
- * *Validating Customer Infrastructure:* Crucially, you will learn how to assess a customer's existing API gateway to determine if it can support their AI initiatives or where gaps may exist, ensuring project success.
+ 
+ * *Validating Customer Infrastructure:* You will learn how to understand a customer's existing API gateway to determine if it can support their AI initiatives or where gaps may exist, ensuring project success.

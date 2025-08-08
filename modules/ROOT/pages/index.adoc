@@ -1,4 +1,4 @@
-= Building the AI Factory - The MaaS Platform
+= Building the MaaS Platform
 
 == From Organic Growth to Intentional Design
 
@@ -25,32 +25,16 @@ Most developers don't want a GPU; they want a stable, secure model endpoint.
 
 The AI Factory provides exactly that.
 
+
 '''
 
 == Why Customers Need a MaaS Platform: The Value Proposition
 
 A MaaS platform delivers distinct value to every key stakeholder. As a consultant, your role is to articulate these benefits to the right audience.
 
-.A High-Level View of the MaaS Architecture
-image::MAAS-Arch-drawio.png[MaaS]
+.Value of the MaaS Architecture
+image::maas-value.png[MaaS]
 
-=== For the CIO & Business Leaders: Control, Cost, and Compliance
-
- * **Cost Optimization:** Eliminates redundant hardware by creating a centralized, shared pool of GPUs with high utilization.
- * **Risk Mitigation:** Prevents data leakage by ensuring all model interactions pass through a secure, governed gateway.
- * **Governance & Compliance:** Provides a single pane of glass to manage model versions, track usage, and enforce access policies.
-
-=== For the Platform Engineering Team: Standardization and Automation
-
- * **Centralized Management:** Manage, version, and monitor all enterprise AI models from one place.
- * **Standardized Deployments:** Enforce consistent security, logging, and performance standards for every deployed model.
- * **Reduced Operational Burden:** Automate the process of model deployment and access provisioning, freeing up the platform team to focus on improving the platform itself.
-
-=== For Developers & Data Scientists: Speed and Self-Service
-
-* **Instant Access:** Developers can consume powerful, production-ready models via a simple API call, without needing to understand GPUs or Kubernetes.
-* **Accelerated Development:** Dramatically shortens the time from idea to AI-powered application by removing infrastructure bottlenecks.
-* **Self-Service Portal:** Enables developers to browse available models, read documentation, and request access through an automated, streamlined process.
 
 '''
 
@@ -59,20 +43,24 @@ image::MAAS-Arch-drawio.png[MaaS]
 A robust MaaS platform is built on three conceptual layers, running on top of OpenShift AI. While customers may use different products for each layer, the function remains the same.
 
 .The Logical Layers of a MaaS Platform
-image::MaaS-ld.png[Logical MaaS Architecture]
+image::maas-logical.png[Logical MaaS Architecture]
 
-The Model Serving Layer (The "Factory Floor")::
-    This is where the AI models are run, typically using an efficient serving runtime like vLLM or KServe (ModelMesh) on OpenShift AI. This layer is responsible for loading the models onto the GPUs and executing inference requests.
 
-The API Gateway Layer (The "Front Door & Security Desk")::
-    This is the crucial control plane through which all requests must pass. It is responsible for:
-    * **Security:** Enforcing authentication and authorization.
-    * **Traffic Management:** Applying rate limiting and usage quotas.
-    * **Routing:** Directing incoming requests to the correct model backend.
+In the next modules, we will explore how to design and deliver these components to build a complete MaaS solution for your customers.
 
-The Identity & Observability Layer (The "Access Control & CCTV")::
-    This layer provides the supporting services that make the platform truly enterprise-grade.
-    * **Identity Provider (e.g., Keycloak):** Manages users and provides the authentication tokens needed to access the API Gateway.
-    * **Observability Stack (e.g., Prometheus/Grafana):** Collects metrics on usage, performance, and uptime, which is essential for monitoring, capacity planning, and internal chargeback.
+== Explore how we / you use Models-as-a-service at Red Hat via this series of Arcade Interactive Experiences
 
-In this module, we will explore how to design and deliver these components to build a complete MaaS solution for your customers.
+
+++++
+<iframe
+  src="https://demo.arcade.software/qgTqInmpSgyF3cUH6sqp?embed&embed_mobile=inline&embed_desktop=inline&show_copy_link=true"
+  width="100%"
+  height="600px"
+  frameborder="0"
+  allowfullscreen
+  webkitallowfullscreen
+  mozallowfullscreen
+  allow="clipboard-write"
+  muted>
+</iframe>
+++++

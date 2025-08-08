@@ -1,74 +1,35 @@
-= Lab Exercise: Onboarding a Model with 3scale API Gateway
+= Hands-On Lab: Productizing and Consuming an AI Model
 
-== Lab Objective
+== Introduction
 
-In this lab, you will act as a Platform Engineer for the "AI Factory." Your task is to onboard a newly deployed AI model (`Llama70B`) by creating a secure, managed, and discoverable endpoint using the 3scale API Gateway.
+You have successfully deployed a new AI model to your OpenShift AI cluster. Now, your focus shifts from the role of a model deployer to that of a **Platform Engineer**. Your task is to make this powerful model securely consumable by developers across your organization.
 
-You will learn how to:
+In this lab, you will walk through the end-to-end process of transforming a raw model endpoint into a secure, managed, and discoverable API product. We will use 3scale API Management to demonstrate this process, which involves two key personas:
+.   **The Platform Engineer**, who will create and configure the API product using an automated, GitOps-friendly approach.
+.   **The Developer**, who will discover this new product, subscribe to it, and retrieve an API key to build an application.
 
- * Access and perform initial configuration of the 3scale Admin Portal.
- * Define a new API service using 3scale's declarative, GitOps-friendly approach.
- * Subscribe to the new service and test it as a developer would.
+---
 
-'''
+== Part 1: The Platform Engineer - Productizing a New Model with GitOps
 
-== Part 1: Initial Setup and Portal Access
+Our goal is to automate the creation of the API product. Instead of clicking through a UI, we will define our configuration declaratively using YAML manifests. This approach is repeatable, version-controlled, and aligns with modern GitOps practices.
 
-First, we need to log into the 3scale Admin Portal and perform a one-time configuration to enable the Developer Portal for our users.
+=== Step 1: Get the Backend URL of Your Deployed Model
 
-=== 1.1. Retrieve Admin Credentials
+First, we need the address of the model we want to expose.
 
-The credentials for the 3scale admin portal are stored in a secret within the `3scale` namespace.
+. In the OpenShift Console, navigate to the `aifactory-models` project.
+. Go to *Networking* -> *Routes*.
+. Find the route for your deployed model (e.g., `llama70b-predict`) and copy its *Location* URL. You will need this for the next step.
 
-. From a terminal, log into your OpenShift cluster.
-+
-[source,bash,subs="attributes+"]
-----
-oc login -u {user} -p {password} --server={openshift_api_url} --insecure-skip-tls-verify=true
-----
+image::MAAS-Arch-drawio.png[A high-level logical architecture diagram for MaaS, align="center"]
 
-. Get the `ADMIN_USER` and `ADMIN_PASSWORD` from the `system-seed` secret.
-+
-[source,bash]
-----
-oc get secret system-seed -n 3scale -o template='{{range $key, $value := .data}}{{if or (eq $key "ADMIN_USER") (eq $key "ADMIN_PASSWORD")}}{{printf "%s: " $key}}{{ $value | base64decode }}{{"\n"}}{{end}}{{end}}'
-----
+=== Step 2: Create the 3scale Backend
 
-=== 1.2. Access and Configure the Developer Portal
+The *Backend* in 3scale defines the actual address of the service you want to proxy to.
 
-Now you can log into the 3scale Admin Portal and allow users to access the Developer Portal where they will manage their API keys.
-
-. Log into the 3scale admin portal at: `https://maas-admin.{openshift_cluster_ingress_domain}/`
-. If a "wizard" window appears, close it from the top-right corner.
-. Navigate to the **Audience** tab.
-. On the left menu, select **Developer Portal -> Settings**.
-. In the **Domains & Access** section, find the **Developer Portal Access Code** field.
-. Delete the content of this field and click **Update Account**. This removes the site-wide password, allowing individual users to log in with their own credentials.
-
-'''
-
-== Part 2: Onboarding the Model via GitOps
-
-Now for the core of the lab. We will onboard our `Llama70B` model by defining it as a set of declarative Kubernetes resources. This is how you would automate service creation in a real-world GitOps workflow.
-
-[IMPORTANT]
-For the following steps, you will be pasting YAML into the OpenShift Console. From the **Developer** perspective, navigate to the **+Add** view and choose **Import YAML**.
-
-=== 2.1. Understanding 3scale's Core Concepts
-
-Before creating the resources, it's important to understand what they are:
-
-Backend::
-    A `Backend` in 3scale is a private pointer to your internal service. It tells 3scale the actual address of the model server running on OpenShift AI.
-
-Product::
-    A `Product` is the public-facing service that you expose to developers. It bundles one or more `Backends` and adds a layer of policies, including security (API keys), mapping rules (which paths are tracked), and rate limits.
-
-=== 2.2. Create the `Backend`
-
-First, define where the `Llama70B` model is actually running.
-
-. Create the `Backend` resource. Remember to replace `'your url goes here'` with the actual route to your deployed model.
+. In your VSCode terminal, create a new file named `1-backend.yaml`.
+. Paste the following content into the file, replacing `<YOUR_MODEL_URL>` with the URL you copied in the previous step.
 +
 [source,yaml]
 ----
@@ -79,25 +40,25 @@ metadata:
   namespace: 3scale
 spec:
   name: LLama70B
-  privateBaseURL: 'your url goes here' # <1>
+  privateBaseURL: <YOUR_MODEL_URL>
   systemName: llama70b
 ----
-<1> Replace this with the URL of your model server.
 
-=== 2.3. Create the `Product`
+. Apply the manifest to your cluster:
++
+[source,bash,role="execute"]
+----
+oc apply -f 1-backend.yaml
+----
 
-Next, create the `Product` that developers will interact with. This is a large definition, so let's break down what it does:
-* **`deployment`:** Configures how authentication will be handled (in this case, a User Key sent in the `Authorization` header).
-* **`backendUsages`:** Links this Product to the `llama70b` backend we just created.
-* **`mappingRules`:** Defines which API endpoints (`/v1/chat/completions`, etc.) are part of this product and how they should be tracked.
-* **`policies`:** Applies gateway policies like CORS, timeouts, and the default Apicast policy.
-* **`applicationPlans`:** Defines the "Standard Plan" that developers can subscribe to.
+=== Step 3: Create the API Product
 
-. Copy and paste the following `Product` definition into the YAML importer.
+The *Product* is the developer-facing entity. It bundles the backend and defines the rules for how it can be accessed, including mapping rules, security policies, and application plans.
+
+. Create a new file named `2-product.yaml` and paste the following content:
 +
 [source,yaml]
 ----
-# (The full YAML from the original prompt goes here. It is omitted for brevity in this explanation, but would be included in the final document.)
 apiVersion: capabilities.3scale.net/v1beta1
 kind: Product
 metadata:
@@ -106,71 +67,31 @@ metadata:
 spec:
   name: LLama70B
   systemName: llama70b
-  metrics:
-    hits:
-      description: Number of API hits
-      friendlyName: Hits
-      unit: hit
-  deployment:
-    apicastHosted:
-      authentication:
-        userkey:
-          authUserKey: Authorization
-          credentials: headers
   backendUsages:
     llama70b:
       path: /
   mappingRules:
     - httpMethod: POST
       increment: 1
-      metricMethodRef: chat/completions
-      pattern: /v1/chat/completions
-    # ... other mapping rules ...
-  policies:
-    - configuration:
-        allow_origin: '*'
-      enabled: true
-      name: cors
-      version: builtin
-    # ... other policies ...
-  methods:
-    chat/completions:
-      friendlyName: Chat Completions
-    # ... other methods ...
+      metricMethodRef: completions
+      pattern: /v1/completions
   applicationPlans:
     standard:
-      appsRequireApproval: false
       name: Standard Plan
       published: true
 ----
-
-=== 2.4. Add the API Documentation
-
-A good service has good documentation. This resource points to an OpenAPI specification for our service.
-
-. Create the `ActiveDoc` resource.
+. Apply the manifest:
 +
-[source,yaml]
+[source,bash,role="execute"]
 ----
-apiVersion: capabilities.3scale.net/v1beta1
-kind: ActiveDoc
-metadata:
-  name: llama70b
-  namespace: 3scale
-spec:
-  activeDocOpenAPIRef:
-    url: 'https://raw.githubusercontent.com/redhat-ai-services/etx-serving-at-scale/refs/heads/main/manifests/llama70b-chat.json'
-  name: llama70b
-  productSystemName: llama70b
-  published: true
-  skipSwaggerValidations: true
+oc apply -f 2-product.yaml
 ----
 
-=== 2.5. Promote the Product to Production
+=== Step 4: Promote the Product to Production
 
-By default, new products are created in a "staging" environment. We must explicitly promote them to production to make them available to developers.
+By default, new products are created in a "staging" environment. We must explicitly promote the configuration to the production gateway to make it live.
 
-. Create the `ProxyConfigPromote` resource.
+. Create a new file named `3-promote.yaml` and paste the following content:
 +
 [source,yaml]
 ----
@@ -183,36 +104,78 @@ spec:
   productCRName: llama70b
   production: true
 ----
-
-'''
-
-== Part 3: Subscribing and Testing the New Endpoint
-
-Now, put on your "developer" hat. We will subscribe to the new API and test it.
-
-. Go back to the 3scale Admin Portal UI.
-. Navigate to **Audience -> Accounts -> Listing** and select the `user1` account.
-. Click the **Service Subscriptions** tab on the right.
-. Find the new `LLama70B` product and click the `Subscribe` button.
-. Select the `Standard` plan and click **Create subscription**.
-. Now, log into the Developer Portal at `https://maas.{openshift_cluster_ingress_domain}`.
-. Click **Create new application**, select the `LLama70B` service, give your application a name, and click **Create Application**.
-. On the next screen, you will see your **Endpoint URL** and **API Key**. Copy these values.
-. Finally, test the API using `curl` in your terminal. Replace the placeholders with your values.
+. Apply the manifest:
 +
-[source,bash]
+[source,bash,role="execute"]
 ----
-curl -X 'POST' \
-    '___ENDPOINT_URL___/v1/completions' \
-    -H 'accept: application/json' \
-    -H 'Content-Type: application/json' \
-    -H 'Authorization: ___API_KEY___' \
-    -d '{
-    "model": "meta-llama/Llama-3-8B-Instruct",
-    "prompt": "San Francisco is a",
-    "max_tokens": 15,
-    "temperature": 0
+oc apply -f 3-promote.yaml
+----
+
+You have now successfully productized your model using an automated, declarative workflow!
+
+---
+
+== Part 2: The Developer - Onboarding and Consuming the New Model
+
+Now, put on your **Developer** hat. Your goal is to find the new AI service and get the credentials needed to use it in your application.
+
+=== Step 5: Log in to the Developer Portal
+
+The Developer Portal is the user-friendly frontend for API discovery and onboarding.
+
+. Navigate to the Developer Portal URL: https://maas.{openshift_cluster_ingress_domain}[https://maas.{openshift_cluster_ingress_domain},window=_blank].
+. Sign in using your workshop credentials (`{user}` / `{password}`).
+
+=== Step 6: Discover the New API and Create an Application
+
+. Once logged in, you will see the list of available APIs. You should now see the **LLama70B** product that the Platform Engineer just created.
+. Click on the `See your Applications and their credentials` link.
+. Click the `Create new application` button.
+. Select the `LLama70B` service from the dropdown menu.
+. Give your application a name, for example, `My Llama70B App`, and click `Create Application`.
+
+=== Step 7: Get Your API Key and Endpoint Details
+
+Your application is now created and subscribed to the service. The portal will display the crucial information you need to make API calls:
+* **Production API Endpoint URL**: The public address for the service.
+* **Model Name**: The identifier for the model you need to specify in your requests.
+* **API Key**: Your unique credential for authenticating your application.
+
+**Copy and save this information.** You will use it in the next step.
+
+image::MAAS-3scale architecture.png[A diagram showing the conceptual flow of a request through a MaaS architecture, align="center"]
+
+---
+
+== Part 3: Testing Your New Product
+
+Let's make a real request to the model using the credentials you just obtained.
+
+. Open a terminal and use the following `curl` command template.
+. Replace `<ENDPOINT_URL>`, `<API_KEY>`, and `<MODEL_NAME>` with the values you saved from the developer portal.
++
+[source,bash,role="execute",subs="+macros,+attributes"]
+----
+curl -k -X 'POST' \
+  '<ENDPOINT_URL>/v1/completions' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer <API_KEY>' \
+  -d '{
+  "model": "<MODEL_NAME>",
+  "prompt": "The three most important things for a successful AI strategy are",
+  "max_tokens": 50,
+  "temperature": 0.1
 }'
 ----
 
-Congratulations! You have successfully onboarded a new model to the AI Factory, complete with a secure and managed API endpoint.
+If successful, you will receive a JSON response from your AI model, streamed through your securely managed API Gateway.
+
+== Recap
+
+In this lab, you experienced the full lifecycle of productizing an AI model.
+
+* As a **Platform Engineer**, you used a declarative, GitOps-friendly approach to create and publish a new, secure API product.
+* As a **Developer**, you used a self-service portal to discover the API, create an application, and get the credentials needed to consume it.
+
+This workflow is the foundation of a scalable and secure Models-as-a-Service platform.

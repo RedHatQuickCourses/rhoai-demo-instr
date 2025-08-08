@@ -5,10 +5,11 @@
 Securing a Models-as-a-Service platform requires more than just standard application security. AI and Large Language Models introduce new, unique attack surfaces that traditional security measures are not designed to handle.
 
 As a consultant, you must be able to articulate these new risks to customers:
-* **Model Poisoning:** Malicious actors can tamper with training data or the model file itself to introduce hidden backdoors or biases.
-* **Prompt Injection:** Attackers can craft malicious inputs (prompts) to bypass safety guardrails, reveal confidential information from the model's context, or cause the model to execute unintended actions.
-* **Data Extraction Attacks:** Adversaries can interact with a model to try and reconstruct the sensitive, proprietary data it was trained on.
-* **Denial of Service (Resource Exhaustion):** AI inference is resource-intensive. An attacker can easily overwhelm a service with a few complex requests, leading to massive costs and service outages.
+
+  * **Model Poisoning:** Malicious actors can tamper with training data or the model file itself to introduce hidden backdoors or biases.
+ * **Prompt Injection:** Attackers can craft malicious inputs (prompts) to bypass safety guardrails, reveal confidential information from the model's context, or cause the model to execute unintended actions.
+ * **Data Extraction Attacks:** Adversaries can interact with a model to try and reconstruct the sensitive, proprietary data it was trained on.
+ * **Denial of Service (Resource Exhaustion):** AI inference is resource-intensive. An attacker can easily overwhelm a service with a few complex requests, leading to massive costs and service outages.
 
 To protect against these threats, we must adopt a **Defense-in-Depth** strategy, building multiple layers of security throughout our AI Factory.
 

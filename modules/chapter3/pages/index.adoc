@@ -1,1 +1,47 @@
-= blank
+= MaaS Logical Architecture
+
+== A Shift in Perspective: From Products to Capabilities
+
+While previous sections may use specific Red Hat products like 3scale API Management to demonstrate a functional Models-as-a-Service platform, this section shifts the focus from a specific *implementation* to the underlying *logical architecture*. The goal is to understand the essential capabilities and components required to deliver MaaS.
+
+This capability-focused mindset is critical for real-world delivery. Customers often have their own established API gateways and security providers. By understanding the logical functions, you can collaboratively design a solution that integrates with a customer's existing technology stack, ensuring a unified and impactful service delivery.
+
+.High-Level Logical View
+image::MAAS-Arch-drawio.png[A high-level logical architecture diagram for MaaS, align="center"]
+
+== Core Architectural Components
+
+A successful MaaS platform is composed of three primary logical layers, each with distinct capabilities.
+
+=== The Consumption Layer
+This is the user-facing layer where developers and applications consume the AI services provided by the platform.
+
+ * **Applications**: These are the end products that developers build by calling the model APIs. The use cases for these applications are diverse and can include private assistants, code assistants, embedding applications, and image generation tools.
+ * **Users**: The individuals interacting with the AI-powered applications.
+
+=== The Control Plane (API Gateway)
+This is the central governance and management layer that sits between the consumers and the backend models. It acts as a secure "front door" for all AI services. An effective control plane must provide the following functions:
+
+ * **Authentication**: Securely verifies the identity of the user or application making the API request.
+ * **Authorization**: Enforces policies to determine which authenticated identities are permitted to access which specific models or services.
+ * **Cost Management**: Provides the mechanisms to track usage, apply rate limits, and enforce quotas. This is essential for ensuring predictable costs and managing the utilization of expensive GPU resources.
+ * **Routing & Aggregation**: Intelligently routes API requests to the appropriate backend model, regardless of where it is running.
+
+=== The Serving Layer
+This is the engine room of the platform where the AI models are hosted and run. This layer makes the complexity of the underlying hardware, especially GPUs, invisible to the end user.
+
+ * **Private AI Runtimes (On-Premise/Cloud)**: This component represents the privately hosted models managed by IT within the organization, often running on a platform like Red Hat OpenShift AI. This allows an organization to become its own "Private AI Provider," ensuring compliance with internal security and data privacy policies.
+ * **Public LLMs/APIs**: The architecture is flexible, allowing the API Gateway to also act as a unified proxy to external, third-party model APIs. This provides developers with a single, consistent point of access for all AI services, whether hosted internally or externally.
+
+== How the Components Interact: The Flow of a Request
+
+The logical flow of an API call through the MaaS architecture demonstrates how these components work together to provide a secure and managed service.
+
+.Conceptual Request Flow
+image::MAAS-3scale architecture.png[A diagram showing the conceptual flow of a request through a MaaS architecture, align="center"]
+
+ .   An **Application** initiates an API request to consume an AI model.
+ .   The request is intercepted by the **API Gateway**, which is the single point of entry.
+ .   The gateway performs **authentication** and **authorization** checks. The API Manager component logs the request for analytics, billing, and quota enforcement.
+ .   Once validated, the gateway forwards the authorized API request to the appropriate backend **Model Serving** runtime hosted on a platform like OpenShift AI.
+ .   The model processes the request and returns a response, which flows back through the gateway to the application.
