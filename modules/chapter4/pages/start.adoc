@@ -1,1 +1,1 @@
-= Deploying Models with GitOps
+= Models with GitOps
