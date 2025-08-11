@@ -1,0 +1,51 @@
+= Serving at Scale
+
+[%hardbreaks]
+
+== Building an Enterprise Models-as-a-Service Platform
+
+Welcome to the foundational pillar of our AI Launchpad. Before we can build intelligent agents or optimize for performance, we must first construct the "AI Factory" itself. A Models-as-a-Service (MaaS) platform is the starting point for any serious enterprise AI strategy, moving organizations from chaotic, one-off deployments to a centralized, efficient, and secure factory for innovation.
+
+This segment is designed to give you the architectural knowledge and hands-on skills to build this factory. We will dive deep into the core of the platform: the powerful and expensive GPU accelerators that make it all possible. You will learn how to manage, share, and scale these resources effectively to serve everything from small, specialized models to massive Large Language Models (LLMs) across the entire enterprise.
+
+== Lab Story
+
+The team at "InnovateForward Corp" has accepted the mission to build the company's official AI Factory. Their first challenge is the bedrock of the entire platform: how to serve models efficiently at scale. They know that simply deploying models one by one will lead to wasted resources and high costs. They need a strategy.
+
+Their immediate tasks are to understand how to manage their cluster of NVIDIA GPUs. 
+
+ - How can they safely serve multiple models or tenants on a single GPU to maximize utilization?  
+ - How do they deploy an LLM that is too large to fit on a single device?  
+ - Finally, once the models are running, how do they create a secure, managed gateway that allows developer teams across the company to easily access and build upon these models, while ensuring the solution works with the company's existing API management tools?  
+ 
+This module will walk you through solving these exact challenges.
+
+== What You Will Learn in This Section
+
+=== Theory: GPU as a Service with NVIDIA Accelerators
+
+This section focuses on the fundamental concepts you need to advise customers on how to maximize the efficiency and utilization of their NVIDIA GPU resources.
+
+ * *GPU Sharing Technologies:* You will learn the architectural differences and ideal use cases for NVIDIA Multi-Instance GPU (MIG) and Multi-Process Service (MPS) to guide customers to the right choice for their tenancy and performance needs.
+ * *Parallelism Techniques:* We will demystify complex workload optimization strategies by explaining concepts like *tensor parallelism* and *pipeline parallelism*, enabling you to run models that exceed the memory of a single GPU.
+ * *Resource Sizing:* You will learn how to analyze a Large Language Model's requirements to calculate the specific GPU resources needed to deploy it successfully.
+
+---
+
+=== Hands-On Labs: Scalable Model Serving with OpenShift AI and vLLM
+
+Here, you will put theory into practice by deploying models in progressively complex, real-world scenarios using the vLLM serving runtime on OpenShift AI.
+
+ * *Single-Node, Multi-GPU Deployment:* You will execute the deployment of an AI model on a single OpenShift node that has multiple GPUs available.
+ * *Multi-Node, Multi-GPU Deployment:* You will scale out your deployment by distributing a large language model across a multi-node, multi-GPU cluster, configuring the system for high-throughput, low-latency performance.
+
+---
+
+=== Architecture: API Gateway Requirements for MaaS
+
+The final module focuses on making your models accessible and secure. A model isn't useful if no one can use it.
+
+ * *Defining Gateway Requirements:* We will establish a clear checklist of functional capabilities and validation criteria necessary for an API Gateway to support a MaaS platform.
+ * *Designing a Secure Gateway Architecture:* You will learn how to architect a secure solution using Red Hat 3scale for API management and Keycloak for authentication and authorization.
+ 
+ * *Validating Customer Infrastructure:* You will learn how to understand a customer's existing API gateway to determine if it can support their AI initiatives or where gaps may exist, ensuring project success.

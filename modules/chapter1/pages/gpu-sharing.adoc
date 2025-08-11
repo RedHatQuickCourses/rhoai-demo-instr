@@ -1,0 +1,96 @@
+= GPU Sharing Technologies
+
+== Introduction to GPU Sharing
+
+In a Models-as-a-Service platform, not every workload requires the full power of a dedicated GPU. Development, testing, and running multiple smaller inference models often leave expensive hardware underutilized. GPU sharing addresses this by allowing multiple AI worklo workloads to run concurrently on a single physical GPU.
+
+This module explores the three primary GPU sharing strategies. Understanding the trade-offs between them is critical for designing a cost-effective, multi-tenant AI platform on OpenShift AI.
+
+.GPU Partitioning Strategies
+image::gpu-sharing-overview.png[GPU Sharing Overview, 600]
+
+'''
+
+== 1. Time-Slicing
+
+Time-slicing allows multiple containers to take turns using the GPU. The GPU driver switches between the processes rapidly, giving each a "slice" of the GPU's execution time.
+
+[NOTE]
+.Best For:
+====
+* **Development & Testing:** Ideal for non-production environments where developers need GPU access for experimentation and debugging without reserving a full GPU.
+* **Low-Traffic Inference:** Suitable for serving multiple models that have sporadic traffic and do not require the GPU's full power simultaneously.
+====
+
+.Key Characteristics
+* **No Isolation:** This is the most critical aspect of time-slicing. There is no memory or fault isolation between the workloads. If one container crashes or causes a GPU fault, it can impact every other container sharing the GPU.
+* **Resource Contention:** Since resources are not reserved, workloads can compete for memory and compute, leading to unpredictable performance ("noisy neighbor" problem).
+* **Ease of Use:** It is generally simple to enable and does not require special hardware features.
+
+[WARNING]
+====
+Due to the complete lack of isolation, time-slicing is **not recommended** for production environments or any scenario requiring predictable performance and security guarantees.
+====
+
+'''
+
+== 2. Multi-Instance GPU (MIG)
+
+Multi-Instance GPU (MIG) is a hardware-level partitioning feature available on NVIDIA Ampere architecture GPUs (e.g., A100, H100) and newer. It carves a single physical GPU into up to seven smaller, fully independent "GPU instances."
+
+[NOTE]
+.Best For:
+====
+* **Secure Multi-Tenancy:** The perfect solution for production environments where different teams or applications must share a GPU without interfering with each other.
+* **Guaranteed Quality of Service (QoS):** When a workload needs a specific, guaranteed amount of GPU compute and memory, MIG provides that predictable performance.
+====
+
+.Key Characteristics
+* **Hardware-Level Isolation:** Each MIG instance is a fully separate, isolated GPU with its own dedicated memory, cache, and compute cores. A crash or error in one instance has no effect on others.
+* **Predictable Performance:** Because resources are dedicated and not shared, each workload receives a consistent and predictable level of performance.
+* **Hardware Dependency:** MIG is a feature of the GPU hardware and is only available on specific, newer NVIDIA GPU models.
+
+'''
+
+== 3. CUDA Multi-Process Service (MPS)
+
+MPS is a software-based alternative to MIG that enables multiple CUDA processes to run concurrently on a single GPU. It achieves this by having the driver manage the submission of work from multiple processes into a single hardware queue.
+
+[NOTE]
+.Best For:
+====
+* **Improving Utilization on non-MIG GPUs:** Can be used to run multiple, cooperating processes from a single application more efficiently.
+====
+
+.Key Characteristics
+* **Limited Isolation:** MPS does *not* provide the strong memory or fault isolation that MIG does. While it manages processes, an error in one can still affect others.
+* **Performance Focus:** Its primary goal is to reduce the overhead of launching many small CUDA kernels, improving overall GPU utilization for specific application patterns.
+
+[IMPORTANT]
+====
+CUDA Multi-Process Service (MPS) is **not currently supported on OpenShift AI**. It is included here for a complete overview of GPU sharing technologies, but MIG is the recommended and supported solution for hardware-isolated sharing on the platform.
+====
+
+'''
+
+== Head-to-Head Comparison
+
+.GPU Sharing Strategy Summary
+|===
+| Feature | Time-Slicing | Multi-Instance GPU (MIG) | CUDA MPS
+
+| **Isolation Level**
+| None (High Risk)
+| **Excellent (Hardware-Level)**
+| Low (Software-Level)
+
+| **Primary Use Case**
+| Development, Testing, Non-critical workloads
+| **Production Multi-Tenancy, Guaranteed QoS**
+| N/A on OpenShift AI
+
+| **OpenShift AI Support**
+| Supported
+| **Supported & Recommended**
+| **Not Supported**
+|===

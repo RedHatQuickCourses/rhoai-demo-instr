@@ -1,0 +1,55 @@
+= Building the Enterprise AI Launchpad!
+
+[%hardbreaks]
+
+== Introduction
+
+In today's technology landscape, organizations are moving beyond experimental "science projects" and are seeking to build sustainable, scalable, and cost-effective Generative AI capabilities. This workshop provides a comprehensive blueprint for services professionals to confidently architect and deliver a modern AI platform that balances the critical triangle of cost, latency, and quality.
+
+This lab equips you with the knowledge and patterns to build a complete, end-to-end solution using Red Hat's AI portfolio. You will learn to construct a centralized Models-as-a-Service platform, build an intelligent AI agent to automate complex tasks, and optimize the open-source foundation models for enterprise-grade performance and efficiency. This ensures the solutions you deliver provide immediate and lasting value to the customer.
+
+== Lab Story
+
+Imagine you are a Lead AI Consultant or Platform Engineer at "InnovateForward Corp," a company that has seen success with several siloed AI pilots but is now struggling with redundant infrastructure, inconsistent security, and rising costs. Your leadership has mandated a strategic shift: create a unified "AI Factory" that can serve the entire organization, democratize innovation, and act as a launchpad for a wide range of future business applications.
+
+You've chosen Red Hat's AI portfolio as your strategic platform for its open, hybrid, and trusted foundation. Now, your team faces the critical task of implementing a cohesive, three-pillar strategy: establishing a Models-as-a-Service (MaaS) foundation, building a value-driving Agentic AI solution, and implementing a rigorous Optimization workflow to ensure the platform is ready for production scale.
+
+== Red Hat Products Included 
+
+*Red Hat OpenShift AI* is the enterprise-grade control tower for your AI factory. It provides a unified platform that bridges the disciplines of Platform Engineering and AI Engineering, allowing you to manage everything, everywhere, across any hybrid cloud.
+
+*Red Hat AI Inference Server* is the powerhouse engine for running open-source AI models at incredible speed. Powered by vLLM, it provides optimized inference capabilities and is the workhorse of the Models-as-a-Service platform you will build.
+
+*Red Hat Enterprise Linux AI (RHEL AI)* provides everything from the Inference Server plus a powerful tuning workbench. Using the InstructLab workflow, AI engineers can fine-tune and customize models with new skills and knowledge, creating truly expert agents tailored to specific business needs.
+
+== Who Will Benefit Most from attending this Lab?
+
+This workshop is designed for Services Delivery Professionals, AI Engineers, Platform Engineers, Technical Sales, and Support teams who are tasked with accelerating customer adoption of Generative AI platforms and delivering impactful, value-driven solutions.
+
+== What Content is Covered in this Lab?
+
+This lab consists of *three* main sections, each building upon the last:
+
+* _Models-as-a-Service (MaaS) - Building the AI Factory_: In this section, we will use Red Hat OpenShift AI to build and deploy a centralized platform for serving models. You will learn how to stand up a fleet of inference servers, manage them with GitOps, and create a secure, self-service gateway for the entire organization to access AI models.
+
+* _Agentic AI - Creating the Intelligent Teammate_: In this section, we give our models "hands and feet" by building an autonomous agent that solves a real-world problem. You will use frameworks like LlamaStack to create a self-healing SDLC agent that is triggered by a build failure, uses tool-calling to query OpenShift for logs, diagnoses the root cause, and automatically creates a detailed GitHub ticket with a suggested fix.
+
+* _LLM Optimization - The High-Performance Boot Camp_: In this section, we make our agent lean, mean, and enterprise-ready. You will use the *LLM Compressor* to quantize the model, drastically reducing its memory and compute costs. We will then use *GuideLLM* and *lm-eval harness* to benchmark performance and accuracy, proving our optimizations deliver a solution that is both fast and smart.
+
+[IMPORTANT]
+.Time and Resource Commitment
+====
+This is an advanced lab that requires a significant time commitment to master the concepts and complete the hands-on exercises. The labs involve deploying and training models on high-cost GPU resources. Please plan accordingly to ensure you can dedicate the necessary focus to move through the material, as the concepts build upon one another. Successfully completing this course will equip you with a rare and valuable skill set, positioning you as an expert in delivering enterprise-grade Generative AI solutions.
+====
+
+=== Credentials for the OpenShift Console
+
+
+=== Version Information
+
+This edition of the lab has been developed using the following software versions:
+
+* Red Hat OpenShift 4.18
+* Red Hat OpenShift AI 2.22
+* Red Hat AI Inference Server 3.0 (vLLM v0.9.0.1)
+* LLM Compressor v0.6.0.1

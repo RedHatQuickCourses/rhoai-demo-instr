@@ -1,0 +1,84 @@
+= NVIDIA’s Multi-Process Service (MPS)
+
+[IMPORTANT]
+====
+This module provides an overview of NVIDIA's Multi-Process Service (MPS) for educational purposes and to enable informed customer conversations. MPS is **not currently supported on OpenShift AI**. The recommended and supported technology for multi-tenant GPU sharing on the platform is Multi-Instance GPU (MIG).
+====
+
+== What is MPS and Its Intended Use Case?
+
+NVIDIA's Multi-Process Service (MPS) is a client-server implementation of the CUDA API. Its primary purpose is to allow multiple processes, typically from a single user or application, to submit work to a single GPU concurrently.
+
+It was designed to solve a specific problem often found in High-Performance Computing (HPC):
+
+.The HPC Challenge
+In scientific computing, it's common to use MPI (Message Passing Interface) to parallelize a task across many CPU cores. When these individual MPI processes are accelerated with CUDA, each process might only generate a small amount of work, leaving the GPU heavily underutilized.
+
+MPS addresses this by taking advantage of the inter-process parallelism. It consists of three components:
+
+* **Control Daemon:** Manages the server and coordinates connections.
+* **Client Runtime:** Built into the CUDA driver and used transparently by applications.
+* **Server Process:** The shared connection to the GPU, which enables concurrency between clients by managing a single hardware queue.
+
+[NOTE]
+.When to Use MPS (in Supported Environments)
+====
+MPS is most beneficial when:
+* Individual processes do not generate enough work to saturate the GPU.
+* You are running MPI jobs or other multi-process CUDA applications.
+* You are in a "strong-scaling" scenario where work per process decreases, but you want to maintain high GPU efficiency.
+====
+
+'''
+
+== Why MIG is the Preferred Solution on OpenShift AI
+
+While MPS is effective for its intended HPC use case, it is not suitable for the multi-tenant, enterprise environments typically run on OpenShift AI. **Multi-Instance GPU (MIG)** is the superior and supported technology for this purpose.
+
+The key difference is **isolation**.
+
+.MPS vs. MIG: A Critical Distinction
+|===
+| Feature | NVIDIA MPS | NVIDIA MIG
+
+| **Isolation Level**
+| Low (Software-Level)
+| **Excellent (Hardware-Level)**
+
+| **Resource Management**
+| Manages concurrent access to a *shared* GPU resource pool.
+| Partitions the GPU into *fully independent* virtual GPUs with dedicated resources.
+
+| **Fault Tolerance**
+| An error in one client process can affect the MPS server and impact all other clients.
+| An error in one MIG instance is completely contained and has **no effect** on other instances.
+
+| **Primary Use Case**
+| Trusted, single-user HPC workloads.
+| **Untrusted, multi-tenant enterprise workloads.**
+|===
+
+For a platform providing "GPU as a Service," the hardware-level security, fault isolation, and guaranteed Quality of Service (QoS) provided by MIG are non-negotiable requirements.
+
+'''
+
+== Key Characteristics and Limitations
+
+Understanding the specific limitations of MPS helps clarify why it is not used in enterprise cloud-native platforms.
+
+* **Single-User Model:** Only one user on a system can have an active MPS server at a time.
+* **No Fault Isolation:** MPS does not provide full memory protection or error isolation between its client processes.
+* **No OpenShift Support:** Cannot be used within an OpenShift AI environment.
+* **Application Incompatibility:**
+** Dynamic parallelism is not supported.
+** Only 64-bit applications are supported.
+** The NVIDIA Video Codec SDK is not supported on pre-Volta GPUs.
+* **System-Level Constraints:** Page-locked host memory is limited by the size of the `/dev/shm` filesystem.
+
+== Additional Resources
+
+For historical context or work in non-OpenShift environments, you can refer to the official NVIDIA documentation.
+
+* https://docs.nvidia.com/deploy/mps/index.html[Official NVIDIA MPS Documentation]
+* `man nvidia-cuda-mps-control` (For the MPS control daemon manual page)
+* `man nvidia-smi` (For the GPU monitoring tool manual page)

@@ -1,0 +1,35 @@
+= Data Parallelism
+
+== The New Problem: Your Service is Too Popular
+
+You have successfully deployed your large model using a combination of Tensor and Pipeline Parallelism. The model is running, but now you face a new challenge: demand is overwhelming your service. You have hundreds of concurrent users, requests are queuing up, and overall throughput is too low to meet the business need.
+
+Your bottleneck is no longer model size; it's **serving capacity**. This is the problem that **Data Parallelism** is designed to solve.
+
+'''
+
+== How It Works: The "Bank Teller" Analogy
+
+Data Parallelism is the most intuitive scaling strategy. It works by creating multiple, independent copies (replicas) of your model and distributing user requests among them.
+
+Think of a busy bank:
+
+* **One Teller (A Single Model Instance):** A single bank teller can only serve one customer at a time. As the line of customers grows, the wait time increases dramatically.
+* **Opening More Teller Windows (Data Parallelism):** To handle the long line, the bank manager opens more teller windows. Each new teller is a complete, independent copy of the service. Now, multiple customers can be served simultaneously, drastically increasing the bank's overall throughput.
+
+This is exactly how Data Parallelism works. Each "teller window" is a full replica of your AI model running on its own dedicated GPU(s).
+
+.A visual example of Data Parallelism
+image::ddp.gif[Distributed Data Parallelism, 600]
+
+'''
+
+== How Data Parallelism Applies to Inference
+
+While Data Parallelism is a cornerstone of distributed *training* (where it's used to process huge datasets faster and synchronize model gradients), its application in *inference* is simpler and focused purely on throughput.
+
+In a MaaS inference context:
+1.  **Replication:** The entire model is replicated onto multiple GPUs. Each GPU (or set of GPUs, if using Tensor/Pipeline Parallelism) runs an independent copy.
+2.  **Request Distribution:** A load balancer, either within the vLLM engine itself or at the API Gateway level, receives all incoming user requests.
+3.  **Dispatching:** The load balancer dispatches each new request to the next available model replica.
+4.  **Independent Processing:** Each replica processes its assigned request independently. There is no cross-communication or synchronization of results between the replicas.

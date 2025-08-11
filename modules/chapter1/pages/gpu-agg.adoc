@@ -1,0 +1,81 @@
+= GPU Aggregation
+
+== A Fundamental Shift: From Sharing to Aggregation
+
+In the previous module, we focused on **GPU Sharing**—the art of splitting _one_ powerful GPU to serve _many_ smaller workloads. This is essential for maximizing utilization and providing broad access.
+
+Now, we address the opposite challenge. What happens when your workload, specifically a single Large Language Model, is so massive that one GPU is not enough?
+
+Welcome to **GPU Aggregation**. In this module, you will learn the art of combining the power of _many_ GPUs to serve _one_ massive task.
+
+.The Construction Project Analogy
+Think of it like a construction project:
+* Building a simple garden shed might only require one worker (**a single GPU**).
+* Building a massive skyscraper requires a large, highly coordinated team of specialists working together (**GPU Aggregation**).
+
+Just as there are different ways to organize a construction crew, there are different strategies for organizing a team of GPUs.
+
+'''
+
+== Why We Need GPU Aggregation
+
+The primary driver for GPU aggregation is the sheer size of modern AI models.
+
+* **The Problem:** Models like Llama-3-70B and Falcon-180B require more VRAM than any single GPU can provide. Trying to load one will result in a `CUDA out of memory` error.
+* **The Solution:** We must distribute the model's workload across a team of GPUs. Serving runtimes like vLLM use sophisticated parallelism techniques to manage this distribution automatically.
+
+This module will introduce you to the four fundamental strategies for organizing your GPU "team."
+
+.A high-level view of GPU Aggregation
+image::gpu-aggregation.png[GPU Aggregation, 600]
+
+'''
+
+== Meet the Strategies: A Quick Introduction
+
+Each parallelism strategy is a tool designed for a specific job. Here is a high-level overview of the four techniques you will learn about in this module.
+
+Tensor Parallelism:::
+    The "Team of Chefs." Multiple GPUs work together simultaneously on the *same model layer* to solve the model size problem and reduce latency. Requires a high-speed NVLink connection.
+
+Pipeline Parallelism:::
+    The "Factory Assembly Line." Multiple GPUs (or nodes) work on *different layers sequentially*. This solves for models that are too big for even a whole server and maximizes throughput.
+
+Data Parallelism:::
+    The "Bank Tellers." Multiple GPUs run *independent copies of the same model* to serve a high volume of concurrent user requests. This scales user capacity, not model size.
+
+Expert Parallelism:::
+    The "Panel of Specialist Doctors." A specialized strategy for Mixture of Experts (MoE) models where different experts are placed on different GPUs, and only the required experts are activated per request.
+
+'''
+
+== The Consultant's Cheat Sheet: A Strategic Decision Framework
+
+As a consultant, your job is to choose the right tool for the customer's problem. Use this framework to guide your decision-making process.
+
+.GPU Aggregation Decision Framework
+[options="header"]
+|===
+| Ask This Question... | If Yes, This is Your Strategy | Core Concept
+
+| 1. Is my primary goal to serve more concurrent users with a model that already fits on my hardware?
+| **Data Parallelism**
+| Replicate the model to increase throughput.
+
+| 2. Is the model too big for one GPU, but fits on one multi-GPU server (with NVLink)?
+| **Tensor Parallelism**
+| Shard the model *within* a node to reduce latency.
+
+| 3. Is the model so large it won't even fit on a single multi-GPU server?
+| **Pipeline Parallelism**
+| Stage the model *across* nodes to enable serving and maximize throughput.
+
+| 4. Am I deploying a Mixture of Experts (MoE) model?
+| **Expert Parallelism**
+| Assign different experts to different GPUs.
+|===
+
+[NOTE]
+These strategies are not mutually exclusive. For the largest scale deployments, you will often **combine** them. For example, you might use Pipeline Parallelism to span across nodes, Tensor Parallelism to manage the model within each node, and Data Parallelism to create multiple replicas of that entire pipeline to handle user load.
+
+Now, let's dive into the details of each strategy.

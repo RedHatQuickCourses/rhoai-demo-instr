@@ -1,0 +1,157 @@
+= Lab: Multi-Node, Multi-GPU Deployment
+
+[%hardbreaks]
+
+== Introduction
+
+You've successfully scaled a model across multiple GPUs on a single node. But what happens when a model is so massive that even a fully-equipped node isn't enough? The next frontier in model serving is scaling *out* across multiple nodes.
+
+In this advanced lab, you will tackle this challenge by deploying a very large model using both **pipeline parallelism** (across nodes) and **tensor parallelism** (across GPUs within each node). This requires orchestrating a distributed computing cluster using **Ray**, which manages the communication and workload distribution for vLLM. This is the pattern required to serve the largest, most powerful foundation models in your AI Factory.
+
+== Lab Story
+
+The "InnovateForward Corp" platform team has a new high-priority request from their R&D department: deploy a state-of-the-art 70-billion-parameter model. Their initial sizing calculations are stark—the model is too large to fit even on a single node equipped with multiple A100 GPUs.
+
+The team knows they must now scale out. Their plan is to create a two-node cluster, with each node contributing two GPUs. This will require them to configure a distributed Ray cluster where vLLM can use pipeline parallelism to split the model's layers across the nodes, while simultaneously using tensor parallelism to split the layers across the GPUs within each node. This is their most complex deployment yet, and success will prove their platform is truly enterprise-grade.
+
+== Prerequisites: Shared Model Storage
+
+A multi-node deployment requires that all worker nodes have access to the same model files. This cannot be done by simply loading the model into a container image, as each node would have its own copy. Instead, the model must be stored on a shared, network-accessible storage volume.
+
+For this lab, a ReadWriteMany (RWX) Persistent Volume Claim (PVC) has been pre-created, and the model has been downloaded to it.
+
+. Verify the shared PVC exists in the `serving-at-scale` project:
++
+[source,bash,role="execute"]
+----
+oc get pvc -n serving-at-scale
+----
++
+.You should see a PVC named `llama-model` with an `RWX` access mode.
++
+[source,text]
+----
+NAME          STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS
+llama-model   Bound    pvc-3d02084b-66d8-4e49-9eac-1bf9ab4f05ed   60Gi       RWX            ocs-storagecluster-cephfs
+----
+
+== Step 1: Deploy the Multi-Node Serving Runtime
+
+Unlike a single-node deployment, a multi-node setup requires a specialized `ServingRuntime` that knows how to configure and start a distributed Ray cluster. We will deploy a pre-defined template for this purpose.
+
+. In your terminal, process the multi-node vLLM template and apply it to your project. This command creates the `vllm-multinode-runtime` resource.
++
+[source,bash,role="execute"]
+----
+oc process vllm-multinode-runtime-template -n redhat-ods-applications | oc apply -f - -n serving-at-scale
+----
++
+This `ServingRuntime` contains the logic for both the "head" pod (the Ray cluster leader) and the "worker" pods that will join the cluster.
+
+== Step 2: Create the Multi-Node InferenceService
+
+This advanced deployment cannot be configured through the UI. We must define it declaratively in a YAML manifest.
+
+. In your VSCode terminal, create a new file named `llama-70b-multinode.yaml`.
+. Paste the following `InferenceService` definition into the file.
++
+[source,yaml]
+----
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: vllm-llama-70b-multinode
+  namespace: serving-at-scale
+  annotations:
+    serving.kserve.io/deploymentMode: RawDeployment
+spec:
+  predictor:
+    minReplicas: 1
+    maxReplicas: 1
+    model:
+      runtime: vllm-multinode-runtime
+      storageUri: pvc://llama-model/Llama-3.3-70B-Instruct-quantized.w4a16
+      resources:
+        limits:
+          nvidia.com/gpu: "2"
+        requests:
+          nvidia.com/gpu: "2"
+    # Worker spec defines the configuration for the Ray cluster nodes
+    workerSpec:
+      tensorParallelSize: 2
+      pipelineParallelSize: 2
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+----
+
+=== Understanding the Manifest
+* `runtime: vllm-multinode-runtime`: Specifies that this deployment should use the special multi-node runtime we created in the previous step.
+* `storageUri: pvc://llama-model/...`: Tells KServe to mount the shared PVC and use the model files from that location.
+* `workerSpec`: This section is unique to the multi-node runtime and configures the Ray cluster.
+** `pipelineParallelSize: 2`: Instructs Ray to create a cluster of **2 nodes**.
+** `tensorParallelSize: 2`: Instructs vLLM to use **2 GPUs on each node** for tensor parallelism.
+
+== Step 3: Deploy the Model
+
+. Apply the manifest to your cluster to begin the deployment.
++
+[source,bash,role="execute"]
+----
+oc apply -f llama-70b-multinode.yaml
+----
+
+== Step 4: Observe the Ray Cluster Formation
+
+This deployment will create multiple pods that work together.
+
+. Watch the pods being created in your project:
++
+[source,bash,role="execute"]
+----
+oc get pods -w -n serving-at-scale
+----
++
+You will see one `...-predictor-...` pod (the Ray *head*) and one `...-predictor-worker-...` pod (the Ray *worker*).
+
+. View the logs of the `predictor` (head) pod. You will see it start the Ray runtime and then wait for the worker to join.
++
+[source,bash]
+----
+# Get the head pod name
+HEAD_POD=$(oc get pods -n serving-at-scale -l serving.kserve.io/component=predictor -o name)
+oc logs -f $HEAD_POD -n serving-at-scale
+----
++
+.Log output from the head pod:
++
+[source,text]
+----
+INFO: Ray runtime started.
+Waiting...
+Waiting...
+======== Autoscaler status: ========
+Node status
+----------------------------------
+Active:
+ 1 node_...
+ 1 node_...
+INFO: vLLM API server version ...
+----
++
+Once the head pod logs show that both nodes are active, it will proceed to start the vLLM API server. The model is now being served across the entire distributed cluster.
+
+== Step 5: Test the Distributed Endpoint
+
+Even though the model is running across multiple pods and GPUs, KServe presents it as a single, unified endpoint.
+
+. Find the endpoint URL from the `InferenceService` details in the OpenShift AI Dashboard, or by using the CLI:
++
+[source,bash]
+----
+oc get isvc vllm-llama-70b-multinode -n serving-at-scale -o jsonpath='{.status.url}'
+----
+. Test the endpoint using the Swagger UI (`/docs`) or with `curl`, just as you did in the previous lab. The request will be seamlessly handled by the distributed cluster.
+
+Congratulations! You have deployed an LLM using a combination of pipeline and tensor parallelism, the most advanced scaling pattern for serving massive foundation models.

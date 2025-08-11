@@ -1,0 +1,93 @@
+= Sizing for GPUs
+
+[%hardbreaks]
+
+== Introduction
+
+Successfully deploying a Large Language Model is only half the battle. To build a cost-effective and performant AI platform, you must be able to accurately match the model's requirements to the available hardware. Simply throwing oversized, expensive GPUs at every problem is a wasteful and ineffective strategy that leads to high costs and underutilized resources.
+
+This module equips you with the fundamental knowledge and tools to analyze an LLM's requirements and make informed decisions about the necessary GPU infrastructure. You will learn how to estimate the memory needed for a model and its KV Cache, understand the impact of quantization, and use sizing tools to plan for future deployments.
+
+== Lab Story
+
+The Platform Engineering team at "InnovateForward Corp" is getting requests to deploy a variety of new models. The business wants to know: "What hardware do we need to run the new 70-billion-parameter model?" and "Can we run this smaller, specialized model on our existing A10G GPUs to save costs?"
+
+To answer these questions confidently, the team needs to move beyond guesswork. They must learn how to calculate the vRAM footprint of a given model, including its parameters and the KV Cache. Mastering these calculations will enable them to provide accurate hardware recommendations, optimize resource utilization, and justify infrastructure costs to leadership.
+
+== Estimating Model Size
+
+The first step in sizing a GPU is to calculate the amount of video RAM (vRAM) the model's weights will consume. The size of the model loaded into memory can be estimated using the following formula:
+
+....
+M = ((P * 4) / (32 / Q)) * 1.2
+....
+
+[cols="1,4"]
+|===
+| Symbol | Description
+| *M*
+| Total GPU memory required for the model weights (in bytes).
+
+| *P*
+| The number of parameters in the model (e.g., 8 billion).
+
+| *4b*
+| The size of a full-precision parameter in bytes (FP32).
+
+| *Q*
+| The number of bits used for the model's data type after quantization (e.g., 16 for FP16, 8 for INT8).
+
+| *1.2*
+| A multiplier representing a ~20% overhead for loading additional components into GPU memory.
+|===
+
+For example, let's calculate the requirement for the `ibm-granite/granite-3.3-8b-instruct` model, which has 8 billion parameters and uses the FP16 data type (16 bits).
+
+[source,bash]
+----
+# Formula: (((Parameters * 4 bytes) / (32 / Quantization_Bits)) * 1.2) / Bytes_per_GB
+(((8 * 4) / (32 / 16)) * 1.2) = 17.9 Gb
+----
+
+=== Quantization
+*Quantization* is a technique used to reduce the size and improve the performance of an LLM by converting its weights to a lower-precision data type. While many models default to FP16 (16 bits), it's common to quantize them to INT8 (8 bits) or even INT4 (4 bits) to significantly reduce their memory footprint.
+
+== Estimating KV Cache
+
+Beyond the model's weights, the serving runtime (vLLM) also requires vRAM for the **KV Cache**. This cache stores the state of ongoing conversations, and its size is a critical factor in the model's ability to handle long contexts.
+
+The memory required for the KV Cache is determined by two main factors:
+. The memory required per token (this varies by model architecture).
+. The maximum context length (number of tokens) you need to support for your use case.
+
+For `Granite 3.3 8B Instruct`, the KV Cache requires about **0.15625 Mb per token**. With a maximum context length of 131,072 tokens, this results in a KV Cache requirement of approximately **20 Gb**.
+
+Therefore, to run this model and support its maximum context length, our total estimated vRAM requirement is:
+`17.9 Gb (Model) + 20 Gb (KV Cache) = ~38 Gb`
+
+[NOTE]
+====
+*Exercise: KV Cache Estimation*
+
+An NVIDIA A10G or L4 GPU has 24 Gb of vRAM. Given that the Granite 3.3 8B model requires ~17.9 Gb for its weights, what is the maximum context length (in tokens) you could configure for the KV Cache to ensure the entire workload fits on the device?
+====
+
+== Sizing Spreadsheet
+
+To simplify these calculations, Red Hat Services has created a spreadsheet to help with sizing estimates for various LLMs.
+
+https://red.ht/llm-sizing[LLM Sizing and TCO Calculator^]
+
+Using the **"Model Sizing"** tab, you can select from a list of popular models to perform a sizing calculation. The spreadsheet provides hardware recommendations based on the model's default precision and maximum context length. You can override the context length to see how it impacts the vRAM requirements for your specific use case.
+
+The **"Subs & Cost Modeling"** tab can help recommend cloud instance types and provides a high-level Total Cost of Ownership estimate for running the models on OpenShift.
+
+[IMPORTANT]
+Please keep in mind that all costs are subject to change and are provided as estimates only. They should not be used for official customer quotes.
+
+[NOTE]
+====
+*Exercise: Model Sizing Quantization Comparison*
+
+Make a copy of the spreadsheet and perform a sizing calculation for the Llama-3-70B model. Compare the vRAM requirements for the un-quantized FP16 version versus the INT4 quantized version provided by Red Hat.
+====

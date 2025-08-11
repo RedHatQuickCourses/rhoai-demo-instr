@@ -1,0 +1,92 @@
+= Pipeline Parallelism
+
+== The New Problem: The Model Outgrows the Server
+
+You've mastered Tensor Parallelism, successfully splitting a model across all the GPUs in a single, powerful server. But now you face an even greater challenge: a new model like Llama 3.1 405B has arrived, and its memory requirement is so immense that it **cannot fit even within the combined VRAM of an entire multi-GPU server.**
+
+When you need to scale beyond the boundaries of a single machine, you need a new strategy: **Pipeline Parallelism**.
+
+'''
+
+== How It Works: The "Factory Assembly Line" Analogy
+
+While Tensor Parallelism splits a model's layers *horizontally* (like a team of chefs working on one dish), Pipeline Parallelism splits the model *vertically*, creating a sequence of stages that operate like a factory assembly line.
+
+* **The Assembly Line:** Your model is the product being built.
+* **The Workstations:** Each workstation is a separate server (or node) in your cluster.
+* **The Process:**
+    1.  The first server (**Workstation 1**) performs the first set of tasks (e.g., layers 1-20 of the model).
+    2.  It then passes its partially finished work (the intermediate activations) to the next server in the line.
+    3.  **Workstation 2** performs the next set of tasks (layers 21-40) and passes it on.
+    4.  This continues until the final server completes the final layers and outputs the result.
+
+To keep all the workstations busy, vLLM sends "micro-batches" of requests down the assembly line one after another, ensuring the entire pipeline stays active and maximizing overall throughput.
+
+.A visual example of an Assembly Line (Pipeline)
+image::gpu6.png[Pipeline scheduling optimization, 600]
+
+'''
+
+== The Core Trade-Off: Throughput over Latency
+
+It is critical to understand that Pipeline and Tensor Parallelism optimize for different goals.
+
+[NOTE]
+====
+* **Tensor Parallelism REDUCES LATENCY.** By having multiple GPUs work on the same layer simultaneously, it makes individual requests faster.
+* **Pipeline Parallelism MAXIMIZES THROUGHPUT.** By keeping multiple servers busy with a continuous flow of micro-batches, it allows you to process more requests over time, but the time for any single request to travel the entire assembly line will be longer.
+====
+
+A consultant must be able to articulate this trade-off to the customer. Choose Pipeline Parallelism when serving the massive model at all is the priority, and high throughput for many users is more important than the lowest possible latency for a single user.
+
+'''
+
+== The Hardware Advantage: Standard Networking is Enough
+
+Unlike Tensor Parallelism, which demands high-speed NVLink between GPUs, Pipeline Parallelism has much more relaxed networking requirements.
+
+Because data is only passed from one stage to the next in a sequence, the communication overhead is significantly lower. This means Pipeline Parallelism can run efficiently over **standard data center Ethernet**, making it a much more accessible and cost-effective way to scale across multiple machines.
+
+'''
+
+== The Engine for Multi-Node Communication: Understanding Ray
+
+How do different servers in a cluster coordinate this complex assembly line? Python's built-in `multiprocessing` library can only manage processes on a *single* machine. To go across the network, vLLM relies on a distributed computing framework called **Ray**.
+
+Ray acts as the coordination layer, or the "factory manager," that:
+* Manages resources across multiple nodes.
+* Handles the passing of data between the pipeline stages (servers).
+* Provides the fault tolerance needed for a distributed system.
+
+When you configure vLLM for Pipeline Parallelism, it will automatically use Ray as its execution backend to manage the multi-node workflow.
+
+'''
+
+== When to Use Pipeline Parallelism
+
+The decision framework is a direct extension of our previous lesson.
+
+[NOTE]
+.Guideline
+====
+Use Pipeline Parallelism when your AI model is **so large that it cannot fit within the combined memory of a single multi-GPU server.** It is often used in combination with Tensor Parallelism.
+====
+
+=== Practical Configuration with vLLM
+
+To handle the largest models, you can combine both strategies. vLLM makes this straightforward.
+
+.Example: Deploying a massive model on a 4-node cluster, with 8 GPUs per node.
+----
+# Total GPUs = 4 nodes * 8 GPUs/node = 32
+
+# Use Tensor Parallelism within each node
+tensor_parallel_size = 8
+
+# Use Pipeline Parallelism across the 4 nodes
+pipeline_parallel_size = 4
+----
+
+By setting these two parameters, you instruct vLLM to:
+1.  Use **Ray** to create a 4-stage pipeline across the nodes.
+2.  Within each stage (on each node), use **Tensor Parallelism** to shard the model layers across that node's 8 GPUs.
