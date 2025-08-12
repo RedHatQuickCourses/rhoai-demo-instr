@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Sizing for GPUs :: OpenShift AI Lab environment instructions</title>
+    <title>The Gateway&#8217;s Core Requirements :: OpenShift AI Lab environment instructions</title>
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -207,7 +207,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">OpenShift AI Lab environment instructions</a></li>
-    <li><a href="gpu-sizing.html">Sizing for GPUs</a></li>
+    <li><a href="intro2.html">The Gateway&#8217;s Core Requirements</a></li>
   </ul>
 </nav>
 </div>
@@ -216,169 +216,159 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Sizing for GPUs</h1>
+<h1 class="page">The Gateway&#8217;s Core Requirements</h1>
 <div class="sect1">
-<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<h2 id="_the_factorys_front_entrance"><a class="anchor" href="#_the_factorys_front_entrance"></a>The Factory&#8217;s Front Entrance</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Successfully deploying a Large Language Model is only half the battle. To build a cost-effective and performant AI platform, you must be able to accurately match the model&#8217;s requirements to the available hardware. Simply throwing oversized, expensive GPUs at every problem is a wasteful and ineffective strategy that leads to high costs and underutilized resources.</p>
+<p>Every factory needs a secure front entrance, a security desk, and a shipping department to manage what comes in and out. In our Models-as-a-Service (MaaS) platform, the <strong>API Gateway</strong> performs all of these critical functions.</p>
 </div>
 <div class="paragraph">
-<p>This module equips you with the fundamental knowledge and tools to analyze an LLM&#8217;s requirements and make informed decisions about the necessary GPU infrastructure. You will learn how to estimate the memory needed for a model and its KV Cache, understand the impact of quantization, and use sizing tools to plan for future deployments.</p>
+<p>It is the single, managed entry point for all AI model traffic, allowing us to enforce security, manage usage, and transform a simple model endpoint into a robust, enterprise-grade service.  Without a capable API Gateway, our AI Factory is just a warehouse with no doors and no security.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_lab_story"><a class="anchor" href="#_lab_story"></a>Lab Story</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The Platform Engineering team at "InnovateForward Corp" is getting requests to deploy a variety of new models. The business wants to know: "What hardware do we need to run the new 70-billion-parameter model?" and "Can we run this smaller, specialized model on our existing A10G GPUs to save costs?"</p>
-</div>
-<div class="paragraph">
-<p>To answer these questions confidently, the team needs to move beyond guesswork. They must learn how to calculate the vRAM footprint of a given model, including its parameters and the KV Cache. Mastering these calculations will enable them to provide accurate hardware recommendations, optimize resource utilization, and justify infrastructure costs to leadership.</p>
-</div>
+<hr>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_estimating_model_size"><a class="anchor" href="#_estimating_model_size"></a>Estimating Model Size</h2>
+<h2 id="_the_consultants_gateway_checklist"><a class="anchor" href="#_the_consultants_gateway_checklist"></a>The Consultant&#8217;s Gateway Checklist</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The first step in sizing a GPU is to calculate the amount of video RAM (vRAM) the model&#8217;s weights will consume. The size of the model loaded into memory can be estimated using the following formula:</p>
+<p>As a consultant, you will often find that customers already have an API Gateway (e.g., Kong, Apigee, Mulesoft). Your first task is to validate whether their existing infrastructure can support the unique demands of an AI platform.  Use the following checklist to guide your discovery and technical discussions with the customer&#8217;s platform team.</p>
 </div>
-<div class="literalblock">
+<div class="sect2">
+<h3 id="_part_1_core_ai_traffic_handling_capabilities"><a class="anchor" href="#_part_1_core_ai_traffic_handling_capabilities"></a>Part 1: Core AI Traffic Handling Capabilities</h3>
+<div class="paragraph">
+<p>These are the non-negotiable technical capabilities required to correctly process modern AI workloads.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Does the gateway support streaming responses via Server-Sent Events (SSE)?</strong></p>
+<div class="openblock">
 <div class="content">
-<pre>M = ((P * 4) / (32 / Q)) * 1.2</pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 80%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Symbol</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>M</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Total GPU memory required for the model weights (in bytes).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>P</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The number of parameters in the model (e.g., 8 billion).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>4b</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The size of a full-precision parameter in bytes (FP32).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Q</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The number of bits used for the model&#8217;s data type after quantization (e.g., 16 for FP16, 8 for INT8).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1.2</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A multiplier representing a ~20% overhead for loading additional components into GPU memory.</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
-<p>For example, let&#8217;s calculate the requirement for the <code>ibm-granite/granite-3.3-8b-instruct</code> model, which has 8 billion parameters and uses the FP16 data type (16 bits).</p>
+<p><em>Why it&#8217;s critical:</em> LLMs don&#8217;t return responses all at once; they stream tokens as they are generated.  The gateway must be able to handle this continuous stream of data to provide a responsive user experience.  It cannot simply buffer a single large response.  This is a mandatory capability for processing SSE events.</p>
 </div>
-<div class="listingblock">
+</div>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Can the gateway perform request payload transformation?</strong></p>
+<div class="openblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Formula: (((Parameters * 4 bytes) / (32 / Quantization_Bits)) * 1.2) / Bytes_per_GB
-(((8 * 4) / (32 / 16)) * 1.2) = 17.9 Gb</code></pre>
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> We need the gateway to inject metadata into the request before it reaches the model server.  This is essential for adding mandatory corporate headers or enabling usage tracking in the vLLM serving engine.  For example, the gateway may need to add the <code>stream_options</code> parameter to the request body to tell vLLM to include token usage statistics in its response.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Can the gateway parse the response payload to extract custom metrics?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> When usage tracking is enabled, vLLM includes the token counts (prompt, completion, total) in the final SSE message.  The gateway must be able to parse this data from the JSON response body so it can be forwarded to a monitoring system like Prometheus.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_quantization"><a class="anchor" href="#_quantization"></a>Quantization</h3>
+<h3 id="_part_2_security_identity_integration_capabilities"><a class="anchor" href="#_part_2_security_identity_integration_capabilities"></a>Part 2: Security &amp; Identity Integration Capabilities</h3>
 <div class="paragraph">
-<p><strong>Quantization</strong> is a technique used to reduce the size and improve the performance of an LLM by converting its weights to a lower-precision data type. While many models default to FP16 (16 bits), it&#8217;s common to quantize them to INT8 (8 bits) or even INT4 (4 bits) to significantly reduce their memory footprint.</p>
+<p>This ensures the platform is secure and integrates with the customer&#8217;s existing user management systems.</p>
 </div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Does the gateway integrate with an OIDC-compliant Identity Provider?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> All requests must be authenticated.  The gateway needs to validate user identity, often through OIDC and by validating JWTs (JSON Web Tokens) issued by a corporate SSO like Keycloak, Okta, or Azure AD.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Does the gateway support Application and API Key validation?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> Beyond user authentication, we must identify and authorize specific applications.  The gateway must manage and validate application-specific API keys to control which applications can call which models.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Does the gateway provide a developer portal for user onboarding and key management?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> To enable self-service, developers need a central place to discover available models, read API documentation, and manage their applications and keys through a streamlined process.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_part_3_observability_business_value_capabilities"><a class="anchor" href="#_part_3_observability_business_value_capabilities"></a>Part 3: Observability &amp; Business Value Capabilities</h3>
+<div class="paragraph">
+<p>This layer transforms technical metrics into business insights, enabling cost management.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Can the gateway export standard metrics to a monitoring system like Prometheus?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> We need to monitor the health and performance of the API service.  The gateway must expose standard metrics like request/response counts, error rates, and latency.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Can the gateway report on custom, extracted metrics like token counts?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> This is the key to chargeback and showback for AI services.  The prompt and completion token counts parsed in Part 1 must be exported as custom metrics with labels identifying the user and application.  This allows the business to track exactly how much each team is using the service and manage costs effectively.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<hr>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_estimating_kv_cache"><a class="anchor" href="#_estimating_kv_cache"></a>Estimating KV Cache</h2>
+<h2 id="_advanced_value_add_capabilities"><a class="anchor" href="#_advanced_value_add_capabilities"></a>Advanced &amp; Value-Add Capabilities</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Beyond the model&#8217;s weights, the serving runtime (vLLM) also requires vRAM for the <strong>KV Cache</strong>. This cache stores the state of ongoing conversations, and its size is a critical factor in the model&#8217;s ability to handle long contexts.</p>
+<p>Once the core requirements are met, these features represent the next level of maturity for an enterprise AI platform.</p>
 </div>
-<div class="paragraph">
-<p>The memory required for the KV Cache is determined by two main factors:
-. The memory required per token (this varies by model architecture).
-. The maximum context length (number of tokens) you need to support for your use case.</p>
-</div>
-<div class="paragraph">
-<p>For <code>Granite 3.3 8B Instruct</code>, the KV Cache requires about <strong>0.15625 Mb per token</strong>. With a maximum context length of 131,072 tokens, this results in a KV Cache requirement of approximately <strong>20 Gb</strong>.</p>
-</div>
-<div class="paragraph">
-<p>Therefore, to run this model and support its maximum context length, our total estimated vRAM requirement is:
-<code>17.9 Gb (Model) + 20 Gb (KV Cache) = ~38 Gb</code></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p><strong>Exercise: KV Cache Estimation</strong></p>
-</div>
-<div class="paragraph">
-<p>An NVIDIA A10G or L4 GPU has 24 Gb of vRAM. Given that the Granite 3.3 8B model requires ~17.9 Gb for its weights, what is the maximum context length (in tokens) you could configure for the KV Cache to ensure the entire workload fits on the device?</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_sizing_spreadsheet"><a class="anchor" href="#_sizing_spreadsheet"></a>Sizing Spreadsheet</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>To simplify these calculations, Red Hat Services has created a spreadsheet to help with sizing estimates for various LLMs.</p>
-</div>
-<div class="paragraph">
-<p><a href="https://red.ht/llm-sizing" target="_blank" rel="noopener">LLM Sizing and TCO Calculator</a></p>
-</div>
-<div class="paragraph">
-<p>Using the <strong>"Model Sizing"</strong> tab, you can select from a list of popular models to perform a sizing calculation. The spreadsheet provides hardware recommendations based on the model&#8217;s default precision and maximum context length. You can override the context length to see how it impacts the vRAM requirements for your specific use case.</p>
-</div>
-<div class="paragraph">
-<p>The <strong>"Subs &amp; Cost Modeling"</strong> tab can help recommend cloud instance types and provides a high-level Total Cost of Ownership estimate for running the models on OpenShift.</p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-Please keep in mind that all costs are subject to change and are provided as estimates only. They should not be used for official customer quotes.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p><strong>Exercise: Model Sizing Quantization Comparison</strong></p>
-</div>
-<div class="paragraph">
-<p>Make a copy of the spreadsheet and perform a sizing calculation for the Llama-3-70B model. Compare the vRAM requirements for the un-quantized FP16 version versus the INT4 quantized version provided by Red Hat.</p>
-</div>
-</td>
-</tr>
-</table>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Rate Limiting</strong>: Protects model servers from being overwhelmed by setting limits on how many requests a user or application can make in a given time period.</p>
+</li>
+<li>
+<p><strong>Request Prioritization</strong>: Implements logic to give critical applications (e.g., a customer-facing chatbot) priority access to GPU resources over less critical batch processing workloads.</p>
+</li>
+<li>
+<p><strong>Cost Management</strong>: Enables business functions like chargeback and showback based on granular usage data (e.g., tokens consumed per department).</p>
+</li>
+<li>
+<p><strong>Corporate Guardrails</strong>: Uses the gateway as a central point to enforce content moderation or other corporate policies on all LLM requests and responses.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>

@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>GPU Timeslicing :: OpenShift AI Lab environment instructions</title>
-    <link rel="prev" href="gpu-sharing.html">
-    <link rel="next" href="gpu-mig.html">
+    <title>Models with GitOps :: OpenShift AI Lab environment instructions</title>
+    <link rel="prev" href="expert-para.html">
+    <link rel="next" href="gpu-sizing.html">
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -58,7 +58,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="gpu-sharing.html">GPU Sharing Technologies</a>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="4">
+  <li class="nav-item" data-depth="4">
     <a class="nav-link" href="gpu-time.html">GPU Timeslicing</a>
   </li>
   <li class="nav-item" data-depth="4">
@@ -89,7 +89,7 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="start.html">Models with GitOps</a>
 <ul class="nav-list">
@@ -210,9 +210,7 @@
   <ul>
     <li><a href="../index.html">OpenShift AI Lab environment instructions</a></li>
     <li><a href="intro.html">Serving at Scale</a></li>
-    <li><a href="gpu-aas.html">Architecting GPU as a Service</a></li>
-    <li><a href="gpu-sharing.html">GPU Sharing Technologies</a></li>
-    <li><a href="gpu-time.html">GPU Timeslicing</a></li>
+    <li><a href="start.html">Models with GitOps</a></li>
   </ul>
 </nav>
 </div>
@@ -221,138 +219,11 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">GPU Timeslicing</h1>
-<div class="sect1">
-<h2 id="_what_is_gpu_timeslicing_and_why_use_it"><a class="anchor" href="#_what_is_gpu_timeslicing_and_why_use_it"></a>What is GPU Timeslicing and Why Use It?</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>GPU timeslicing is a software-based sharing technique that allows multiple workloads to run on a single GPU by dividing access to its compute resources over time. Unlike hardware partitioning (MIG), timeslicing gives each workload sequential access to the <strong>full power</strong> of the GPU for very short intervals.</p>
-</div>
-<div class="paragraph">
-<p>This approach is a powerful tool for maximizing the ROI of your GPU infrastructure.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="title">Primary Use Cases</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Development and Testing:</strong> Give multiple developers simultaneous access to GPUs without the cost of dedicating a full device to each.</p>
-</li>
-<li>
-<p><strong>Low-Traffic AI Inference:</strong> Serve multiple, distinct models from a single GPU, which is highly cost-effective when requests are sporadic.</p>
-</li>
-<li>
-<p><strong>Improving Utilization:</strong> Ensure expensive GPUs are not sitting idle, driving up utilization rates and making AI workloads more economical.</p>
-</li>
-</ul>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<hr>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_how_it_works_the_core_mechanism"><a class="anchor" href="#_how_it_works_the_core_mechanism"></a>How It Works: The Core Mechanism</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Timeslicing operates through a rapid, managed process of context switching, enabled by modern NVIDIA GPU architectures (Pascal and newer).</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><strong>Time Division:</strong> The GPU driver&#8217;s scheduler allocates brief time slices to each active workload, typically in a round-robin fashion.</p>
-</li>
-<li>
-<p><strong>Compute Preemption:</strong> The GPU hardware can interrupt a running process (a kernel) when its time slice expires.</p>
-</li>
-<li>
-<p><strong>Context Switching:</strong> The state of the outgoing process is saved, and the state of the incoming process is loaded. This context switch is optimized in hardware to minimize overhead.</p>
-</li>
-<li>
-<p><strong>Shared Memory Pool:</strong> Crucially, all workloads sharing the GPU via timeslicing use the <strong>same VRAM memory pool</strong>. There is no separation or protection.</p>
-</li>
-</ol>
-</div>
-<hr>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_the_critical_trade_off_performance_vs_isolation"><a class="anchor" href="#_the_critical_trade_off_performance_vs_isolation"></a>The Critical Trade-Off: Performance vs. Isolation</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>While timeslicing is excellent for maximizing utilization, it comes with a significant trade-off that every platform engineer must understand.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-<div class="title">No Isolation is the Biggest Risk</div>
-<div class="paragraph">
-<p>Timeslicing provides <strong>zero memory or fault isolation</strong> between workloads.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Memory Contention:</strong> If the combined memory usage of all containers exceeds the GPU&#8217;s capacity, one or more workloads will fail with a <code>CUDA out of memory</code> error.</p>
-</li>
-<li>
-<p><strong>Fault Propagation:</strong> An error or crash in a single container can destabilize the GPU driver, potentially affecting <strong>every other workload</strong> running on that GPU.</p>
-</li>
-<li>
-<p><strong>"Noisy Neighbor" Problem:</strong> A single, compute-intensive workload can consume a disproportionate amount of resources, leading to unpredictable performance and higher latency for other containers.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Because of these risks, timeslicing should be used with caution in production and is best suited for environments where workloads are trusted and performance requirements are not strictly guaranteed.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<hr>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_practical_configuration"><a class="anchor" href="#_practical_configuration"></a>Practical Configuration</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>You can manage timeslicing settings directly on the node and configure your workloads to behave correctly in a shared environment.</p>
-</div>
-<div class="sect2">
-<h3 id="_setting_the_timeslice_duration"><a class="anchor" href="#_setting_the_timeslice_duration"></a>Setting the Timeslice Duration</h3>
-<div class="paragraph">
-<p>The duration of each time slice can be configured on the host using <code>nvidia-smi</code>. Shorter slices allow for more responsive switching but incur higher overhead.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Set a SHORT (2ms) time slice, best for latency-sensitive tasks
-nvidia-smi compute-policy --set-timeslice=1
+<h1 class="page">Models with GitOps</h1>
 
-# Set a MEDIUM (10ms) time slice, a balanced default
-nvidia-smi compute-policy --set-timeslice=2
-
-# Set a LONG (30ms) time slice, best for throughput-oriented tasks
-nvidia-smi compute-policy --set-timeslice=3</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
 <nav class="pagination">
-  <span class="prev"><a href="gpu-sharing.html">GPU Sharing Technologies</a></span>
-  <span class="next"><a href="gpu-mig.html">Multi-Instance GPU (MIG)</a></span>
+  <span class="prev"><a href="expert-para.html">Expert Parallelism</a></span>
+  <span class="next"><a href="gpu-sizing.html">Sizing for GPUs</a></span>
 </nav>
 </article>
   </div>
