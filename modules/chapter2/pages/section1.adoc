@@ -1,6 +1,339 @@
-= Section 1
+= Lab 1: Model Serving with Red Hat AI Inference Server
 
-* Create multiple copies of this section as needed.
-* Remove any unnecessary sections or chapter pages.
-* Customize the section as appropriate.
-* Ensure that each page contains a manageable amount of content.
+
+A guided, hands-on exercise for deploying and tuning your first Large Language Model with Red Hat AI Inference Server.
+
+'''
+
+== 1. Lab Overview and Objectives
+
+Welcome to the hands-on lab for Red Hat AI Inference Server (RHAIIS). This guide will walk you through the essential first steps of deploying an LLM, verifying its operation, and performing basic performance tuning based on your available hardware resources.
+
+In this lab, you will begin with a pre-configured Red Hat Enterprise Linux (RHEL) environment that already has the necessary NVIDIA drivers installed. Your focus will be entirely on the deployment and management of the RHAIIS container.
+
+=== 1.1. Learning Objectives
+
+Upon completing this lab, you will be able to:
+
+* Deploy RHAIIS with a validated model using a single Podman command.
+* Verify the model is serving correctly by interacting with its API.
+* Monitor the GPU's video memory (VRAM) usage in real-time.
+* Tune server parameters to control memory consumption and context length.
+* Deploy and test an alternative model to see the platform's flexibility.
+
+'''
+
+== 2. Prerequisites
+
+Your lab environment has been pre-configured with the following:
+
+* A Red Hat Enterprise Linux 9.x system with a valid subscription.
+* An attached and configured NVIDIA data center GPU with drivers installed.
+* Podman and the NVIDIA Container Toolkit are pre-installed.
+
+You will need to provide:
+
+* Credentials for your **Red Hat account** to access `registry.redhat.io`.
+* A **Hugging Face account** with a User Access Token (read permissions).
+
+'''
+
+== 3. Deploying Your First Model
+
+Our first task is to get a baseline model up and running. We will use `RedHatAI/Llama-3.1-8B-Instruct`, a capable and widely used model.
+
+=== 3.1. Authenticate and Prepare
+
+Before running the server, you must log in to the Red Hat registry and configure your Hugging Face token.
+
+. Log in to the Red Hat container registry using your account credentials.
++
+[source,bash]
+----
+podman login registry.redhat.io
+----
+
+. Set your Hugging Face token as an environment variable. This allows the server to download the model from the Hugging Face Hub.
++
+[source,bash]
+----
+# ⚠️ Replace <your_HF_token> with your actual token
+export HF_TOKEN="<your_HF_token>"
+----
+
+. Create a local directory to cache the downloaded model. This saves time on subsequent launches.
++
+[source,bash]
+----
+mkdir -p $HOME/rhaiis-cache
+----
+=== Part 1: Initial System Setup and Prerequisites
+
+Before we can deploy anything, we need to make sure our RHEL system is ready.
+
+==== Step 1: Install Essential Tools
+
+Your terminals are already connected to your RHEL server. The first thing we need to do is install some basic utilities that will make our lives easier during this lab. We'll install `tmux`, which lets us keep our terminal sessions running even if we get disconnected.
+
+In **Terminal 1** on the right, run the following commands:
+
+```bash
+# Install tmux for persistent sessions
+sudo dnf install -y tmux
+
+# Start a new tmux session and attach to it
+tmux new-session -d -s rhaiis-lab
+tmux attach-session -t rhaiis-lab
+```
+
+Now you're inside a `tmux` session. All the commands we run from now on will stay active in this session. This is great for long-running processes like our inference server.
+
+==== Step 2: Install NVIDIA Drivers
+
+RHAIIS relies on GPU acceleration for its high performance. This means we need to ensure our RHEL system has the correct NVIDIA drivers installed.
+
+We'll add the necessary software repositories and install the drivers. Continue in **Terminal 1** and run these commands:
+
+```bash
+# Install kernel development tools needed for drivers
+sudo dnf install -y kernel-devel-matched kernel-headers
+
+# Add the EPEL repository for extra packages
+sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+
+# Configure the NVIDIA CUDA repository
+sudo dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
+
+# Install the NVIDIA drivers and kernel module
+sudo dnf install -y nvidia-driver-cuda kmod-nvidia-open-dkms
+
+# Reboot the system to load the new drivers
+sudo reboot now
+```
+
+The system will now reboot. This is an important step to ensure the kernel recognizes the new drivers. Once the system has restarted, you'll need to reconnect to the server via SSH and re-attach to your `tmux` session.
+
+==== Step 3: Container Runtime Setup
+
+Now that the drivers are installed, we need to configure our container runtime, Podman, to be able to use the GPU.
+
+First, reconnect to the server and re-attach to your `tmux` session in **Terminal 1**:
+
+```bash
+# Reconnect to the RHEL server
+# ssh ec2-user@your_server_ip
+
+# Re-attach to your tmux session
+tmux attach-session -t rhaiis-lab
+```
+
+Next, let's install the NVIDIA Container Toolkit and Podman. This toolkit is what allows containers to see and use the GPU on the host system.
+
+Run the following commands in **Terminal 1**:
+
+```bash
+# Add the NVIDIA container toolkit repository
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo | \
+  sudo tee /etc/yum.repos.d/nvidia-container-toolkit.repo
+
+# Install the container toolkit and Podman
+sudo dnf install -y nvidia-container-toolkit podman
+
+# Generate the CDI specification for GPU access
+sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
+```
+
+To make sure everything is working correctly, let's run a quick test. This command will start a temporary container and run `nvidia-smi` inside of it. If it works, you'll see details about your GPU.
+
+Run this command in **Terminal 1**:
+
+```bash
+sudo podman run --rm --device nvidia.com/gpu=all \
+  docker.io/nvidia/cuda:11.0.3-base-ubuntu20.04 nvidia-smi
+```
+
+You should see an output similar to the one you'd see if you ran `nvidia-smi` on the host, showing your GPU model, memory usage, and driver version.
+
+=== 3.2. Run the RHAIIS Container
+
+This is the core of our lab. We're going to launch the RHAIIS container image and tell it to serve the `ibm-granite/granite-3.3-2b-instruct` model.
+
+This command might look a bit complex, but let's break down the important parts:
+
+  * `--device nvidia.com/gpu=all`: This gives the container access to all available GPUs.
+  * `--security-opt=label=disable`: This is important for SELinux systems to allow the container to access local files.
+  * `--shm-size=4GB -p 8000:8000`: This allocates shared memory and maps the container's port 8000 to the host's port 8000, so we can access the API.
+  * `--env "HUGGING_FACE_HUB_TOKEN=$HUGGING_FACE_HUB_TOKEN"`: We're passing our Hugging Face token into the container.
+  * `-v $HOME/rhaiis-cache:/opt/app-root/src/.cache`: This mounts our local cache directory, so the model only needs to be downloaded once.
+  * `registry.redhat.io/rhaiis/vllm-rocm-rhel9:3.2.0-1752784646`: This is the specific RHAIIS container image we're using.
+  * `--model ibm-granite/granite-3.3-2b-instruct`: This tells the server which model to download and serve.
+
+In **Terminal 1**, copy and paste the following command and press Enter. This will take some time as the model is downloaded and loaded onto the GPU.
+Now, run the server with the `podman run` command.
+
+[source,bash]
+----
+podman run --rm -it --name rhaiis-server \
+  --device nvidia.com/gpu=all \
+  --security-opt=label=disable \
+  --shm-size=4g -p 8000:8000 \
+  --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
+  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
+  registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
+  --model RedHatAI/Llama-3.1-8B-Instruct
+----
+
+The server will now start. The first launch will take several minutes as it downloads the model into the cache directory. Subsequent launches will be much faster.
+
+=== 3.3. Verify the Deployment
+
+Once you see logs indicating "Uvicorn running on http://0.0.0.0:8000", the server is ready.
+
+. Open a **new terminal** or SSH session. Do not close the terminal where the container is running.
+
+. Use `curl` to send a test prompt to the server's completions endpoint.
++
+[source,bash]
+----
+curl -X POST http://localhost:8000/v1/completions \
+-H "Content-Type: application/json" \
+-d '{
+  "prompt": "What are the key benefits of using Red Hat AI Inference Server?",
+  "model": "ibm-granite/granite-3.3-2b-instruct",
+  "max_tokens": 150
+}' | jq .choices[0].text
+----
+
+You should see a helpful, well-formatted response generated by the model, confirming that the inference server is working correctly.
+
+'''
+
+== 4. Monitoring and Tuning VRAM Usage
+
+Understanding and managing GPU memory is the most critical skill for serving LLMs efficiently. Let's see how much VRAM our model is using and how to tune it.
+
+=== 4.1. Monitor GPU Memory
+
+The `nvidia-smi` command is your primary tool for monitoring the GPU.
+
+. In your second terminal, run `nvidia-smi` in watch mode to see live updates.
++
+[source,bash]
+----
+watch -n 1 nvidia-smi
+----
+
+. Observe the **Memory-Usage** column. It will show how much VRAM is being used out of the total available (e.g., `8152MiB / 23028MiB`). This is the baseline VRAM consumption for this model with default settings.
+
+
+
+=== 4.2. Tune for Maximum Context Length
+
+The `--max-model-len` argument controls the maximum number of tokens (input prompt + generated output) a request can handle. A larger context length requires more VRAM. [cite_start]Let's find the sweet spot for our GPU. [cite: 135]
+
+. Stop the running container by pressing `Ctrl+C` in its terminal.
+
+. Relaunch the server, this time adding the `--max-model-len` argument. Let's start with a value of `4096`.
++
+[source,bash]
+----
+podman run --rm -it --name rhaiis-server \
+  --device nvidia.com/gpu=all \
+  --security-opt=label=disable \
+  --shm-size=4g -p 8000:8000 \
+  --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
+  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
+  registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
+  --model ibm-granite/granite-3.3-2b-instruct \
+  --max-model-len 4096 <1>
+----
+<1> Limits the model's context length to 4096 tokens.
+
+. Once the server is running, check your `nvidia-smi` watch window. You should see a noticeable increase in VRAM usage.
+
+=== 4.3. Fine-Tuning GPU Memory Utilization
+
+The most direct way to control the memory vLLM reserves is with the `--gpu-memory-utilization` flag. [cite_start]It takes a value between 0.0 and 1.0. [cite: 130] [cite_start]The default is `0.9`, which reserves 90% of the GPU's VRAM. [cite: 603]
+
+. Stop the running container with `Ctrl+C`.
+
+. Relaunch the server, setting the utilization to 85% to leave more memory for other processes if needed.
++
+[source,bash]
+----
+podman run --rm -it --name rhaiis-server \
+  --device nvidia.com/gpu=all \
+  --security-opt=label=disable \
+  --shm-size=4g -p 8000:8000 \
+  --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
+  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
+  registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
+  --model ibm-granite/granite-3.3-2b-instruct \
+  --gpu-memory-utilization 0.85 <1>
+----
+<1> Instructs the server to use a maximum of 85% of the available GPU memory.
+
+. Observe the change in memory allocation in `nvidia-smi`. The amount of memory reserved by the server will now be lower. This is a key parameter for running in shared environments.
+
+'''
+
+== 5. Deploying an Alternative Model
+
+Switching models with RHAIIS is simple. Let's deploy the `granite-3.1-8b-instruct` model.
+
+. Stop the current container with `Ctrl+C`.
+
+. Run the `podman` command again, but change the value of the `--model` argument.
++
+[source,bash]
+----
+podman run --rm -it --name rhaiis-server \
+  --device nvidia.com/gpu=all \
+  --security-opt=label=disable \
+  --shm-size=4g -p 8000:8000 \
+  --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
+  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
+  registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
+  --model RedHatAI/granite-3.1-8b-instruct <1>
+----
+<1> We've switched to the Granite model. The server will download it if it's not already in the cache.
+
+. Once the server is running, test it with a new `curl` request. **Remember to update the model name in your request body.**
++
+[source,bash]
+----
+curl -X POST http://localhost:8000/v1/completions \
+-H "Content-Type: application/json" \
+-d '{
+  "prompt": "What is the IBM Granite series of models?",
+  "model": "RedHatAI/granite-3.1-8b-instruct",
+  "max_tokens": 150
+}' | jq .choices[0].text
+----
+
+You have now successfully deployed and tested two different validated models, demonstrating the flexibility of the platform.
+
+'''
+
+== 6. Lab Cleanup
+
+To stop the services and clean up your environment, simply stop the running container.
+
+. In the terminal where RHAIIS is running, press `Ctrl+C`.
+
+. The `--rm` flag used in the `podman run` command ensures the container is automatically removed upon exit.
+
+'''
+
+== 7. Conclusion
+
+In this lab, you gained hands-on experience with the core workflow of Red Hat AI Inference Server. You learned how to deploy a model, test its functionality, monitor its resource consumption, and tune its performance based on available VRAM.
+
+**Key Takeaways:**
+
+* RHAIIS deployment is managed with a single, configurable `podman run` command.
+* `nvidia-smi` is essential for monitoring VRAM usage.
+* The `--gpu-memory-utilization` and `--max-model-len` arguments are your primary tools for memory management.
+* Switching between different validated models is as simple as changing the `--model` parameter.
+
+In the next lab, we will build on this foundation to explore multi-GPU deployments and advanced customizations.

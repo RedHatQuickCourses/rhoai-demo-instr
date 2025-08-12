@@ -1,266 +1,62 @@
-= TL3 Course Edit Guide [Update]
+= Red Hat AI Inference Server
 
-This segment of learning describes a way to edit / modify Git Repository based courses. Specifically - for users that don't enjoy working in a command line environment, therefore focuses on visual interaction with their AsciiDoc based course content creation.
+Welcome to the world of **Red Hat AI Inference Server (RHAIIS)**. This hands-on lab is your introduction to a powerful, supported platform for deploying large language models (LLMs) with high performance and flexibility across any hybrid cloud environments. As a key component of the Red Hat AI platform, RHAIIS is available as a standalone product and is included in Red Hat OpenShift AI and Red Hat Enterprise Linux AI (RHEL AI).
 
- * AsciiDoc is a plain text markup language for writing technical content. It's packed with semantic elements and equipped with features to modularize and reuse content. AsciiDoc content can be:
- 
- ** composed using a text editor - we use Visual Studio Code (VSCode)
- ** managed in a version control system - we use Git
- ** published to multiple output formats -we use Web pages via Git Pages / Red Hat LMS 
-
-== Install Software Tools Prerequisites
-
-=== VScode
-
-Think of this as the word processor for editing course text. Use the link below to download and install VScode on your workstation.
-
- . *Install Visual Studio Code (VScode) using the link below.*
-
-https://code.visualstudio.com/[*Visual Studio Code:*, window=blank]
-
-Visual Studio Code is a lightweight but powerful source code editor which runs on your desktop and is available for Windows, macOS and Linux. It comes with built-in support for JavaScript, TypeScript and Node.js and has a rich ecosystem of extensions for other languages and runtimes (such as C++, C#, Java, Python, PHP, Go, .NET).
+RHAIIS provides a hardened, supported distribution of the **vLLM** software via prepackaged container. This open-source project is renowned for its high-throughput and memory-efficient performance, achieved through innovative techniques like PagedAttention and continuous batching.
 
 
-=== Github 
+== Key Features of RHAIIS
 
-GitHub is a cloud-based platform that allows developers to store, share, and collaborate on code. It's a web-based interface that uses Git, an open source version control software.
+Red Hat AI Inference Server leverages several advanced techniques to deliver high-performance LLM serving:
 
-==== Github Organization for PERT:
+=== vLLM Core and Advanced Parallelism
 
-https://github.com/RedHatQuickCourses[RedHatQuickCourses, window=blank]
+At its heart, RHAIIS is built on the vLLM serving engine, which maximizes throughput and minimizes latency for LLM inference.
 
-Organizations are shared accounts where businesses and open-source projects can collaborate across many projects at once, with sophisticated security and administrative features.
+* **PagedAttention**: This technique optimizes GPU memory management by virtualizing the key-value (KV) cache for each request. It addresses memory wastage and lowers costs by consuming less memory.
+* **Continuous Batching**: It processes requests as they arrive instead of waiting for a full batch to be accumulated, reducing latency and increasing throughput.
+* **Tensor Parallelism (TP)**: This feature distributes LLM workloads across multiple GPUs, within a single node, to reduce latency and increase computational throughput. You can configure this using the `--tensor-parallel-size` argument.
+// * **Pipeline Parallelism (PP)**: This stages sequential groups of model layers across different GPUs or nodes, which is crucial for fitting models that are too large for a single multi-GPU node.
+* **Expert Parallelism (EP)**: RHAIIS includes specialized optimizations for efficiently handling Mixture of Experts (MoE) model architectures.
+// * **Data Parallelism (DP)**: This routes individual requests to different vLLM engines.
 
-==== Github Desktop:
+=== Model Optimization and Compression
 
- . *Install Github Desktop using the link below.*
+RHAIIS integrates the **LLM Compressor** library, a Developer Preview feature that provides a unified framework for optimizing and compressing large language models before inferencing.
 
-https://desktop.github.com/download/[Download Github Desktop, window=blank]
-
-With GitHub Desktop, you can interact with GitHub using a GUI instead of the command line or a web browser. You can use GitHub Desktop to complete most Git commands from your desktop, such as pushing to, pulling from, and cloning remote repositories, attributing commits, and creating pull requests, with visual confirmation of changes.
-
-Github desktop documentation:  https://docs.github.com/en/desktop
-
-Quick reference guide:
-https://rogerdudler.github.io/git-guide/
-
-
-=== Antora / AsciiDocs
-
-No local installation needed.
-
-With Antora, you manage docs as code. That means your documentation process benefits from the same practices used to produce successful software. Some of these practices include:
-
- * Storing content in a version control system.
- * Separating content, configuration, and presentation.
- * Leveraging automation for compilation, validation, verification, and publishing.
- * Reusing shared materials (DRY).
-
-Antora Documentation has been the most user friendly place to find feature usage
-https://docs.antora.org/antora/latest/
-
-At this point, you should have both VScode and Github Desktop software installed.
-
-== Cloning the Git Repository 
-
-Bring the files stored in Github to your local machine as a duplicate copy. This section assumes you have already installed Github Desktop and Visual Studio Code.
+* **Quantization**: This technique converts model weights and activations to lower-bit formats (such as INT8) to reduce memory usage.
+* **Sparsity**: It sets a portion of model weights to zero, enabling more efficient computation.
+//* **Compression**: This shrinks the saved model file size, ideally with minimal impact on performance.
 
 [NOTE]
+For RHAIIS 3.2, LLM Compressor is a Developer Preview feature and is not included in the standard container image. The product does, however, support specific quantization variants like FP8 (W8A8) and GGUF, particularly for AMD GPUs.
 
-Clone - point to an existing repo and make a clone or copy of that repo in a new directory, at another location. 
+=== Deployment Portability and Multi-Accelerator Support
 
-image::clone_repo.gif[width=600]
+RHAIIS is delivered as a container image downloaded from Red Hat Registry, which enables deployment flexibility and  across various connected environments.
 
- . Using a web browser to access Github, locate the repository that contains the code / asciidoc files you plan to edit. 
+.Supported Deployment Environments
+[cols="2,3,4", options="header"]
+|===
+|Environment
+|Supported Versions
+|Deployment Notes
 
- . Click on the green `CODE` button dropdown, select the option to `open with Github Desktop`.
+|OpenShift Container Platform (self-managed)
+|4.14-4.19
+|Deploy on bare-metal hosts or virtual machines.
 
- . If shown, Approve the message allow the web browser to open Github Desktop
- .. feel free to check the box to avoid seeing this message in the future.
-+
-Once Github Desktop opens a pop-up window will appear asking you to confirm the source url for the repository.
-+
-Also shown will be the local path to where the files will be stored. you can change this path by selecting choose and browsing to a new directory.
-+
- . Click Clone to continue and the files will begin the clone process.
+|Red Hat OpenShift Service on AWS (ROSA)
+|4.14-4.19
+|Requires ROSA STS cluster with GPU-enabled P5 or G5 node types.
 
-[TIP]
-Create a single directory for all your github projects in a location where you have full control of the files such as the `Documents` directory.  My preferred path is Documents/Github, which is highlighted in the gif.
+|Red Hat Enterprise Linux (RHEL)
+|9.2-10.0
+|Deploy on bare-metal hosts or virtual machines.
+|===
 
-In Github Desktop once the files are copied, the window displayed will show no local changes.
+The server is engineered with robust multi-accelerator support for a diverse range of hardware. RHAIIS 3.2 supports the following data center-grade accelerators:
 
-== Creating a Branch
-
-Before making changes to the files, create a branch, which creates virtual duplicates of the original files that you can change. 
-
-[WARNING]
-Do not make changes to the main branch.  Branching allows teams of developers to easily collaborate inside of one central code base. When a developer creates a branch, the version control system creates a copy of the code base at that point in time. Changes to the branch don't affect other developers on the team.
-
-image::create_branch.gif[width=600]
-
- .  Click the current branch menu in top navigation bar
-
- .. From the drop down, ensure the Branch tab is selected
-
-  . In the filter /search bar, type the name of the new branch, in this example: initial_changes is used as the name of the branch to be created.
-
- .. since the name is not found, the option to Create a new branch appears
-
- .. Either the button on the right, or the new blue select button will create the new branch. 
-
-. Confirm the branch will be created from main, Select Create Branch.
-
-The *current branch* at the top menu bar of Github Desktop should now display the new branch.
-
-There are few options for how to proceed depending on personal preferences.
-
- * you can publish your branch to the remote (Github Repository) to let others know about your branch.
-
- * you can click the `open the repository in your local editor`, which is the process followed in this guide.
-
-Select the `Open in Visual Studio Code` button.
-
-== Antora Document Structure
-
-The primary folders to explore to edit the course files are located in the `modules` directory.
-
-Modules are where the course chapters are stored.
-
-image::navigation_structure.gif[width=600]
-
-image::navigation_structurev2.gif[width=600]
-
-== Editing the Files
-
-Once Visual Studio Code opens we are ready to begin editing files.
-
-image::page_edits.gif[width=600]
-
- .  Using the Explorer on the left, navigate to the modules / ROOT / pages folder and select the index.adoc file.
-
- . The file should now open in the large window pane on the right
-
- . To make changes to the file simply type select a line with your cursor and start typing. 
-
- .. This process works similar to a word processor except styling is done using characters instead of clicking a menu. 
-
- .. For example to bold a word, it's done by *`*bold*`* surrounding the word or phrase with asterisks. 
-
- .. For examples of style formatting options see the USAGEGUIDE.adoc file at bottom of the explore panel on the left.
-
-Once you finish editing the files, either use the system menu to select file /save or save the file using the keyboard shortcut `ctrl-S`.
-
-
-
-[NOTE]
-Saving the file will cause a new item to appear in github showing the changes made. 
-
-== Commiting Changes
-
-image::commit_changes.gif[width=600]
-
-After every change and save made in Visual Studio Code, the changes will appear in the github desktop window.  The left pane will display the list of changes made to each file individually by line.
-
-The right pane will display all changes made to the file.  Items in Red have been removed from the file. items in green were added to the file. 
-
-To save the changes locally into the local branch we need to commit the files to the files.  Currently they are in an unsaved changed state.  If there are multiple files that have edits, all files can be committed to the branch using a single commit. 
-
- . Switch to the Github Desktop application
-
- . Update the Summary (required) blank bar with an overview of the task performed.
-
- .. In this example, we updated the home page, therefore the comment could be: update the home page statement for the reason files were updated. 
-
- . Optionally add a description to add context to the comment.
-
- . Click Commit to `branch_name`; the initial changes branch in this example.
-
-Once the changes have been committed, they are saved locally for the specific branch only.
-
-We can continue to make additional changes and commits using this same branch.
-
-
-== Viewing Changes Locally with NPM
-
-[NOTE]
-NPM stands for Node Package Manager: A software package manager and registry that helps developers find, build, and manage code packages
-
-
-image::terminal_git_directory.gif[width=600]
-
-There may be a better way to do this, hopefully someone will edit this part soon.
-
-This is how I currently view the local files as a web page that updates when local files are saved.
-
-=== open a terminal 
-
-. Once the terminal is open, switch to the directory that contains the Git Repo Cloned files. 
-
- ..  cd (lowercase) stands for change directory
-
- . At the command prompt, type cd followed by the path to the local files.
-
- .. in my example the path is Documents/Github/rhoai-demo-instr 
-
- . The terminal prompt should change to display the folder name you are in.
-
- . Now that we are in the correct directory, press Ctrl-T which will open a second terminal tab (at least on mac) which will also be set to the rhoai-demo-instr directory.
-
-=== install NPM
-
-Once we have completed the above steps the next step is to setup Node Package Manager (NPM).
-
-
-image::npm_install_serve.gif[width=600]
-
-This only needs to be completed on the first attempt to serve the files locally. 
-
-From the command prompt type: `npm install` in either terminal tab.
-
-```
-npm install
-```
-
- .. once the install completed, there might be vulnerability message: 1 high severity a vulnerability.  
-
-To address this run:  `npm audit fix`
-
-```
-npm audit fix
-```
-
-Once the audit install completes, we are ready to rock and roll, well almost.
-
-=== Watch Modules Directory and Serve Files
-
-With NPM installed now we can use two commands, one in each terminal window.
-
- . First in either window, type the command `npm run watch:adoc` and press enter.
-```
-npm run watch:adoc
-```
-
- .. this command watches the modules directory and ensures that updates are made available to view when a new save is made.
-
-```
-npm run serve
-```
- .. this command uses the npm to host a local version of the website and provide the URL to access the site, which is usually 127.0.0.1:8080.
-
-
-
-== Pushing the Changes to Github
-
-image::publish_branch.gif[width=600]
-
-
-== Merging Changes
-
-image::pull_request.gif[width=600]
-
-== Github Actions
-
-TBD
-
-image::merge_actions.gif[width=600]
-
+* **NVIDIA GPUs**: A2, A10, A16, A30, A40, A100, L4, L40, L40S, H100, H200, B200, and RTX PRO 6000 Blackwell Server Edition.
+* **AMD GPUs**: Instinct M1210 and Instinct M130OX.
+* **Google TPUs**: TPU v6e (Developer Preview).
