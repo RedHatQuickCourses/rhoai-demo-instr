@@ -1,0 +1,93 @@
+= Advanced vLLM Configuration
+
+[%hardbreaks]
+
+== Introduction
+
+The vLLM serving runtime provides a robust set of default configurations that work well for many use cases. However, to truly optimize for performance, manage resources in a constrained environment, or enable advanced features like tool calling, you will need to fine-tune the server's behavior.
+
+This module covers some of the more common and impactful configuration arguments you can set for a vLLM server instance. Understanding these options will allow you to precisely control how the model utilizes GPU memory, handles concurrent requests, and scales across multiple devices, enabling you to tailor the serving environment to your specific application needs.
+
+== Setting Arguments
+
+In OpenShift AI, arguments for a vLLM server can be set directly through the "Model Serving" UI when deploying a single-node instance. Any configuration added through the UI is ultimately represented as a list of strings in the `args` field of the underlying `InferenceService` custom resource.
+
+For a GitOps-driven approach, you would define these arguments directly in your `InferenceService` YAML manifest.
+
+.InferenceService YAML with Custom Arguments
+[source,yaml]
+----
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: my-tuned-model-server
+spec:
+  predictor:
+    model:
+      args:
+        - '--max-model-len=10000'
+        - '--gpu-memory-utilization=0.95'
+----
+
+[IMPORTANT]
+====
+vLLM is a rapidly evolving project. The available options and their behavior can change between versions. When consulting the upstream documentation, always ensure you are viewing the documentation that corresponds to the specific version of vLLM you are using.
+
+You can explore all available options for your version by running `vllm --help` in the container or by referring to the official vLLM documentation: https://docs.vllm.ai/en/latest/cli/index.html
+====
+
+== Common Configuration Options
+
+=== Model and Optimization Options
+
+These arguments control how the model is loaded and how it uses GPU memory, directly impacting the trade-off between performance and context length.
+
+`--max-model-len`::
+This is one of the most common arguments to set. It defines the maximum number of tokens (prompt + completion) that the model can handle in a single sequence. You *must* set this to a lower value if you are deploying a model on a GPU that doesn't have enough vRAM to support the model's default maximum context length.
+
+`--gpu-memory-utilization`::
+This determines what percentage of the GPU's vRAM is allocated to vLLM. It defaults to `0.9` (90%). You can cautiously increase this value (e.g., to `0.95`) to make more memory available for the KV Cache, especially on large GPUs like an H100. However, a small amount of memory must be left free for other CUDA processes.
+
+`--enable-eager-mode`::
+This disables the creation of a static CUDA graph, which is normally used to optimize request processing. While this may result in slightly slower response times, it frees up a significant amount of vRAM. This is a useful trade-off when maximizing context length is more important than achieving the absolute lowest latency.
+
+=== Concurrency and Resource Limiting
+
+These options help you manage server load and prevent individual requests from consuming disproportionate resources.
+
+`--max-num-seqs`::
+This sets the maximum number of sequences (i.e., concurrent requests) that can be processed at one time. Lowering this value can prevent resource contention and lead to more consistent response times for all users during periods of high traffic.
+
+`--limit-mm-per-prompt`::
+For multi-modal models, this option limits the number of multi-modal inputs (e.g., images) that can be included in a single request, preventing resource exhaustion from excessively large inputs.
+
+=== Parallelism
+
+These arguments are essential for deploying models across multiple GPUs or multiple nodes.
+
+`--tensor-parallel-size`::
+This specifies the number of GPUs across which the model's weights will be sharded using tensor parallelism. This value should typically be equal to the number of GPUs available on a single node.
+
+`--pipeline-parallel-size`::
+This is generally used only in multi-node configurations and corresponds to the number of nodes in the deployment. It enables pipeline parallelism, where different layers of the model are processed on different nodes.
+
+=== Tool Calling
+
+To enable agentic capabilities, you must configure the vLLM server to correctly handle tool calling.
+
+.Example Tool Calling Configuration
+[source,bash]
+----
+--enable-auto-tool-choice
+--tool-call-parser=granite
+--chat-template=/app/data/template/tool_chat_template_granite.jinja
+----
+
+`--enable-auto-tool-choice`::
+This is the primary switch to turn on the tool calling functionality.
+
+`--tool-call-parser`::
+Specifies the parser required to correctly interpret the tool-calling syntax for a given model family. In this example, we use the `granite` parser. Other models may require different parsers.
+
+`--chat-template`::
+Points to the Jinja chat template that formats the prompt in the specific way the model expects for tool-calling interactions. These templates are typically packaged within the vLLM container image.

@@ -1,0 +1,86 @@
+= The Gateway's Core Requirements
+
+== The Factory's Front Entrance
+
+Every factory needs a secure front entrance, a security desk, and a shipping department to manage what comes in and out. In our Models-as-a-Service (MaaS) platform, the **API Gateway** performs all of these critical functions. 
+
+It is the single, managed entry point for all AI model traffic, allowing us to enforce security, manage usage, and transform a simple model endpoint into a robust, enterprise-grade service.  Without a capable API Gateway, our AI Factory is just a warehouse with no doors and no security. 
+
+'''
+
+== The Consultant's Gateway Checklist
+
+As a consultant, you will often find that customers already have an API Gateway (e.g., Kong, Apigee, Mulesoft). Your first task is to validate whether their existing infrastructure can support the unique demands of an AI platform.  Use the following checklist to guide your discovery and technical discussions with the customer's platform team. 
+
+=== Part 1: Core AI Traffic Handling Capabilities
+
+These are the non-negotiable technical capabilities required to correctly process modern AI workloads.
+
+* [ ] **Does the gateway support streaming responses via Server-Sent Events (SSE)?** 
++
+--
+_Why it's critical:_ LLMs don't return responses all at once; they stream tokens as they are generated.  The gateway must be able to handle this continuous stream of data to provide a responsive user experience.  It cannot simply buffer a single large response.  This is a mandatory capability for processing SSE events. 
+--
+
+* [ ] **Can the gateway perform request payload transformation?** 
++
+--
+_Why it's critical:_ We need the gateway to inject metadata into the request before it reaches the model server.  This is essential for adding mandatory corporate headers or enabling usage tracking in the vLLM serving engine.  For example, the gateway may need to add the `stream_options` parameter to the request body to tell vLLM to include token usage statistics in its response. 
+--
+
+
+* [ ] **Can the gateway parse the response payload to extract custom metrics?** 
++
+-- 
+_Why it's critical:_ When usage tracking is enabled, vLLM includes the token counts (prompt, completion, total) in the final SSE message.  The gateway must be able to parse this data from the JSON response body so it can be forwarded to a monitoring system like Prometheus. 
+--
+
+=== Part 2: Security & Identity Integration Capabilities
+
+This ensures the platform is secure and integrates with the customer's existing user management systems. 
+
+* [ ] **Does the gateway integrate with an OIDC-compliant Identity Provider?** 
++
+--
+_Why it's critical:_ All requests must be authenticated.  The gateway needs to validate user identity, often through OIDC and by validating JWTs (JSON Web Tokens) issued by a corporate SSO like Keycloak, Okta, or Azure AD. 
+--
+
+* [ ] **Does the gateway support Application and API Key validation?** 
++
+--
+_Why it's critical:_ Beyond user authentication, we must identify and authorize specific applications.  The gateway must manage and validate application-specific API keys to control which applications can call which models. 
+--
+
+* [ ] **Does the gateway provide a developer portal for user onboarding and key management?** 
++
+--
+_Why it's critical:_ To enable self-service, developers need a central place to discover available models, read API documentation, and manage their applications and keys through a streamlined process. 
+--
+
+
+=== Part 3: Observability & Business Value Capabilities
+
+This layer transforms technical metrics into business insights, enabling cost management. 
+
+* [ ] **Can the gateway export standard metrics to a monitoring system like Prometheus?** 
++
+--
+_Why it's critical:_ We need to monitor the health and performance of the API service.  The gateway must expose standard metrics like request/response counts, error rates, and latency. 
+--
+
+* [ ] **Can the gateway report on custom, extracted metrics like token counts?** 
++
+--
+_Why it's critical:_ This is the key to chargeback and showback for AI services.  The prompt and completion token counts parsed in Part 1 must be exported as custom metrics with labels identifying the user and application.  This allows the business to track exactly how much each team is using the service and manage costs effectively. 
+--
+
+'''
+
+== Advanced & Value-Add Capabilities
+
+Once the core requirements are met, these features represent the next level of maturity for an enterprise AI platform. 
+
+* **Rate Limiting**: Protects model servers from being overwhelmed by setting limits on how many requests a user or application can make in a given time period. 
+* **Request Prioritization**: Implements logic to give critical applications (e.g., a customer-facing chatbot) priority access to GPU resources over less critical batch processing workloads. 
+* **Cost Management**: Enables business functions like chargeback and showback based on granular usage data (e.g., tokens consumed per department). 
+* **Corporate Guardrails**: Uses the gateway as a central point to enforce content moderation or other corporate policies on all LLM requests and responses. 

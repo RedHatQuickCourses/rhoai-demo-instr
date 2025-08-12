@@ -1,0 +1,47 @@
+= API Gateway Requirements for MaaS
+
+[%hardbreaks]
+
+== Introduction
+
+Your Models-as-a-Service (MaaS) platform is running, and the inference servers are ready. But right now, your powerful AI models are isolated in their own project, inaccessible to the rest of the organization. The next critical step is to build a secure, managed, and scalable "front door" so that application developers and AI agent builders can easily consume these models as a service.
+
+This is the role of an API Gateway. It transforms a backend model deployment into a governed and secure *product* that can be shared across the enterprise. This section details the essential functions an API Gateway must perform to enable a successful MaaS strategy. 
+
+[IMPORTANT]
+While we will demonstrate these capabilities using **Red Hat 3scale API Management** and **Keycloak**, the core goal is for you to understand these requirements so you can validate any API Gateway—including a customer's existing on-premises solution—to ensure it is ready to support their AI initiatives.
+
+== Lab Story
+
+The platform engineering team at "InnovateForward Corp" has successfully deployed several LLMs on their multi-GPU OpenShift AI cluster. Now, they are getting urgent requests from application teams across the company: "We want to build a new customer support chatbot and a code generation assistant. How do we get access to these models?"
+
+The platform team knows that giving developers direct endpoint access to the vLLM serving runtime is risky, unmanageable, and doesn't scale. It would be a security nightmare with no way to control costs or track usage. Their task is to define a robust set of requirements for an API Gateway to act as the central control plane. They will use Red Hat 3scale to prototype the solution and create a validation checklist that can be used to assess whether their company's existing enterprise gateway is fit for purpose in the AI era.
+
+== Core API Gateway Functions for MaaS
+
+For a MaaS platform to be successful, an API Gateway is not just a simple proxy; it must provide a comprehensive set of features for security, governance, and management. Whether you use 3scale or evaluate an existing customer solution, it must perform the following functions:
+
+*Service Discovery and Routing*::
+The gateway must be able to dynamically discover and route incoming API calls to the correct backend model serving endpoint. This ensures that as you add, update, or scale your models, the gateway can seamlessly direct traffic without manual reconfiguration.
+
+*Security & Access Control*::
+This is the most critical function. The gateway must enforce who can access the models and what they are allowed to do. This involves two distinct layers:
+* **Authentication**: Verifying the identity of the user or application making the request. This is typically handled through API Keys or more robust methods like OAuth 2.0, often integrated with an identity provider like Keycloak.
+* **Authorization**: Defining granular permissions. For example, the "finance-app" may be authorized to access a `summarization` model but not a `code-generation` model.
+
+*Productization & Application Management*::
+A raw model endpoint is not a product. The gateway must provide tools to bundle one or more backend models into a consumable **API Product**. Developers can then browse these products in a user-friendly **Developer Portal**, register their own applications, and be automatically subscribed to services to receive the necessary credentials (like an API key) for access.
+
+*Rate Limiting & Usage Policies*::
+GPU resources are expensive. To prevent abuse and manage costs, the gateway must enforce usage policies. This includes setting **rate limits** (e.g., 100 calls per minute) and **quotas** (e.g., 5,000 calls per day per application). This is essential for ensuring fair use and predictable performance in a multi-tenant environment.
+
+*Analytics & Monitoring*::
+You can't manage what you can't measure. The gateway must provide detailed analytics on API traffic, allowing you to monitor usage patterns, track popular models, identify errors, and understand which teams are driving the most load.
+
+[WARNING]
+.A Note on Observability Gaps
+====
+While an API Gateway provides excellent metrics for API-level traffic (request counts, latency, status codes), it does not provide visibility into the performance of the underlying model serving infrastructure.
+
+Metrics such as **GPU utilization**, **VRAM consumption**, token generation speed (tokens/sec), and CUDA kernel efficiency are *not* captured by the gateway. A complete observability strategy requires combining gateway analytics with infrastructure monitoring tools, such as those integrated with OpenShift Monitoring, to get a full picture of your platform's health and performance.
+====

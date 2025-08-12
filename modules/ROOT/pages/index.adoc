@@ -1,4 +1,4 @@
-= Building the MaaS Platform
+= Why Customers Need a MaaS Platform
 
 == From Organic Growth to Intentional Design
 
