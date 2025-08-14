@@ -71,22 +71,6 @@ mkdir -p $HOME/rhaiis-cache
 
 Before we can deploy anything, we need to make sure our RHEL system is ready.
 
-==== Step 1: Install Essential Tools
-
-Your terminals are already connected to your RHEL server. The first thing we need to do is install some basic utilities that will make our lives easier during this lab. We'll install `tmux`, which lets us keep our terminal sessions running even if we get disconnected.
-
-In **Terminal 1** on the right, run the following commands:
-
-```bash
-# Install tmux for persistent sessions
-sudo dnf install -y tmux
-
-# Start a new tmux session and attach to it
-tmux new-session -d -s rhaiis-lab
-tmux attach-session -t rhaiis-lab
-```
-
-Now you're inside a `tmux` session. All the commands we run from now on will stay active in this session. This is great for long-running processes like our inference server.
 
 ==== Step 2: Install NVIDIA Drivers
 
@@ -180,8 +164,9 @@ podman run --rm -it --name rhaiis-server \
   --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
   -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
   registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
-  --model RedHatAI/Llama-3.1-8B-Instruct
+  --model ibm-granite/granite-3.3-2b-instruct
 ----
+
 
 The server will now start. The first launch will take several minutes as it downloads the model into the cache directory. Subsequent launches will be much faster.
 
