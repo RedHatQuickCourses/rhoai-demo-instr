@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Lab 1: Model Serving with Red Hat AI Inference Server :: OpenShift AI Lab environment instructions</title>
-    <link rel="prev" href="index.html">
-    <link rel="next" href="section2.html">
+    <link rel="prev" href="vllm-adv.html">
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -185,9 +184,6 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="index.html">Red Hat AI Inference Server</a>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="section1.html">Lab 1: Model Serving with Red Hat AI Inference Server</a>
-  </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="section2.html">Sizing for GPUs</a>
   </li>
@@ -196,6 +192,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="section1.html">Lab 1: Model Serving with Red Hat AI Inference Server</a>
   </li>
 </ul>
   </li>
@@ -368,28 +367,6 @@ export HF_TOKEN="&lt;your_HF_token&gt;"</code></pre>
 <p>Before we can deploy anything, we need to make sure our RHEL system is ready.</p>
 </div>
 <div class="sect3">
-<h4 id="_step_1_install_essential_tools"><a class="anchor" href="#_step_1_install_essential_tools"></a>Step 1: Install Essential Tools</h4>
-<div class="paragraph">
-<p>Your terminals are already connected to your RHEL server. The first thing we need to do is install some basic utilities that will make our lives easier during this lab. We&#8217;ll install <code>tmux</code>, which lets us keep our terminal sessions running even if we get disconnected.</p>
-</div>
-<div class="paragraph">
-<p>In <strong>Terminal 1</strong> on the right, run the following commands:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Install tmux for persistent sessions
-sudo dnf install -y tmux
-
-# Start a new tmux session and attach to it
-tmux new-session -d -s rhaiis-lab
-tmux attach-session -t rhaiis-lab</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Now you&#8217;re inside a <code>tmux</code> session. All the commands we run from now on will stay active in this session. This is great for long-running processes like our inference server.</p>
-</div>
-</div>
-<div class="sect3">
 <h4 id="_step_2_install_nvidia_drivers"><a class="anchor" href="#_step_2_install_nvidia_drivers"></a>Step 2: Install NVIDIA Drivers</h4>
 <div class="paragraph">
 <p>RHAIIS relies on GPU acceleration for its high performance. This means we need to ensure our RHEL system has the correct NVIDIA drivers installed.</p>
@@ -518,7 +495,7 @@ Now, run the server with the <code>podman run</code> command.</p>
   --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
   -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
   registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
-  --model RedHatAI/Llama-3.1-8B-Instruct</code></pre>
+  --model ibm-granite/granite-3.3-2b-instruct</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -774,8 +751,7 @@ Now, run the server with the <code>podman run</code> command.</p>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="index.html">Red Hat AI Inference Server</a></span>
-  <span class="next"><a href="section2.html">Sizing for GPUs</a></span>
+  <span class="prev"><a href="vllm-adv.html">Advanced vLLM Configuration</a></span>
 </nav>
 </article>
   </div>
