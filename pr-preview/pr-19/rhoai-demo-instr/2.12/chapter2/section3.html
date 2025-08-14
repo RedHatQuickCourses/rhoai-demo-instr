@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>GPU Sharing Technologies :: OpenShift AI Lab environment instructions</title>
+    <link rel="prev" href="section2.html">
+    <link rel="next" href="vllm-adv.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">OpenShift AI Lab environment instructions</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhoai-demo-instr" data-version="2.12">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">OpenShift AI Lab environment instructions</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Why Customers Need a MaaS Platform</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/intro.html">Serving at Scale</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/gpu-aas.html">Architecting GPU as a Service</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/gpu-sharing.html">GPU Sharing Technologies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/gpu-time.html">GPU Timeslicing</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/gpu-mig.html">Multi-Instance GPU (MIG)</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/gpu-mps.html">NVIDIA’s Multi-Process Service (MPS)</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/gpu-agg.html">GPU Aggregation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/tensor.html">Tensor Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/pipeline.html">Pipeline Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/data-para.html">Data Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/expert-para.html">Expert Parallelism</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/start.html">Models with GitOps</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gpu-sizing.html">Sizing for GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gpu-scaling.html">Scaling Architectures</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gpu-multi.html">Lab: Multi-GPU Model Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gpu-nodes.html">Lab: Multi-Node, Multi-GPU Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gitops.html">Deploying Models with GitOps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/api-reqs.html">API Gateway Requirements for MaaS</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/index.html">MaaS Logical Architecture</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/intro2.html">The Gateway&#8217;s Core Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/api_checklist.html">Hands-On Lab: Productizing and Consuming an AI Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/api-security.html">Securing the AI Factory: A Defense-in-Depth Approach</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter6/index.html">Agentic AI Placeholder</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter5/index.html">LLM optimization and inference efficiency</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">Red Hat AI Inference Server</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="section2.html">Sizing for GPUs</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="section3.html">GPU Sharing Technologies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="section1.html">Lab 1: Model Serving with Red Hat AI Inference Server</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">OpenShift AI Lab environment instructions</span>
+    <span class="version">2.12</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">OpenShift AI Lab environment instructions</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.12</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">OpenShift AI Lab environment instructions</a></li>
+    <li><a href="index.html">Red Hat AI Inference Server</a></li>
+    <li><a href="section3.html">GPU Sharing Technologies</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">GPU Sharing Technologies</h1>
+<div class="sect1">
+<h2 id="_introduction_to_gpu_sharing"><a class="anchor" href="#_introduction_to_gpu_sharing"></a>Introduction to GPU Sharing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In a Models-as-a-Service platform, not every workload requires the full power of a dedicated GPU. Development, testing, and running multiple smaller inference models often leave expensive hardware underutilized. GPU sharing addresses this by allowing multiple AI worklo workloads to run concurrently on a single physical GPU.</p>
+</div>
+<div class="paragraph">
+<p>This module explores the three primary GPU sharing strategies. Understanding the trade-offs between them is critical for designing a cost-effective, multi-tenant AI platform on OpenShift AI.</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="gpu-sharing-overview.png" alt="GPU Sharing Overview" width="600">
+</div>
+<div class="title">Figure 1. GPU Partitioning Strategies</div>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_time_slicing"><a class="anchor" href="#_1_time_slicing"></a>1. Time-Slicing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Time-slicing allows multiple containers to take turns using the GPU. The GPU driver switches between the processes rapidly, giving each a "slice" of the GPU&#8217;s execution time.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Best For:</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Development &amp; Testing:</strong> Ideal for non-production environments where developers need GPU access for experimentation and debugging without reserving a full GPU.</p>
+</li>
+<li>
+<p><strong>Low-Traffic Inference:</strong> Suitable for serving multiple models that have sporadic traffic and do not require the GPU&#8217;s full power simultaneously.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<div class="title">Key Characteristics</div>
+<ul>
+<li>
+<p><strong>No Isolation:</strong> This is the most critical aspect of time-slicing. There is no memory or fault isolation between the workloads. If one container crashes or causes a GPU fault, it can impact every other container sharing the GPU.</p>
+</li>
+<li>
+<p><strong>Resource Contention:</strong> Since resources are not reserved, workloads can compete for memory and compute, leading to unpredictable performance ("noisy neighbor" problem).</p>
+</li>
+<li>
+<p><strong>Ease of Use:</strong> It is generally simple to enable and does not require special hardware features.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Due to the complete lack of isolation, time-slicing is <strong>not recommended</strong> for production environments or any scenario requiring predictable performance and security guarantees.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2_multi_instance_gpu_mig"><a class="anchor" href="#_2_multi_instance_gpu_mig"></a>2. Multi-Instance GPU (MIG)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Multi-Instance GPU (MIG) is a hardware-level partitioning feature available on NVIDIA Ampere architecture GPUs (e.g., A100, H100) and newer. It carves a single physical GPU into up to seven smaller, fully independent "GPU instances."</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Best For:</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Secure Multi-Tenancy:</strong> The perfect solution for production environments where different teams or applications must share a GPU without interfering with each other.</p>
+</li>
+<li>
+<p><strong>Guaranteed Quality of Service (QoS):</strong> When a workload needs a specific, guaranteed amount of GPU compute and memory, MIG provides that predictable performance.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<div class="title">Key Characteristics</div>
+<ul>
+<li>
+<p><strong>Hardware-Level Isolation:</strong> Each MIG instance is a fully separate, isolated GPU with its own dedicated memory, cache, and compute cores. A crash or error in one instance has no effect on others.</p>
+</li>
+<li>
+<p><strong>Predictable Performance:</strong> Because resources are dedicated and not shared, each workload receives a consistent and predictable level of performance.</p>
+</li>
+<li>
+<p><strong>Hardware Dependency:</strong> MIG is a feature of the GPU hardware and is only available on specific, newer NVIDIA GPU models.</p>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_cuda_multi_process_service_mps"><a class="anchor" href="#_3_cuda_multi_process_service_mps"></a>3. CUDA Multi-Process Service (MPS)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>MPS is a software-based alternative to MIG that enables multiple CUDA processes to run concurrently on a single GPU. It achieves this by having the driver manage the submission of work from multiple processes into a single hardware queue.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Best For:</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Improving Utilization on non-MIG GPUs:</strong> Can be used to run multiple, cooperating processes from a single application more efficiently.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<div class="title">Key Characteristics</div>
+<ul>
+<li>
+<p><strong>Limited Isolation:</strong> MPS does <strong>not</strong> provide the strong memory or fault isolation that MIG does. While it manages processes, an error in one can still affect others.</p>
+</li>
+<li>
+<p><strong>Performance Focus:</strong> Its primary goal is to reduce the overhead of launching many small CUDA kernels, improving overall GPU utilization for specific application patterns.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>CUDA Multi-Process Service (MPS) is <strong>not currently supported on OpenShift AI</strong>. It is included here for a complete overview of GPU sharing technologies, but MIG is the recommended and supported solution for hardware-isolated sharing on the platform.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_head_to_head_comparison"><a class="anchor" href="#_head_to_head_comparison"></a>Head-to-Head Comparison</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. GPU Sharing Strategy Summary</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Feature</th>
+<th class="tableblock halign-left valign-top">Time-Slicing</th>
+<th class="tableblock halign-left valign-top">Multi-Instance GPU (MIG)</th>
+<th class="tableblock halign-left valign-top">CUDA MPS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Isolation Level</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None (High Risk)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Excellent (Hardware-Level)</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Low (Software-Level)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Primary Use Case</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Development, Testing, Non-critical workloads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Production Multi-Tenancy, Guaranteed QoS</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A on OpenShift AI</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>OpenShift AI Support</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Supported</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Supported &amp; Recommended</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Not Supported</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="section2.html">Sizing for GPUs</a></span>
+  <span class="next"><a href="vllm-adv.html">Advanced vLLM Configuration</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

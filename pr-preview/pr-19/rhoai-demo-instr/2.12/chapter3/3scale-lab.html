@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Hands-On Lab: Productizing and Consuming an AI Model :: OpenShift AI Lab environment instructions</title>
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">OpenShift AI Lab environment instructions</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhoai-demo-instr" data-version="2.12">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">OpenShift AI Lab environment instructions</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Why Customers Need a MaaS Platform</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/intro.html">Serving at Scale</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/gpu-aas.html">Architecting GPU as a Service</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/gpu-sharing.html">GPU Sharing Technologies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/gpu-time.html">GPU Timeslicing</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/gpu-mig.html">Multi-Instance GPU (MIG)</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/gpu-mps.html">NVIDIA’s Multi-Process Service (MPS)</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/gpu-agg.html">GPU Aggregation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/tensor.html">Tensor Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/pipeline.html">Pipeline Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/data-para.html">Data Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/expert-para.html">Expert Parallelism</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/start.html">Models with GitOps</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gpu-sizing.html">Sizing for GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gpu-scaling.html">Scaling Architectures</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gpu-multi.html">Lab: Multi-GPU Model Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gpu-nodes.html">Lab: Multi-Node, Multi-GPU Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gitops.html">Deploying Models with GitOps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/api-reqs.html">API Gateway Requirements for MaaS</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/index.html">MaaS Logical Architecture</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/intro2.html">The Gateway&#8217;s Core Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/api_checklist.html">Hands-On Lab: Productizing and Consuming an AI Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/api-security.html">Securing the AI Factory: A Defense-in-Depth Approach</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter6/index.html">Agentic AI Placeholder</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter5/index.html">LLM optimization and inference efficiency</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/index.html">Red Hat AI Inference Server</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/section2.html">Sizing for GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/section3.html">GPU Sharing Technologies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/section1.html">Lab 1: Model Serving with Red Hat AI Inference Server</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">OpenShift AI Lab environment instructions</span>
+    <span class="version">2.12</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">OpenShift AI Lab environment instructions</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.12</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">OpenShift AI Lab environment instructions</a></li>
+    <li><a href="3scale-lab.html">Hands-On Lab: Productizing and Consuming an AI Model</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Hands-On Lab: Productizing and Consuming an AI Model</h1>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You have successfully deployed a new AI model to your OpenShift AI cluster. Now, your focus shifts from the role of a model deployer to that of a <strong>Platform Engineer</strong>. Your task is to make this powerful model securely consumable by developers across your organization.</p>
+</div>
+<div class="paragraph">
+<p>In this lab, you will walk through the end-to-end process of transforming a raw model endpoint into a secure, managed, and discoverable API product. We will use 3scale API Management to demonstrate this process, which involves two key personas:
+.   <strong>The Platform Engineer</strong>, who will create and configure the API product using an automated, GitOps-friendly approach.
+.   <strong>The Developer</strong>, who will discover this new product, subscribe to it, and retrieve an API key to build an application.</p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_1_the_platform_engineer_productizing_a_new_model_with_gitops"><a class="anchor" href="#_part_1_the_platform_engineer_productizing_a_new_model_with_gitops"></a>Part 1: The Platform Engineer - Productizing a New Model with GitOps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Our goal is to automate the creation of the API product. Instead of clicking through a UI, we will define our configuration declaratively using YAML manifests. This approach is repeatable, version-controlled, and aligns with modern GitOps practices.</p>
+</div>
+<div class="sect2">
+<h3 id="_step_1_get_the_backend_url_of_your_deployed_model"><a class="anchor" href="#_step_1_get_the_backend_url_of_your_deployed_model"></a>Step 1: Get the Backend URL of Your Deployed Model</h3>
+<div class="paragraph">
+<p>First, we need the address of the model we want to expose.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the OpenShift Console, navigate to the <code>aifactory-models</code> project.</p>
+</li>
+<li>
+<p>Go to <strong>Networking</strong> &#8594; <strong>Routes</strong>.</p>
+</li>
+<li>
+<p>Find the route for your deployed model (e.g., <code>llama70b-predict</code>) and copy its <strong>Location</strong> URL. You will need this for the next step.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/MAAS-Arch-drawio.png" alt="A high-level logical architecture diagram for MaaS">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_create_the_3scale_backend"><a class="anchor" href="#_step_2_create_the_3scale_backend"></a>Step 2: Create the 3scale Backend</h3>
+<div class="paragraph">
+<p>The <strong>Backend</strong> in 3scale defines the actual address of the service you want to proxy to.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In your VSCode terminal, create a new file named <code>1-backend.yaml</code>.</p>
+</li>
+<li>
+<p>Paste the following content into the file, replacing <code>&lt;YOUR_MODEL_URL&gt;</code> with the URL you copied in the previous step.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kind: Backend
+apiVersion: capabilities.3scale.net/v1beta1
+metadata:
+  name: llama70b
+  namespace: 3scale
+spec:
+  name: LLama70B
+  privateBaseURL: &lt;YOUR_MODEL_URL&gt;
+  systemName: llama70b</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Apply the manifest to your cluster:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f 1-backend.yaml</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_create_the_api_product"><a class="anchor" href="#_step_3_create_the_api_product"></a>Step 3: Create the API Product</h3>
+<div class="paragraph">
+<p>The <strong>Product</strong> is the developer-facing entity. It bundles the backend and defines the rules for how it can be accessed, including mapping rules, security policies, and application plans.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a new file named <code>2-product.yaml</code> and paste the following content:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: capabilities.3scale.net/v1beta1
+kind: Product
+metadata:
+  name: llama70b
+  namespace: 3scale
+spec:
+  name: LLama70B
+  systemName: llama70b
+  backendUsages:
+    llama70b:
+      path: /
+  mappingRules:
+    - httpMethod: POST
+      increment: 1
+      metricMethodRef: completions
+      pattern: /v1/completions
+  applicationPlans:
+    standard:
+      name: Standard Plan
+      published: true</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Apply the manifest:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f 2-product.yaml</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_4_promote_the_product_to_production"><a class="anchor" href="#_step_4_promote_the_product_to_production"></a>Step 4: Promote the Product to Production</h3>
+<div class="paragraph">
+<p>By default, new products are created in a "staging" environment. We must explicitly promote the configuration to the production gateway to make it live.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a new file named <code>3-promote.yaml</code> and paste the following content:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kind: ProxyConfigPromote
+apiVersion: capabilities.3scale.net/v1beta1
+metadata:
+  name: llama70b
+  namespace: 3scale
+spec:
+  productCRName: llama70b
+  production: true</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Apply the manifest:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f 3-promote.yaml</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You have now successfully productized your model using an automated, declarative workflow!</p>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_2_the_developer_onboarding_and_consuming_the_new_model"><a class="anchor" href="#_part_2_the_developer_onboarding_and_consuming_the_new_model"></a>Part 2: The Developer - Onboarding and Consuming the New Model</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now, put on your <strong>Developer</strong> hat. Your goal is to find the new AI service and get the credentials needed to use it in your application.</p>
+</div>
+<div class="sect2">
+<h3 id="_step_5_log_in_to_the_developer_portal"><a class="anchor" href="#_step_5_log_in_to_the_developer_portal"></a>Step 5: Log in to the Developer Portal</h3>
+<div class="paragraph">
+<p>The Developer Portal is the user-friendly frontend for API discovery and onboarding.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to the Developer Portal URL: <a href="https://maas.{openshift_cluster_ingress_domain}" target="_blank" rel="noopener">https://maas.{openshift_cluster_ingress_domain}</a>.</p>
+</li>
+<li>
+<p>Sign in using your workshop credentials (<code>{user}</code> / <code>{password}</code>).</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_6_discover_the_new_api_and_create_an_application"><a class="anchor" href="#_step_6_discover_the_new_api_and_create_an_application"></a>Step 6: Discover the New API and Create an Application</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Once logged in, you will see the list of available APIs. You should now see the <strong>LLama70B</strong> product that the Platform Engineer just created.</p>
+</li>
+<li>
+<p>Click on the <code>See your Applications and their credentials</code> link.</p>
+</li>
+<li>
+<p>Click the <code>Create new application</code> button.</p>
+</li>
+<li>
+<p>Select the <code>LLama70B</code> service from the dropdown menu.</p>
+</li>
+<li>
+<p>Give your application a name, for example, <code>My Llama70B App</code>, and click <code>Create Application</code>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_7_get_your_api_key_and_endpoint_details"><a class="anchor" href="#_step_7_get_your_api_key_and_endpoint_details"></a>Step 7: Get Your API Key and Endpoint Details</h3>
+<div class="paragraph">
+<p>Your application is now created and subscribed to the service. The portal will display the crucial information you need to make API calls:
+* <strong>Production API Endpoint URL</strong>: The public address for the service.
+* <strong>Model Name</strong>: The identifier for the model you need to specify in your requests.
+* <strong>API Key</strong>: Your unique credential for authenticating your application.</p>
+</div>
+<div class="paragraph">
+<p><strong>Copy and save this information.</strong> You will use it in the next step.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/MAAS-3scale%20architecture.png" alt="A diagram showing the conceptual flow of a request through a MaaS architecture">
+</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_3_testing_your_new_product"><a class="anchor" href="#_part_3_testing_your_new_product"></a>Part 3: Testing Your New Product</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s make a real request to the model using the credentials you just obtained.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open a terminal and use the following <code>curl</code> command template.</p>
+</li>
+<li>
+<p>Replace <code>&lt;ENDPOINT_URL&gt;</code>, <code>&lt;API_KEY&gt;</code>, and <code>&lt;MODEL_NAME&gt;</code> with the values you saved from the developer portal.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -k -X 'POST' \
+  '&lt;ENDPOINT_URL&gt;/v1/completions' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer &lt;API_KEY&gt;' \
+  -d '{
+  "model": "&lt;MODEL_NAME&gt;",
+  "prompt": "The three most important things for a successful AI strategy are",
+  "max_tokens": 50,
+  "temperature": 0.1
+}'</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>If successful, you will receive a JSON response from your AI model, streamed through your securely managed API Gateway.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_recap"><a class="anchor" href="#_recap"></a>Recap</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this lab, you experienced the full lifecycle of productizing an AI model.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>As a <strong>Platform Engineer</strong>, you used a declarative, GitOps-friendly approach to create and publish a new, secure API product.</p>
+</li>
+<li>
+<p>As a <strong>Developer</strong>, you used a self-service portal to discover the API, create an application, and get the credentials needed to consume it.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This workflow is the foundation of a scalable and secure Models-as-a-Service platform.</p>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

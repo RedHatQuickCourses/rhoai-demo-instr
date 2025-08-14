@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Serving at Scale :: OpenShift AI Lab environment instructions</title>
+    <link rel="prev" href="../index.html">
+    <link rel="next" href="gpu-aas.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">OpenShift AI Lab environment instructions</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhoai-demo-instr" data-version="2.12">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">OpenShift AI Lab environment instructions</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Why Customers Need a MaaS Platform</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="intro.html">Serving at Scale</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-aas.html">Architecting GPU as a Service</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-sharing.html">GPU Sharing Technologies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-time.html">GPU Timeslicing</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-mig.html">Multi-Instance GPU (MIG)</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-mps.html">NVIDIA’s Multi-Process Service (MPS)</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-agg.html">GPU Aggregation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="tensor.html">Tensor Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="pipeline.html">Pipeline Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="data-para.html">Data Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="expert-para.html">Expert Parallelism</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="start.html">Models with GitOps</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-sizing.html">Sizing for GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-scaling.html">Scaling Architectures</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-multi.html">Lab: Multi-GPU Model Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-nodes.html">Lab: Multi-Node, Multi-GPU Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gitops.html">Deploying Models with GitOps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="api-reqs.html">API Gateway Requirements for MaaS</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="index.html">MaaS Logical Architecture</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="intro2.html">The Gateway&#8217;s Core Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="api_checklist.html">Hands-On Lab: Productizing and Consuming an AI Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="api-security.html">Securing the AI Factory: A Defense-in-Depth Approach</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter6/index.html">Agentic AI Placeholder</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter5/index.html">LLM optimization and inference efficiency</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/index.html">Red Hat AI Inference Server</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/section2.html">Sizing for GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/section3.html">GPU Sharing Technologies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/section1.html">Lab 1: Model Serving with Red Hat AI Inference Server</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">OpenShift AI Lab environment instructions</span>
+    <span class="version">2.12</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">OpenShift AI Lab environment instructions</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.12</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">OpenShift AI Lab environment instructions</a></li>
+    <li><a href="intro.html">Serving at Scale</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Serving at Scale</h1>
+<div class="sect1">
+<h2 id="_building_an_enterprise_models_as_a_service_platform"><a class="anchor" href="#_building_an_enterprise_models_as_a_service_platform"></a>Building an Enterprise Models-as-a-Service Platform</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Welcome to the foundational pillar of our AI Launchpad. Before we can build intelligent agents or optimize for performance, we must first construct the "AI Factory" itself. A Models-as-a-Service (MaaS) platform is the starting point for any serious enterprise AI strategy, moving organizations from chaotic, one-off deployments to a centralized, efficient, and secure factory for innovation.</p>
+</div>
+<div class="paragraph">
+<p>This segment is designed to give you the architectural knowledge and hands-on skills to build this factory. We will dive deep into the core of the platform: the powerful and expensive GPU accelerators that make it all possible. You will learn how to manage, share, and scale these resources effectively to serve everything from small, specialized models to massive Large Language Models (LLMs) across the entire enterprise.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_story"><a class="anchor" href="#_lab_story"></a>Lab Story</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The team at "InnovateForward Corp" has accepted the mission to build the company&#8217;s official AI Factory. Their first challenge is the bedrock of the entire platform: how to serve models efficiently at scale. They know that simply deploying models one by one will lead to wasted resources and high costs. They need a strategy.</p>
+</div>
+<div class="paragraph">
+<p>Their immediate tasks are to understand how to manage their cluster of NVIDIA GPUs.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>How can they safely serve multiple models or tenants on a single GPU to maximize utilization?</p>
+</li>
+<li>
+<p>How do they deploy an LLM that is too large to fit on a single device?</p>
+</li>
+<li>
+<p>Finally, once the models are running, how do they create a secure, managed gateway that allows developer teams across the company to easily access and build upon these models, while ensuring the solution works with the company&#8217;s existing API management tools?</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This module will walk you through solving these exact challenges.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_you_will_learn_in_this_section"><a class="anchor" href="#_what_you_will_learn_in_this_section"></a>What You Will Learn in This Section</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_theory_gpu_as_a_service_with_nvidia_accelerators"><a class="anchor" href="#_theory_gpu_as_a_service_with_nvidia_accelerators"></a>Theory: GPU as a Service with NVIDIA Accelerators</h3>
+<div class="paragraph">
+<p>This section focuses on the fundamental concepts you need to advise customers on how to maximize the efficiency and utilization of their NVIDIA GPU resources.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>GPU Sharing Technologies:</strong> You will learn the architectural differences and ideal use cases for NVIDIA Multi-Instance GPU (MIG) and Multi-Process Service (MPS) to guide customers to the right choice for their tenancy and performance needs.</p>
+</li>
+<li>
+<p><strong>Parallelism Techniques:</strong> We will demystify complex workload optimization strategies by explaining concepts like <strong>tensor parallelism</strong> and <strong>pipeline parallelism</strong>, enabling you to run models that exceed the memory of a single GPU.</p>
+</li>
+<li>
+<p><strong>Resource Sizing:</strong> You will learn how to analyze a Large Language Model&#8217;s requirements to calculate the specific GPU resources needed to deploy it successfully.</p>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_hands_on_labs_scalable_model_serving_with_openshift_ai_and_vllm"><a class="anchor" href="#_hands_on_labs_scalable_model_serving_with_openshift_ai_and_vllm"></a>Hands-On Labs: Scalable Model Serving with OpenShift AI and vLLM</h3>
+<div class="paragraph">
+<p>Here, you will put theory into practice by deploying models in progressively complex, real-world scenarios using the vLLM serving runtime on OpenShift AI.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Single-Node, Multi-GPU Deployment:</strong> You will execute the deployment of an AI model on a single OpenShift node that has multiple GPUs available.</p>
+</li>
+<li>
+<p><strong>Multi-Node, Multi-GPU Deployment:</strong> You will scale out your deployment by distributing a large language model across a multi-node, multi-GPU cluster, configuring the system for high-throughput, low-latency performance.</p>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_architecture_api_gateway_requirements_for_maas"><a class="anchor" href="#_architecture_api_gateway_requirements_for_maas"></a>Architecture: API Gateway Requirements for MaaS</h3>
+<div class="paragraph">
+<p>The final module focuses on making your models accessible and secure. A model isn&#8217;t useful if no one can use it.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Defining Gateway Requirements:</strong> We will establish a clear checklist of functional capabilities and validation criteria necessary for an API Gateway to support a MaaS platform.</p>
+</li>
+<li>
+<p><strong>Designing a Secure Gateway Architecture:</strong> You will learn how to architect a secure solution using Red Hat 3scale for API management and Keycloak for authentication and authorization.</p>
+</li>
+<li>
+<p><strong>Validating Customer Infrastructure:</strong> You will learn how to understand a customer&#8217;s existing API gateway to determine if it can support their AI initiatives or where gaps may exist, ensuring project success.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="../index.html">Why Customers Need a MaaS Platform</a></span>
+  <span class="next"><a href="gpu-aas.html">Architecting GPU as a Service</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
