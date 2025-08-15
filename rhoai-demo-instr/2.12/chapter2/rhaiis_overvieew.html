@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>API Gateway Requirements for MaaS :: OpenShift AI Lab environment instructions</title>
+    <title>Red Hat AI Inference Server :: OpenShift AI Lab environment instructions</title>
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -181,7 +181,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="../chapter2/intro_rhaiis.html">Sizing for GPUs</a>
+    <a class="nav-link" href="intro_rhaiis.html">Sizing for GPUs</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="#rhaiis_overview.adoc">rhaiis_overview.adoc</a>
@@ -190,10 +190,10 @@
     <a class="nav-link" href="#gpu_rhaiis.adoc">gpu_rhaiis.adoc</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../chapter2/vllm-adv.html">Advanced vLLM Configuration</a>
+    <a class="nav-link" href="vllm-adv.html">Advanced vLLM Configuration</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../chapter2/rhaiis_lab.html">Lab: Model Serving with Red Hat AI Inference Server</a>
+    <a class="nav-link" href="rhaiis_lab.html">Lab: Model Serving with Red Hat AI Inference Server</a>
   </li>
 </ul>
   </li>
@@ -228,7 +228,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">OpenShift AI Lab environment instructions</a></li>
-    <li><a href="api-reqs.html">API Gateway Requirements for MaaS</a></li>
+    <li><a href="rhaiis_overvieew.html">Red Hat AI Inference Server</a></li>
   </ul>
 </nav>
 </div>
@@ -237,98 +237,126 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">API Gateway Requirements for MaaS</h1>
-<div class="sect1">
-<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<h1 class="page">Red Hat AI Inference Server</h1>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Your Models-as-a-Service (MaaS) platform is running, and the inference servers are ready. But right now, your powerful AI models are isolated in their own project, inaccessible to the rest of the organization. The next critical step is to build a secure, managed, and scalable "front door" so that application developers and AI agent builders can easily consume these models as a service.</p>
+<p>Welcome to the world of <strong>Red Hat AI Inference Server (RHAIIS)</strong>. This hands-on lab is your introduction to a powerful, supported platform for deploying large language models (LLMs) with high performance and flexibility across any hybrid cloud environments. As a key component of the Red Hat AI platform, RHAIIS is available as a standalone product and is included in Red Hat OpenShift AI and Red Hat Enterprise Linux AI (RHEL AI).</p>
 </div>
 <div class="paragraph">
-<p>This is the role of an API Gateway. It transforms a backend model deployment into a governed and secure <strong>product</strong> that can be shared across the enterprise. This section details the essential functions an API Gateway must perform to enable a successful MaaS strategy.</p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-While we will demonstrate these capabilities using <strong>Red Hat 3scale API Management</strong> and <strong>Keycloak</strong>, the core goal is for you to understand these requirements so you can validate any API Gateway—including a customer&#8217;s existing on-premises solution—to ensure it is ready to support their AI initiatives.
-</td>
-</tr>
-</table>
+<p>RHAIIS provides a hardened, supported distribution of the <strong>vLLM</strong> software via prepackaged container. This open-source project is renowned for its high-throughput and memory-efficient performance, achieved through innovative techniques like PagedAttention and continuous batching.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_lab_story"><a class="anchor" href="#_lab_story"></a>Lab Story</h2>
+<h2 id="_key_features_of_rhaiis"><a class="anchor" href="#_key_features_of_rhaiis"></a>Key Features of RHAIIS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The platform engineering team at "InnovateForward Corp" has successfully deployed several LLMs on their multi-GPU OpenShift AI cluster. Now, they are getting urgent requests from application teams across the company: "We want to build a new customer support chatbot and a code generation assistant. How do we get access to these models?"</p>
+<p>Red Hat AI Inference Server leverages several advanced techniques to deliver high-performance LLM serving:</p>
 </div>
+<div class="sect2">
+<h3 id="_vllm_core_and_advanced_parallelism"><a class="anchor" href="#_vllm_core_and_advanced_parallelism"></a>vLLM Core and Advanced Parallelism</h3>
 <div class="paragraph">
-<p>The platform team knows that giving developers direct endpoint access to the vLLM serving runtime is risky, unmanageable, and doesn&#8217;t scale. It would be a security nightmare with no way to control costs or track usage. Their task is to define a robust set of requirements for an API Gateway to act as the central control plane. They will use Red Hat 3scale to prototype the solution and create a validation checklist that can be used to assess whether their company&#8217;s existing enterprise gateway is fit for purpose in the AI era.</p>
+<p>At its heart, RHAIIS is built on the vLLM serving engine, which maximizes throughput and minimizes latency for LLM inference.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_core_api_gateway_functions_for_maas"><a class="anchor" href="#_core_api_gateway_functions_for_maas"></a>Core API Gateway Functions for MaaS</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>For a MaaS platform to be successful, an API Gateway is not just a simple proxy; it must provide a comprehensive set of features for security, governance, and management. Whether you use 3scale or evaluate an existing customer solution, it must perform the following functions:</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>Service Discovery and Routing</strong></dt>
-<dd>
-<p>The gateway must be able to dynamically discover and route incoming API calls to the correct backend model serving endpoint. This ensures that as you add, update, or scale your models, the gateway can seamlessly direct traffic without manual reconfiguration.</p>
-</dd>
-<dt class="hdlist1"><strong>Security &amp; Access Control</strong></dt>
-<dd>
-<p>This is the most critical function. The gateway must enforce who can access the models and what they are allowed to do. This involves two distinct layers:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Authentication</strong>: Verifying the identity of the user or application making the request. This is typically handled through API Keys or more robust methods like OAuth 2.0, often integrated with an identity provider like Keycloak.</p>
+<p><strong>PagedAttention</strong>: This technique optimizes GPU memory management by virtualizing the key-value (KV) cache for each request. It addresses memory wastage and lowers costs by consuming less memory.</p>
 </li>
 <li>
-<p><strong>Authorization</strong>: Defining granular permissions. For example, the "finance-app" may be authorized to access a <code>summarization</code> model but not a <code>code-generation</code> model.</p>
+<p><strong>Continuous Batching</strong>: It processes requests as they arrive instead of waiting for a full batch to be accumulated, reducing latency and increasing throughput.</p>
+</li>
+<li>
+<p><strong>Tensor Parallelism (TP)</strong>: This feature distributes LLM workloads across multiple GPUs, within a single node, to reduce latency and increase computational throughput. You can configure this using the <code>--tensor-parallel-size</code> argument.</p>
+</li>
+<li>
+<p><strong>Expert Parallelism (EP)</strong>: RHAIIS includes specialized optimizations for efficiently handling Mixture of Experts (MoE) model architectures.</p>
 </li>
 </ul>
 </div>
-</dd>
-<dt class="hdlist1"><strong>Productization &amp; Application Management</strong></dt>
-<dd>
-<p>A raw model endpoint is not a product. The gateway must provide tools to bundle one or more backend models into a consumable <strong>API Product</strong>. Developers can then browse these products in a user-friendly <strong>Developer Portal</strong>, register their own applications, and be automatically subscribed to services to receive the necessary credentials (like an API key) for access.</p>
-</dd>
-<dt class="hdlist1"><strong>Rate Limiting &amp; Usage Policies</strong></dt>
-<dd>
-<p>GPU resources are expensive. To prevent abuse and manage costs, the gateway must enforce usage policies. This includes setting <strong>rate limits</strong> (e.g., 100 calls per minute) and <strong>quotas</strong> (e.g., 5,000 calls per day per application). This is essential for ensuring fair use and predictable performance in a multi-tenant environment.</p>
-</dd>
-<dt class="hdlist1"><strong>Analytics &amp; Monitoring</strong></dt>
-<dd>
-<p>You can&#8217;t manage what you can&#8217;t measure. The gateway must provide detailed analytics on API traffic, allowing you to monitor usage patterns, track popular models, identify errors, and understand which teams are driving the most load.</p>
-</dd>
-</dl>
 </div>
-<div class="admonitionblock warning">
+<div class="sect2">
+<h3 id="_model_optimization_and_compression"><a class="anchor" href="#_model_optimization_and_compression"></a>Model Optimization and Compression</h3>
+<div class="paragraph">
+<p>RHAIIS integrates the <strong>LLM Compressor</strong> library, a Developer Preview feature that provides a unified framework for optimizing and compressing large language models before inferencing.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Quantization</strong>: This technique converts model weights and activations to lower-bit formats (such as INT8) to reduce memory usage.</p>
+</li>
+<li>
+<p><strong>Sparsity</strong>: It sets a portion of model weights to zero, enabling more efficient computation.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<div class="title">A Note on Observability Gaps</div>
-<div class="paragraph">
-<p>While an API Gateway provides excellent metrics for API-level traffic (request counts, latency, status codes), it does not provide visibility into the performance of the underlying model serving infrastructure.</p>
-</div>
-<div class="paragraph">
-<p>Metrics such as <strong>GPU utilization</strong>, <strong>VRAM consumption</strong>, token generation speed (tokens/sec), and CUDA kernel efficiency are <strong>not</strong> captured by the gateway. A complete observability strategy requires combining gateway analytics with infrastructure monitoring tools, such as those integrated with OpenShift Monitoring, to get a full picture of your platform&#8217;s health and performance.</p>
-</div>
+For RHAIIS 3.2, LLM Compressor is a Developer Preview feature and is not included in the standard container image. The product does, however, support specific quantization variants like FP8 (W8A8) and GGUF, particularly for AMD GPUs.
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deployment_portability_and_multi_accelerator_support"><a class="anchor" href="#_deployment_portability_and_multi_accelerator_support"></a>Deployment Portability and Multi-Accelerator Support</h3>
+<div class="paragraph">
+<p>RHAIIS is delivered as a container image downloaded from Red Hat Registry, which enables deployment flexibility and  across various connected environments.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Supported Deployment Environments</caption>
+<colgroup>
+<col style="width: 22.2222%;">
+<col style="width: 33.3333%;">
+<col style="width: 44.4445%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Environment</th>
+<th class="tableblock halign-left valign-top">Supported Versions</th>
+<th class="tableblock halign-left valign-top">Deployment Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Container Platform (self-managed)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.14-4.19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deploy on bare-metal hosts or virtual machines.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Red Hat OpenShift Service on AWS (ROSA)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.14-4.19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Requires ROSA STS cluster with GPU-enabled P5 or G5 node types.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Red Hat Enterprise Linux (RHEL)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9.2-10.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deploy on bare-metal hosts or virtual machines.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The server is engineered with robust multi-accelerator support for a diverse range of hardware. RHAIIS 3.2 supports the following data center-grade accelerators:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>NVIDIA GPUs</strong>: A2, A10, A16, A30, A40, A100, L4, L40, L40S, H100, H200, B200, and RTX PRO 6000 Blackwell Server Edition.</p>
+</li>
+<li>
+<p><strong>AMD GPUs</strong>: Instinct M1210 and Instinct M130OX.</p>
+</li>
+<li>
+<p><strong>Google TPUs</strong>: TPU v6e (Developer Preview).</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
