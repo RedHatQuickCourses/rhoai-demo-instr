@@ -1,6 +1,6 @@
 * xref:intro_rhaiis.adoc[]
 ** xref:rhaiis_overview.adoc[]
-** xref:gpu_rhaiis.adoc[]
+** xref:gpu-rhaiis.adoc[]
 // ** xref:gpu-sharing.adoc[]
 ** xref:vllm-adv.adoc[]
 ** xref:rhaiis_lab.adoc[]
