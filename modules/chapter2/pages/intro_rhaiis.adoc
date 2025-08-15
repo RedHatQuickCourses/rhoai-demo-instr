@@ -8,6 +8,8 @@ Successfully deploying a Large Language Model is only half the battle. To build 
 
 This module equips you with the fundamental knowledge and tools to analyze an LLM's requirements and make informed decisions about the necessary GPU infrastructure. You will learn how to estimate the memory needed for a model and its KV Cache, understand the impact of quantization, and use sizing tools to plan for future deployments.
 
+image::intro_gpu_size.gif[.Objectives, 600]
+
 == Lab Story
 
 The Platform Engineering team at "InnovateForward Corp" is getting requests to deploy a variety of new models. The business wants to know: "What hardware do we need to run the new 70-billion-parameter model?" and "Can we run this smaller, specialized model on our existing A10G GPUs to save costs?"
