@@ -1,10 +1,5 @@
 = Red Hat AI Inference Server
 
-Welcome to the world of **Red Hat AI Inference Server (RHAIIS)**. This hands-on lab is your introduction to a powerful, supported platform for deploying large language models (LLMs) with high performance and flexibility across any hybrid cloud environments. As a key component of the Red Hat AI platform, RHAIIS is available as a standalone product and is included in Red Hat OpenShift AI and Red Hat Enterprise Linux AI (RHEL AI).
-
-RHAIIS provides a hardened, supported distribution of the **vLLM** software via prepackaged container. This open-source project is renowned for its high-throughput and memory-efficient performance, achieved through innovative techniques like PagedAttention and continuous batching.
-
-
 == Key Features of RHAIIS
 
 Red Hat AI Inference Server leverages several advanced techniques to deliver high-performance LLM serving:
@@ -44,7 +39,7 @@ RHAIIS is delivered as a container image downloaded from Red Hat Registry, which
 
 |OpenShift Container Platform (self-managed)
 |4.14-4.19
-|Deploy on bare-metal hosts or virtual machines.
+|Deploy on bare-metal hosts or virtual machines. 
 
 |Red Hat OpenShift Service on AWS (ROSA)
 |4.14-4.19
@@ -53,10 +48,44 @@ RHAIIS is delivered as a container image downloaded from Red Hat Registry, which
 |Red Hat Enterprise Linux (RHEL)
 |9.2-10.0
 |Deploy on bare-metal hosts or virtual machines.
+
+|Linux (not RHEL)
+|
+|Supported under third‑party policy deployed on bare‑metal hosts or virtual machines. OpenShift Container Platform Operators are not required.
+
+|Kubernetes (not OpenShift Container Platform)
+|
+|Supported under third‑party policy deployed on bare‑metal hosts or virtual machines.
 |===
 
 The server is engineered with robust multi-accelerator support for a diverse range of hardware. RHAIIS 3.2 supports the following data center-grade accelerators:
 
-* **NVIDIA GPUs**: A2, A10, A16, A30, A40, A100, L4, L40, L40S, H100, H200, B200, and RTX PRO 6000 Blackwell Server Edition.
-* **AMD GPUs**: Instinct M1210 and Instinct M130OX.
-* **Google TPUs**: TPU v6e (Developer Preview).
+
+.Supported AI accelerators
+[cols="2,3,4", options="header"]
+|===
+|AI accelerators
+|
+|
+
+|NVIDIA GPUs:
+|AMD GPUs:
+|Google TPUs
+
+
+|Ampere: A2, A10, A16, A30, A40, A1000, L40S
+|AMD Instinct MI210
+|TPU v6e (Developer Preview)
+
+|Ada: L4, L40, L40S
+|AMD Instinct MI300X
+|
+
+|Hopper: H100, H200, GH200
+|
+|
+
+|Blackwell: B200, RTX PRO 6000 Blackwell Server Edition
+|
+|
+|===
