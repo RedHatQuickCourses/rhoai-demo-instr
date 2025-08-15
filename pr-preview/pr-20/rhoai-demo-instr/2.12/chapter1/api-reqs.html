@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>API Gateway Requirements for MaaS :: OpenShift AI Lab environment instructions</title>
+    <link rel="prev" href="gitops.html">
+    <link rel="next" href="index.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">OpenShift AI Lab environment instructions</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhoai-demo-instr" data-version="2.12">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">OpenShift AI Lab environment instructions</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Why Customers Need a MaaS Platform</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="intro.html">Serving at Scale</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-aas.html">Architecting GPU as a Service</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-sharing.html">GPU Sharing Technologies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-time.html">GPU Timeslicing</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-mig.html">Multi-Instance GPU (MIG)</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-mps.html">NVIDIA’s Multi-Process Service (MPS)</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-agg.html">GPU Aggregation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="tensor.html">Tensor Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="pipeline.html">Pipeline Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="data-para.html">Data Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="expert-para.html">Expert Parallelism</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="start.html">Models with GitOps</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-sizing.html">Sizing for GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-scaling.html">Scaling Architectures</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-multi.html">Lab: Multi-GPU Model Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-nodes.html">Lab: Multi-Node, Multi-GPU Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gitops.html">Deploying Models with GitOps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="api-reqs.html">API Gateway Requirements for MaaS</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="index.html">MaaS Logical Architecture</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="intro2.html">The Gateway&#8217;s Core Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="api_checklist.html">Hands-On Lab: Productizing and Consuming an AI Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="api-security.html">Securing the AI Factory: A Defense-in-Depth Approach</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter6/index.html">Agentic AI Placeholder</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter5/index.html">LLM optimization and inference efficiency</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/intro_rhaiis.html">Sizing for GPUs</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#rhaiis_overview.adoc">rhaiis_overview.adoc</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#gpu_rhaiis.adoc">gpu_rhaiis.adoc</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/rhaiis_lab.html">Lab: Model Serving with Red Hat AI Inference Server</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">OpenShift AI Lab environment instructions</span>
+    <span class="version">2.12</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">OpenShift AI Lab environment instructions</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.12</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">OpenShift AI Lab environment instructions</a></li>
+    <li><a href="intro.html">Serving at Scale</a></li>
+    <li><a href="api-reqs.html">API Gateway Requirements for MaaS</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">API Gateway Requirements for MaaS</h1>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Your Models-as-a-Service (MaaS) platform is running, and the inference servers are ready. But right now, your powerful AI models are isolated in their own project, inaccessible to the rest of the organization. The next critical step is to build a secure, managed, and scalable "front door" so that application developers and AI agent builders can easily consume these models as a service.</p>
+</div>
+<div class="paragraph">
+<p>This is the role of an API Gateway. It transforms a backend model deployment into a governed and secure <strong>product</strong> that can be shared across the enterprise. This section details the essential functions an API Gateway must perform to enable a successful MaaS strategy.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+While we will demonstrate these capabilities using <strong>Red Hat 3scale API Management</strong> and <strong>Keycloak</strong>, the core goal is for you to understand these requirements so you can validate any API Gateway—including a customer&#8217;s existing on-premises solution—to ensure it is ready to support their AI initiatives.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_story"><a class="anchor" href="#_lab_story"></a>Lab Story</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The platform engineering team at "InnovateForward Corp" has successfully deployed several LLMs on their multi-GPU OpenShift AI cluster. Now, they are getting urgent requests from application teams across the company: "We want to build a new customer support chatbot and a code generation assistant. How do we get access to these models?"</p>
+</div>
+<div class="paragraph">
+<p>The platform team knows that giving developers direct endpoint access to the vLLM serving runtime is risky, unmanageable, and doesn&#8217;t scale. It would be a security nightmare with no way to control costs or track usage. Their task is to define a robust set of requirements for an API Gateway to act as the central control plane. They will use Red Hat 3scale to prototype the solution and create a validation checklist that can be used to assess whether their company&#8217;s existing enterprise gateway is fit for purpose in the AI era.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_core_api_gateway_functions_for_maas"><a class="anchor" href="#_core_api_gateway_functions_for_maas"></a>Core API Gateway Functions for MaaS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For a MaaS platform to be successful, an API Gateway is not just a simple proxy; it must provide a comprehensive set of features for security, governance, and management. Whether you use 3scale or evaluate an existing customer solution, it must perform the following functions:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>Service Discovery and Routing</strong></dt>
+<dd>
+<p>The gateway must be able to dynamically discover and route incoming API calls to the correct backend model serving endpoint. This ensures that as you add, update, or scale your models, the gateway can seamlessly direct traffic without manual reconfiguration.</p>
+</dd>
+<dt class="hdlist1"><strong>Security &amp; Access Control</strong></dt>
+<dd>
+<p>This is the most critical function. The gateway must enforce who can access the models and what they are allowed to do. This involves two distinct layers:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Authentication</strong>: Verifying the identity of the user or application making the request. This is typically handled through API Keys or more robust methods like OAuth 2.0, often integrated with an identity provider like Keycloak.</p>
+</li>
+<li>
+<p><strong>Authorization</strong>: Defining granular permissions. For example, the "finance-app" may be authorized to access a <code>summarization</code> model but not a <code>code-generation</code> model.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1"><strong>Productization &amp; Application Management</strong></dt>
+<dd>
+<p>A raw model endpoint is not a product. The gateway must provide tools to bundle one or more backend models into a consumable <strong>API Product</strong>. Developers can then browse these products in a user-friendly <strong>Developer Portal</strong>, register their own applications, and be automatically subscribed to services to receive the necessary credentials (like an API key) for access.</p>
+</dd>
+<dt class="hdlist1"><strong>Rate Limiting &amp; Usage Policies</strong></dt>
+<dd>
+<p>GPU resources are expensive. To prevent abuse and manage costs, the gateway must enforce usage policies. This includes setting <strong>rate limits</strong> (e.g., 100 calls per minute) and <strong>quotas</strong> (e.g., 5,000 calls per day per application). This is essential for ensuring fair use and predictable performance in a multi-tenant environment.</p>
+</dd>
+<dt class="hdlist1"><strong>Analytics &amp; Monitoring</strong></dt>
+<dd>
+<p>You can&#8217;t manage what you can&#8217;t measure. The gateway must provide detailed analytics on API traffic, allowing you to monitor usage patterns, track popular models, identify errors, and understand which teams are driving the most load.</p>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="title">A Note on Observability Gaps</div>
+<div class="paragraph">
+<p>While an API Gateway provides excellent metrics for API-level traffic (request counts, latency, status codes), it does not provide visibility into the performance of the underlying model serving infrastructure.</p>
+</div>
+<div class="paragraph">
+<p>Metrics such as <strong>GPU utilization</strong>, <strong>VRAM consumption</strong>, token generation speed (tokens/sec), and CUDA kernel efficiency are <strong>not</strong> captured by the gateway. A complete observability strategy requires combining gateway analytics with infrastructure monitoring tools, such as those integrated with OpenShift Monitoring, to get a full picture of your platform&#8217;s health and performance.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="gitops.html">Deploying Models with GitOps</a></span>
+  <span class="next"><a href="index.html">MaaS Logical Architecture</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
