@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Lab: Multi-Node, Multi-GPU Deployment :: OpenShift AI Lab environment instructions</title>
+    <link rel="prev" href="gpu-multi.html">
+    <link rel="next" href="gitops.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">OpenShift AI Lab environment instructions</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhoai-demo-instr" data-version="2.12">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">OpenShift AI Lab environment instructions</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Why Customers Need a MaaS Platform</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="intro.html">Serving at Scale</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-aas.html">Architecting GPU as a Service</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-sharing.html">GPU Sharing Technologies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-time.html">GPU Timeslicing</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-mig.html">Multi-Instance GPU (MIG)</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-mps.html">NVIDIA’s Multi-Process Service (MPS)</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-agg.html">GPU Aggregation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="tensor.html">Tensor Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="pipeline.html">Pipeline Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="data-para.html">Data Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="expert-para.html">Expert Parallelism</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="start.html">Models with GitOps</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-sizing.html">Sizing for GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-scaling.html">Scaling Architectures</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-multi.html">Lab: Multi-GPU Model Deployment</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="3">
+    <a class="nav-link" href="gpu-nodes.html">Lab: Multi-Node, Multi-GPU Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gitops.html">Deploying Models with GitOps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="api-reqs.html">API Gateway Requirements for MaaS</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="index.html">MaaS Logical Architecture</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="intro2.html">The Gateway&#8217;s Core Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="api_checklist.html">Hands-On Lab: Productizing and Consuming an AI Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="api-security.html">Securing the AI Factory: A Defense-in-Depth Approach</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter6/index.html">Agentic AI Placeholder</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter5/index.html">LLM optimization and inference efficiency</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/intro_rhaiis.html">Model Serving with Red Hat AI Inference Server</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/rhaiis_overview.html">Red Hat AI Inference Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/gpu-rhaiis.html">GPUs for AI Inference</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/rhaiis_lab.html">Lab: Model Serving with Red Hat AI Inference Server</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">OpenShift AI Lab environment instructions</span>
+    <span class="version">2.12</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">OpenShift AI Lab environment instructions</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.12</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">OpenShift AI Lab environment instructions</a></li>
+    <li><a href="intro.html">Serving at Scale</a></li>
+    <li><a href="start.html">Models with GitOps</a></li>
+    <li><a href="gpu-nodes.html">Lab: Multi-Node, Multi-GPU Deployment</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Lab: Multi-Node, Multi-GPU Deployment</h1>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You&#8217;ve successfully scaled a model across multiple GPUs on a single node. But what happens when a model is so massive that even a fully-equipped node isn&#8217;t enough? The next frontier in model serving is scaling <strong>out</strong> across multiple nodes.</p>
+</div>
+<div class="paragraph">
+<p>In this advanced lab, you will tackle this challenge by deploying a very large model using both <strong>pipeline parallelism</strong> (across nodes) and <strong>tensor parallelism</strong> (across GPUs within each node). This requires orchestrating a distributed computing cluster using <strong>Ray</strong>, which manages the communication and workload distribution for vLLM. This is the pattern required to serve the largest, most powerful foundation models in your AI Factory.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_story"><a class="anchor" href="#_lab_story"></a>Lab Story</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The "InnovateForward Corp" platform team has a new high-priority request from their R&amp;D department: deploy a state-of-the-art 70-billion-parameter model. Their initial sizing calculations are stark—the model is too large to fit even on a single node equipped with multiple A100 GPUs.</p>
+</div>
+<div class="paragraph">
+<p>The team knows they must now scale out. Their plan is to create a two-node cluster, with each node contributing two GPUs. This will require them to configure a distributed Ray cluster where vLLM can use pipeline parallelism to split the model&#8217;s layers across the nodes, while simultaneously using tensor parallelism to split the layers across the GPUs within each node. This is their most complex deployment yet, and success will prove their platform is truly enterprise-grade.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites_shared_model_storage"><a class="anchor" href="#_prerequisites_shared_model_storage"></a>Prerequisites: Shared Model Storage</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A multi-node deployment requires that all worker nodes have access to the same model files. This cannot be done by simply loading the model into a container image, as each node would have its own copy. Instead, the model must be stored on a shared, network-accessible storage volume.</p>
+</div>
+<div class="paragraph">
+<p>For this lab, a ReadWriteMany (RWX) Persistent Volume Claim (PVC) has been pre-created, and the model has been downloaded to it.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Verify the shared PVC exists in the <code>serving-at-scale</code> project:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pvc -n serving-at-scale</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">You should see a PVC named <code>llama-model</code> with an <code>RWX</code> access mode.</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">NAME          STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS
+llama-model   Bound    pvc-3d02084b-66d8-4e49-9eac-1bf9ab4f05ed   60Gi       RWX            ocs-storagecluster-cephfs</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_1_deploy_the_multi_node_serving_runtime"><a class="anchor" href="#_step_1_deploy_the_multi_node_serving_runtime"></a>Step 1: Deploy the Multi-Node Serving Runtime</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Unlike a single-node deployment, a multi-node setup requires a specialized <code>ServingRuntime</code> that knows how to configure and start a distributed Ray cluster. We will deploy a pre-defined template for this purpose.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In your terminal, process the multi-node vLLM template and apply it to your project. This command creates the <code>vllm-multinode-runtime</code> resource.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc process vllm-multinode-runtime-template -n redhat-ods-applications | oc apply -f - -n serving-at-scale</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This <code>ServingRuntime</code> contains the logic for both the "head" pod (the Ray cluster leader) and the "worker" pods that will join the cluster.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_2_create_the_multi_node_inferenceservice"><a class="anchor" href="#_step_2_create_the_multi_node_inferenceservice"></a>Step 2: Create the Multi-Node InferenceService</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This advanced deployment cannot be configured through the UI. We must define it declaratively in a YAML manifest.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In your VSCode terminal, create a new file named <code>llama-70b-multinode.yaml</code>.</p>
+</li>
+<li>
+<p>Paste the following <code>InferenceService</code> definition into the file.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: vllm-llama-70b-multinode
+  namespace: serving-at-scale
+  annotations:
+    serving.kserve.io/deploymentMode: RawDeployment
+spec:
+  predictor:
+    minReplicas: 1
+    maxReplicas: 1
+    model:
+      runtime: vllm-multinode-runtime
+      storageUri: pvc://llama-model/Llama-3.3-70B-Instruct-quantized.w4a16
+      resources:
+        limits:
+          nvidia.com/gpu: "2"
+        requests:
+          nvidia.com/gpu: "2"
+    # Worker spec defines the configuration for the Ray cluster nodes
+    workerSpec:
+      tensorParallelSize: 2
+      pipelineParallelSize: 2
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_understanding_the_manifest"><a class="anchor" href="#_understanding_the_manifest"></a>Understanding the Manifest</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>runtime: vllm-multinode-runtime</code>: Specifies that this deployment should use the special multi-node runtime we created in the previous step.</p>
+</li>
+<li>
+<p><code>storageUri: pvc://llama-model/&#8230;&#8203;</code>: Tells KServe to mount the shared PVC and use the model files from that location.</p>
+</li>
+<li>
+<p><code>workerSpec</code>: This section is unique to the multi-node runtime and configures the Ray cluster.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>pipelineParallelSize: 2</code>: Instructs Ray to create a cluster of <strong>2 nodes</strong>.</p>
+</li>
+<li>
+<p><code>tensorParallelSize: 2</code>: Instructs vLLM to use <strong>2 GPUs on each node</strong> for tensor parallelism.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_3_deploy_the_model"><a class="anchor" href="#_step_3_deploy_the_model"></a>Step 3: Deploy the Model</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Apply the manifest to your cluster to begin the deployment.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f llama-70b-multinode.yaml</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_4_observe_the_ray_cluster_formation"><a class="anchor" href="#_step_4_observe_the_ray_cluster_formation"></a>Step 4: Observe the Ray Cluster Formation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This deployment will create multiple pods that work together.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Watch the pods being created in your project:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -w -n serving-at-scale</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You will see one <code>&#8230;&#8203;-predictor-&#8230;&#8203;</code> pod (the Ray <strong>head</strong>) and one <code>&#8230;&#8203;-predictor-worker-&#8230;&#8203;</code> pod (the Ray <strong>worker</strong>).</p>
+</div>
+</li>
+<li>
+<p>View the logs of the <code>predictor</code> (head) pod. You will see it start the Ray runtime and then wait for the worker to join.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Get the head pod name
+HEAD_POD=$(oc get pods -n serving-at-scale -l serving.kserve.io/component=predictor -o name)
+oc logs -f $HEAD_POD -n serving-at-scale</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Log output from the head pod:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">INFO: Ray runtime started.
+Waiting...
+Waiting...
+======== Autoscaler status: ========
+Node status
+----------------------------------
+Active:
+ 1 node_...
+ 1 node_...
+INFO: vLLM API server version ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once the head pod logs show that both nodes are active, it will proceed to start the vLLM API server. The model is now being served across the entire distributed cluster.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_5_test_the_distributed_endpoint"><a class="anchor" href="#_step_5_test_the_distributed_endpoint"></a>Step 5: Test the Distributed Endpoint</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Even though the model is running across multiple pods and GPUs, KServe presents it as a single, unified endpoint.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Find the endpoint URL from the <code>InferenceService</code> details in the OpenShift AI Dashboard, or by using the CLI:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get isvc vllm-llama-70b-multinode -n serving-at-scale -o jsonpath='{.status.url}'</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Test the endpoint using the Swagger UI (<code>/docs</code>) or with <code>curl</code>, just as you did in the previous lab. The request will be seamlessly handled by the distributed cluster.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Congratulations! You have deployed an LLM using a combination of pipeline and tensor parallelism, the most advanced scaling pattern for serving massive foundation models.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="gpu-multi.html">Lab: Multi-GPU Model Deployment</a></span>
+  <span class="next"><a href="gitops.html">Deploying Models with GitOps</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
