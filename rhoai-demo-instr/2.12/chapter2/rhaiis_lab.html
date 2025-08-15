@@ -240,82 +240,19 @@
 </aside>
 <article class="doc">
 <h1 class="page">Lab: Model Serving with Red Hat AI Inference Server</h1>
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>A guided, hands-on exercise for deploying and optimizing your first Large Language Model with Red Hat AI Inference Server.</p>
-</div>
-<hr>
-</div>
-</div>
 <div class="sect1">
 <h2 id="_1_lab_overview_and_objectives"><a class="anchor" href="#_1_lab_overview_and_objectives"></a>1. Lab Overview and Objectives</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Welcome to the hands-on lab for Red Hat AI Inference Server (RHAIIS). This guide will walk you through the essential first steps of deploying an LLM, verifying its operation, and performing basic performance tuning based on your available hardware resources.</p>
+<p>This segment will walk you through the essential first steps of deploying an LLM, verifying its operation, and performing basic performance tuning based on your available hardware resources.</p>
 </div>
 <div class="paragraph">
-<p>In this lab, you will begin with a pre-configured Red Hat Enterprise Linux (RHEL) environment that already has the necessary NVIDIA drivers installed.
-Your focus will be entirely on the deployment and management of the RHAIIS container.</p>
-</div>
-<div class="sect2">
-<h3 id="_1_1_learning_objectives"><a class="anchor" href="#_1_1_learning_objectives"></a>1.1. Learning Objectives</h3>
-<div class="paragraph">
-<p>Upon completing this lab, you will be able to:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Deploy RHAIIS with a validated model using a single Podman command.</p>
-</li>
-<li>
-<p>Verify the model is serving correctly by interacting with its API.</p>
-</li>
-<li>
-<p>Monitor the GPU&#8217;s video memory (VRAM) usage in real-time.</p>
-</li>
-<li>
-<p>Tune server parameters to control memory consumption and context length.</p>
-</li>
-<li>
-<p>Deploy and test an alternative model to see the platform&#8217;s flexibility.</p>
-</li>
-</ul>
-</div>
-<hr>
+<p>You will begin with a pre-configured Red Hat Enterprise Linux (RHEL) environment that already has the necessary NVIDIA drivers installed. Your focus will be entirely on the deployment and management of the RHAIIS container.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_2_prerequisites"><a class="anchor" href="#_2_prerequisites"></a>2. Prerequisites</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Your lab environment has been pre-configured with the following:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>A Red Hat Enterprise Linux 9.x system with a valid subscription.</p>
-</li>
-<li>
-<p>An attached and configured NVIDIA data center GPU with drivers installed.</p>
-</li>
-<li>
-<p>Podman and the NVIDIA Container Toolkit are pre-installed.</p>
-</li>
-<li>
-<p>Credentials for <strong>Red Hat account</strong> to access <code>registry.redhat.io</code>.</p>
-</li>
-<li>
-<p>A <strong>Hugging Face account</strong> with a User Access Token (read permissions).</p>
-</li>
-</ul>
-</div>
-<hr>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_3_deploying_your_first_model"><a class="anchor" href="#_3_deploying_your_first_model"></a>3. Deploying Your First Model</h2>
+<h2 id="_2_deploying_your_first_model"><a class="anchor" href="#_2_deploying_your_first_model"></a>2. Deploying Your First Model</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Our first task is to get a baseline model up and running.</p>
@@ -351,7 +288,7 @@ Your focus will be entirely on the deployment and management of the RHAIIS conta
 <p>You should see an output similar to the one you&#8217;d see if you ran <code>nvidia-smi</code> on the host, showing your GPU model, memory usage, and driver version.</p>
 </div>
 <div class="sect2">
-<h3 id="_3_2_run_the_rhaiis_container"><a class="anchor" href="#_3_2_run_the_rhaiis_container"></a>3.2. Run the RHAIIS Container</h3>
+<h3 id="_3_run_the_rhaiis_container"><a class="anchor" href="#_3_run_the_rhaiis_container"></a>3. Run the RHAIIS Container</h3>
 <div class="paragraph">
 <p>This is the core of our lab. We&#8217;re going to launch the RHAIIS container image and tell it to serve the <code>ibm-granite/granite-3.3-2b-instruct</code> model.</p>
 </div>
@@ -384,8 +321,7 @@ Your focus will be entirely on the deployment and management of the RHAIIS conta
 </ul>
 </div>
 <div class="paragraph">
-<p>In <strong>Terminal 1</strong>, copy and paste the following command and press Enter. This will take some time as the model is downloaded and loaded onto the GPU.
-Now, run the server with the <code>podman run</code> command.</p>
+<p>In <strong>Terminal 1</strong>, copy and paste the following command and press Enter. This will take some time as the model is downloaded and loaded onto the GPU.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -404,14 +340,14 @@ Now, run the server with the <code>podman run</code> command.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_3_3_verify_the_deployment"><a class="anchor" href="#_3_3_verify_the_deployment"></a>3.3. Verify the Deployment</h3>
+<h3 id="_4_verify_the_deployment"><a class="anchor" href="#_4_verify_the_deployment"></a>4. Verify the Deployment</h3>
 <div class="paragraph">
 <p>Once you see logs indicating "Uvicorn running on <a href="http://0.0.0.0:8000"" class="bare">http://0.0.0.0:8000"</a>, the server is ready.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a <strong>new terminal</strong> or SSH session. Do not close the terminal where the container is running.</p>
+<p>In <strong> terminal 2</strong> . Do not close the terminal or end the process where the RHAIIS container is running.</p>
 </li>
 <li>
 <p>Use <code>curl</code> to send a test prompt to the server&#8217;s completions endpoint.</p>
@@ -430,7 +366,7 @@ Now, run the server with the <code>podman run</code> command.</p>
 </ol>
 </div>
 <div class="paragraph">
-<p>You should see a helpful, well-formatted response generated by the model, confirming that the inference server is working correctly.</p>
+<p>You should see standard formatted response generated by the model, confirming that the inference server is working correctly.</p>
 </div>
 <hr>
 </div>
@@ -443,7 +379,7 @@ Now, run the server with the <code>podman run</code> command.</p>
 <p>Understanding and managing GPU memory is the most critical skill for serving LLMs efficiently. Let&#8217;s see how much VRAM our model is using and how to tune it.</p>
 </div>
 <div class="sect2">
-<h3 id="_4_1_monitor_gpu_memory"><a class="anchor" href="#_4_1_monitor_gpu_memory"></a>4.1. Monitor GPU Memory</h3>
+<h3 id="_monitor_gpu_memory"><a class="anchor" href="#_monitor_gpu_memory"></a>Monitor GPU Memory</h3>
 <div class="paragraph">
 <p>The <code>nvidia-smi</code> command is your primary tool for monitoring the GPU.</p>
 </div>
@@ -464,14 +400,14 @@ Now, run the server with the <code>podman run</code> command.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_4_2_tune_for_maximum_context_length"><a class="anchor" href="#_4_2_tune_for_maximum_context_length"></a>4.2. Tune for Maximum Context Length</h3>
+<h3 id="_tune_for_maximum_context_length"><a class="anchor" href="#_tune_for_maximum_context_length"></a>Tune for Maximum Context Length</h3>
 <div class="paragraph">
 <p>The <code>--max-model-len</code> argument controls the maximum number of tokens (input prompt + generated output) a request can handle. A larger context length requires more VRAM. Let&#8217;s find the sweet spot for our GPU.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Stop the running container by pressing <code>Ctrl+C</code> in its terminal.</p>
+<p>Stop the running RHAIIS container by pressing <code>Ctrl+C</code> in its terminal.</p>
 </li>
 <li>
 <p>Relaunch the server, this time adding the <code>--max-model-len</code> argument. Let&#8217;s start with a value of <code>4096</code>.</p>
@@ -498,15 +434,15 @@ Now, run the server with the <code>podman run</code> command.</p>
 </div>
 </li>
 <li>
-<p>Once the server is running, check your <code>nvidia-smi</code> watch window. You should see a noticeable increase in VRAM usage.</p>
+<p>Once the server is running, check your <code>nvidia-smi</code> watch window. You should see a noticeable decrease in VRAM usage.</p>
 </li>
 </ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_4_3_fine_tuning_gpu_memory_utilization"><a class="anchor" href="#_4_3_fine_tuning_gpu_memory_utilization"></a>4.3. Fine-Tuning GPU Memory Utilization</h3>
+<h3 id="_fine_tuning_gpu_memory_utilization"><a class="anchor" href="#_fine_tuning_gpu_memory_utilization"></a>Fine-Tuning GPU Memory Utilization</h3>
 <div class="paragraph">
-<p>The most direct way to control the memory vLLM reserves is with the <code>--gpu-memory-utilization</code> flag. [cite_start]It takes a value between 0.0 and 1.0. [cite: 130] [cite_start]The default is <code>0.9</code>, which reserves 90% of the GPU&#8217;s VRAM. [cite: 603]</p>
+<p>The most direct way to <strong>control the memory vLLM reserves</strong> is with the <code>--gpu-memory-utilization</code> flag. It takes a value between 0.0 and 1.0. The default is <code>0.9</code>, which reserves 90% of the GPU&#8217;s VRAM for this vLLM instance.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
