@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>GPUs for AI Inference :: OpenShift AI Lab environment instructions</title>
+    <link rel="prev" href="rhaiis_overview.html">
+    <link rel="next" href="vllm-adv.html">
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -181,13 +183,13 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="intro_rhaiis.html">Sizing for GPUs</a>
+    <a class="nav-link" href="intro_rhaiis.html">Model Serving with Red Hat AI Inference Server</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#rhaiis_overview.adoc">rhaiis_overview.adoc</a>
+    <a class="nav-link" href="rhaiis_overview.html">Red Hat AI Inference Server</a>
   </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#gpu_rhaiis.adoc">gpu_rhaiis.adoc</a>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="gpu-rhaiis.html">GPUs for AI Inference</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="vllm-adv.html">Advanced vLLM Configuration</a>
@@ -228,6 +230,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">OpenShift AI Lab environment instructions</a></li>
+    <li><a href="intro_rhaiis.html">Model Serving with Red Hat AI Inference Server</a></li>
     <li><a href="gpu-rhaiis.html">GPUs for AI Inference</a></li>
   </ul>
 </nav>
@@ -474,33 +477,6 @@ A model&#8217;s advertised size is not its final cost in production. A 13B param
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="sizing-tools"><a class="anchor" href="#sizing-tools"></a>Sizing Tools and Strategy</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_sizing_spreadsheet"><a class="anchor" href="#_sizing_spreadsheet"></a>Sizing Spreadsheet</h3>
-<div class="paragraph">
-<p>To simplify these calculations, Red Hat Services has created a spreadsheet to help with sizing estimates for various LLMs.</p>
-</div>
-<div class="paragraph">
-<p><a href="https://red.ht/llm-sizing" target="_blank" rel="noopener">LLM Sizing and TCO Calculator</a></p>
-</div>
-<div class="paragraph">
-<p>Using the "Model Sizing" tab, you can select from a list of popular models to perform a sizing calculation. The spreadsheet provides hardware recommendations based on the model&#8217;s default precision and maximum context length. You can override the context length to see how it impacts the vRAM requirements.</p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="paragraph">
-<p><strong>Exercise: Model Sizing Quantization Comparison</strong></p>
-</div>
-<div class="paragraph">
-<p>Make a copy of the spreadsheet and perform a sizing calculation for the Llama-3-70B model. Compare the vRAM requirements for the un-quantized FP16 version versus the INT4 quantized version provided by Red Hat.</p>
-</div>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_a_budget_conscious_project_strategy"><a class="anchor" href="#_a_budget_conscious_project_strategy"></a>A Budget-Conscious Project Strategy</h3>
 <div class="paragraph">
@@ -515,61 +491,6 @@ A model&#8217;s advertised size is not its final cost in production. A 13B param
 <p>Validate and Iterate: Deploy your chosen model and benchmark its performance and real-world VRAM consumption. Be prepared to test different models to find the optimal balance of speed, accuracy, and cost.</p>
 </li>
 </ol>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Annual Cloud Cost Estimates</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">VRAM per GPU</th>
-<th class="tableblock halign-left valign-top">Example AWS Instance</th>
-<th class="tableblock halign-left valign-top">Estimated Annual Cost</th>
-<th class="tableblock halign-left valign-top">Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">24 GB</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">g6.4xlarge</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">$7,000 - $8,000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Good performance-per-dollar for initial projects</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">48 GB</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">g6e.2xlarge</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">$12,000 - $14,000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">For larger models or higher-throughput scenarios</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">192 GB (4x48)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">g6e.12xlarge</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">$55,000 - $65,000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">For multi-model serving or very large models</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">640 GB (8x80)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">p5.48xlarge</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">$240,000+</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enterprise scale (based on on-demand monthly cost)</p></td>
-</tr>
-</tbody>
-</table>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-All costs are subject to change and are provided as estimates only. They should not be used for official customer quotes.
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>
@@ -597,15 +518,18 @@ All costs are subject to change and are provided as estimates only. They should 
 <div class="paragraph">
 <p>The rule for using Tensor Parallelism is simple and prescriptive.</p>
 </div>
+<div class="sidebarblock">
+<div class="content">
 <div class="paragraph">
-<p>[NOTE] .Guideline
-Use Tensor Parallelism when your AI model is too large to fit on a single GPU, but it can fit within the combined memory of all GPUs in a single server.
+<p>Use Tensor Parallelism when your AI model is too large to fit on a single GPU, but it can fit within the combined memory of all GPUs in a single server.
 It is the ideal solution for scaling up within the bounds of a single, powerful, multi-GPU node.</p>
+</div>
+</div>
 </div>
 <hr>
 </div>
 <div class="sect2">
-<h3 id="_practical_configuration_with_vllm"><a class="anchor" href="#_practical_configuration_with_vllm"></a>Practical Configuration with vLLM</h3>
+<h3 id="_vllm_configuration"><a class="anchor" href="#_vllm_configuration"></a>vLLM Configuration</h3>
 <div class="paragraph">
 <p>vLLM makes it simple to enable Tensor Parallelism. You just need to specify how many GPUs you want to use.</p>
 </div>
@@ -644,6 +568,10 @@ engine_args = EngineArgs( model="meta-llama/Llama-3-70B-Instruct", tensor_parall
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="rhaiis_overview.html">Red Hat AI Inference Server</a></span>
+  <span class="next"><a href="vllm-adv.html">Advanced vLLM Configuration</a></span>
+</nav>
 </article>
   </div>
 </main>
