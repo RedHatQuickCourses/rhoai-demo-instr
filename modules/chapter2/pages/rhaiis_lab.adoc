@@ -54,11 +54,13 @@ In **Terminal 1**, copy and paste the following command and press Enter. This wi
 podman run --rm -it --name rhaiis-server \
   --device nvidia.com/gpu=all \
   --security-opt=label=disable \
-  --shm-size=4g -p 8000:8000 \
+  --shm-size=4GB -p 8000:8000 \
   --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
-  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
+  --env "HF_HUB_OFFLINE=0" \
+  --env=VLLM_NO_USAGE_STATS=1 \
+  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache \
   registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
-  --model ibm-granite/granite-3.3-2b-instruct
+  --model ibm-granite/granite-3.3-2b-instruct \
 ----
 
 
@@ -112,23 +114,26 @@ The `--max-model-len` argument controls the maximum number of tokens (input prom
 
 . Stop the running RHAIIS container by pressing `Ctrl+C` in its terminal.
 
-. Relaunch the server, this time adding the `--max-model-len` argument. Let's start with a value of `4096`.
+. Relaunch the server, this time adding the `--max-model-len` argument. Let's start with a value of `80000`.
 +
 [source,bash]
 ----
 podman run --rm -it --name rhaiis-server \
   --device nvidia.com/gpu=all \
   --security-opt=label=disable \
-  --shm-size=4g -p 8000:8000 \
+  --shm-size=4GB -p 8000:8000 \
   --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
-  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
+  --env "HF_HUB_OFFLINE=0" \
+  --env=VLLM_NO_USAGE_STATS=1 \
+  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache \
   registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
   --model ibm-granite/granite-3.3-2b-instruct \
-  --max-model-len 4096 <1>
+  --max-model-len 80000 <1>
 ----
-<1> Limits the model's context length to 4096 tokens.
+<1> Limits the model's context length to 80000 tokens.
 
-. Once the server is running, check your `nvidia-smi` watch window. You should see a noticeable decrease in VRAM usage.
+
+. Once the server is running, check your `nvidia-smi`, nvtop watch window. You should see a noticeable decrease in VRAM usage.
 
 === Fine-Tuning GPU Memory Utilization
 
@@ -143,14 +148,16 @@ The most direct way to *control the memory vLLM reserves* is with the `--gpu-mem
 podman run --rm -it --name rhaiis-server \
   --device nvidia.com/gpu=all \
   --security-opt=label=disable \
-  --shm-size=4g -p 8000:8000 \
+  --shm-size=4GB -p 8000:8000 \
   --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
-  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
+  --env "HF_HUB_OFFLINE=0" \
+  --env=VLLM_NO_USAGE_STATS=1 \
+  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache \
   registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
   --model ibm-granite/granite-3.3-2b-instruct \
-  --gpu-memory-utilization 0.85 <1>
+  --gpu-memory-utilization 0.70 <1>
 ----
-<1> Instructs the server to use a maximum of 85% of the available GPU memory.
+<1> Instructs the server to use a maximum of 70% of the available GPU memory.
 
 . Observe the change in memory allocation in `nvidia-smi`. The amount of memory reserved by the server will now be lower. This is a key parameter for running in shared environments.
 
@@ -169,13 +176,15 @@ Switching models with RHAIIS is simple. Let's deploy the `granite-3.1-8b-instruc
 podman run --rm -it --name rhaiis-server \
   --device nvidia.com/gpu=all \
   --security-opt=label=disable \
-  --shm-size=4g -p 8000:8000 \
+  --shm-size=4GB -p 8000:8000 \
   --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
-  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
+  --env "HF_HUB_OFFLINE=0" \
+  --env=VLLM_NO_USAGE_STATS=1 \
+  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache \
   registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
   --model RedHatAI/granite-3.1-8b-instruct <1>
 ----
-<1> We've switched to the Granite model. The server will download it if it's not already in the cache.
+<1> We've switched to the Granite 3.1- 8b model. The server will download it if it's not already in the cache.
 
 . Once the server is running, test it with a new `curl` request. **Remember to update the model name in your request body.**
 +
