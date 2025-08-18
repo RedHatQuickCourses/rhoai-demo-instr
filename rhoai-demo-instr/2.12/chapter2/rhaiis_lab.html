@@ -328,11 +328,13 @@
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman run --rm -it --name rhaiis-server \
   --device nvidia.com/gpu=all \
   --security-opt=label=disable \
-  --shm-size=4g -p 8000:8000 \
+  --shm-size=4GB -p 8000:8000 \
   --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
-  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
+  --env "HF_HUB_OFFLINE=0" \
+  --env=VLLM_NO_USAGE_STATS=1 \
+  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache \
   registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
-  --model ibm-granite/granite-3.3-2b-instruct</code></pre>
+  --model ibm-granite/granite-3.3-2b-instruct \</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -410,31 +412,33 @@
 <p>Stop the running RHAIIS container by pressing <code>Ctrl+C</code> in its terminal.</p>
 </li>
 <li>
-<p>Relaunch the server, this time adding the <code>--max-model-len</code> argument. Let&#8217;s start with a value of <code>4096</code>.</p>
+<p>Relaunch the server, this time adding the <code>--max-model-len</code> argument. Let&#8217;s start with a value of <code>80000</code>.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman run --rm -it --name rhaiis-server \
   --device nvidia.com/gpu=all \
   --security-opt=label=disable \
-  --shm-size=4g -p 8000:8000 \
+  --shm-size=4GB -p 8000:8000 \
   --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
-  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
+  --env "HF_HUB_OFFLINE=0" \
+  --env=VLLM_NO_USAGE_STATS=1 \
+  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache \
   registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
   --model ibm-granite/granite-3.3-2b-instruct \
-  --max-model-len 4096 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+  --max-model-len 80000 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Limits the model&#8217;s context length to 4096 tokens.</td>
+<td>Limits the model&#8217;s context length to 80000 tokens.</td>
 </tr>
 </table>
 </div>
 </li>
 <li>
-<p>Once the server is running, check your <code>nvidia-smi</code> watch window. You should see a noticeable decrease in VRAM usage.</p>
+<p>Once the server is running, check your <code>nvidia-smi</code>, nvtop watch window. You should see a noticeable decrease in VRAM usage.</p>
 </li>
 </ol>
 </div>
@@ -456,19 +460,21 @@
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman run --rm -it --name rhaiis-server \
   --device nvidia.com/gpu=all \
   --security-opt=label=disable \
-  --shm-size=4g -p 8000:8000 \
+  --shm-size=4GB -p 8000:8000 \
   --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
-  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
+  --env "HF_HUB_OFFLINE=0" \
+  --env=VLLM_NO_USAGE_STATS=1 \
+  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache \
   registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
   --model ibm-granite/granite-3.3-2b-instruct \
-  --gpu-memory-utilization 0.85 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+  --gpu-memory-utilization 0.70 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Instructs the server to use a maximum of 85% of the available GPU memory.</td>
+<td>Instructs the server to use a maximum of 70% of the available GPU memory.</td>
 </tr>
 </table>
 </div>
@@ -500,9 +506,11 @@
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman run --rm -it --name rhaiis-server \
   --device nvidia.com/gpu=all \
   --security-opt=label=disable \
-  --shm-size=4g -p 8000:8000 \
+  --shm-size=4GB -p 8000:8000 \
   --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
-  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache:Z \
+  --env "HF_HUB_OFFLINE=0" \
+  --env=VLLM_NO_USAGE_STATS=1 \
+  -v $HOME/rhaiis-cache:/opt/app-root/src/.cache \
   registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
   --model RedHatAI/granite-3.1-8b-instruct <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
@@ -511,7 +519,7 @@
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>We&#8217;ve switched to the Granite model. The server will download it if it&#8217;s not already in the cache.</td>
+<td>We&#8217;ve switched to the Granite 3.1- 8b model. The server will download it if it&#8217;s not already in the cache.</td>
 </tr>
 </table>
 </div>
