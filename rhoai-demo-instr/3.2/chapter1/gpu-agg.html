@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>GPU Aggregation :: OpenShift AI Lab environment instructions</title>
+    <link rel="prev" href="gpu-mps.html">
+    <link rel="next" href="tensor.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">OpenShift AI Lab environment instructions</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhoai-demo-instr" data-version="3.2">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">Model Serving with Red Hat AI Inference Server (RHAIIS)</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Why Customers Need a MaaS Platform</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="intro.html">Serving at Scale</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-aas.html">Architecting GPU as a Service</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-sharing.html">GPU Sharing Technologies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-time.html">GPU Timeslicing</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-mig.html">Multi-Instance GPU (MIG)</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-mps.html">NVIDIA’s Multi-Process Service (MPS)</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-agg.html">GPU Aggregation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="tensor.html">Tensor Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="pipeline.html">Pipeline Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="data-para.html">Data Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="expert-para.html">Expert Parallelism</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="start.html">Models with GitOps</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-sizing.html">Sizing for GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-scaling.html">Scaling Architectures</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-multi.html">Lab: Multi-GPU Model Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-nodes.html">Lab: Multi-Node, Multi-GPU Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gitops.html">Deploying Models with GitOps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="api-reqs.html">API Gateway Requirements for MaaS</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="index.html">MaaS Logical Architecture</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="intro2.html">The Gateway&#8217;s Core Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="api_checklist.html">Hands-On Lab: Productizing and Consuming an AI Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="api-security.html">Securing the AI Factory: A Defense-in-Depth Approach</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter6/index.html">Agentic AI Placeholder</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter5/index.html">LLM optimization and inference efficiency</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/intro_rhaiis.html">Model Serving with Red Hat AI Inference Server</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/rhaiis_overview.html"><strong>Red Hat AI Inference Server (RHAIIS)</strong></a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/gpu-rhaiis.html">GPUs for AI Inference</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/rhaiis_lab.html">Lab: Model Serving with Red Hat AI Inference Server</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Model Serving with Red Hat AI Inference Server (RHAIIS)</span>
+    <span class="version">3.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Model Serving with Red Hat AI Inference Server (RHAIIS)</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">3.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Model Serving with Red Hat AI Inference Server (RHAIIS)</a></li>
+    <li><a href="intro.html">Serving at Scale</a></li>
+    <li><a href="gpu-aas.html">Architecting GPU as a Service</a></li>
+    <li><a href="gpu-agg.html">GPU Aggregation</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">GPU Aggregation</h1>
+<div class="sect1">
+<h2 id="_a_fundamental_shift_from_sharing_to_aggregation"><a class="anchor" href="#_a_fundamental_shift_from_sharing_to_aggregation"></a>A Fundamental Shift: From Sharing to Aggregation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the previous module, we focused on <strong>GPU Sharing</strong>—the art of splitting <em>one</em> powerful GPU to serve <em>many</em> smaller workloads. This is essential for maximizing utilization and providing broad access.</p>
+</div>
+<div class="paragraph">
+<p>Now, we address the opposite challenge. What happens when your workload, specifically a single Large Language Model, is so massive that one GPU is not enough?</p>
+</div>
+<div class="paragraph">
+<p>Welcome to <strong>GPU Aggregation</strong>. In this module, you will learn the art of combining the power of <em>many</em> GPUs to serve <em>one</em> massive task.</p>
+</div>
+<div class="paragraph">
+<div class="title">The Construction Project Analogy</div>
+<p>Think of it like a construction project:
+* Building a simple garden shed might only require one worker (<strong>a single GPU</strong>).
+* Building a massive skyscraper requires a large, highly coordinated team of specialists working together (<strong>GPU Aggregation</strong>).</p>
+</div>
+<div class="paragraph">
+<p>Just as there are different ways to organize a construction crew, there are different strategies for organizing a team of GPUs.</p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_we_need_gpu_aggregation"><a class="anchor" href="#_why_we_need_gpu_aggregation"></a>Why We Need GPU Aggregation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The primary driver for GPU aggregation is the sheer size of modern AI models.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>The Problem:</strong> Models like Llama-3-70B and Falcon-180B require more VRAM than any single GPU can provide. Trying to load one will result in a <code>CUDA out of memory</code> error.</p>
+</li>
+<li>
+<p><strong>The Solution:</strong> We must distribute the model&#8217;s workload across a team of GPUs. Serving runtimes like vLLM use sophisticated parallelism techniques to manage this distribution automatically.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This module will introduce you to the four fundamental strategies for organizing your GPU "team."</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gpu-aggregation.png" alt="GPU Aggregation" width="600">
+</div>
+<div class="title">Figure 1. A high-level view of GPU Aggregation</div>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_meet_the_strategies_a_quick_introduction"><a class="anchor" href="#_meet_the_strategies_a_quick_introduction"></a>Meet the Strategies: A Quick Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Each parallelism strategy is a tool designed for a specific job. Here is a high-level overview of the four techniques you will learn about in this module.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Tensor Parallelism</dt>
+<dd>
+<p>The "Team of Chefs." Multiple GPUs work together simultaneously on the <strong>same model layer</strong> to solve the model size problem and reduce latency. Requires a high-speed NVLink connection.</p>
+</dd>
+<dt class="hdlist1">Pipeline Parallelism</dt>
+<dd>
+<p>The "Factory Assembly Line." Multiple GPUs (or nodes) work on <strong>different layers sequentially</strong>. This solves for models that are too big for even a whole server and maximizes throughput.</p>
+</dd>
+<dt class="hdlist1">Data Parallelism</dt>
+<dd>
+<p>The "Bank Tellers." Multiple GPUs run <strong>independent copies of the same model</strong> to serve a high volume of concurrent user requests. This scales user capacity, not model size.</p>
+</dd>
+<dt class="hdlist1">Expert Parallelism</dt>
+<dd>
+<p>The "Panel of Specialist Doctors." A specialized strategy for Mixture of Experts (MoE) models where different experts are placed on different GPUs, and only the required experts are activated per request.</p>
+</dd>
+</dl>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_consultants_cheat_sheet_a_strategic_decision_framework"><a class="anchor" href="#_the_consultants_cheat_sheet_a_strategic_decision_framework"></a>The Consultant&#8217;s Cheat Sheet: A Strategic Decision Framework</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As a consultant, your job is to choose the right tool for the customer&#8217;s problem. Use this framework to guide your decision-making process.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. GPU Aggregation Decision Framework</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Ask This Question&#8230;&#8203;</th>
+<th class="tableblock halign-left valign-top">If Yes, This is Your Strategy</th>
+<th class="tableblock halign-left valign-top">Core Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1. Is my primary goal to serve more concurrent users with a model that already fits on my hardware?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data Parallelism</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Replicate the model to increase throughput.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2. Is the model too big for one GPU, but fits on one multi-GPU server (with NVLink)?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Tensor Parallelism</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shard the model <strong>within</strong> a node to reduce latency.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3. Is the model so large it won&#8217;t even fit on a single multi-GPU server?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Pipeline Parallelism</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stage the model <strong>across</strong> nodes to enable serving and maximize throughput.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4. Am I deploying a Mixture of Experts (MoE) model?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Expert Parallelism</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Assign different experts to different GPUs.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+These strategies are not mutually exclusive. For the largest scale deployments, you will often <strong>combine</strong> them. For example, you might use Pipeline Parallelism to span across nodes, Tensor Parallelism to manage the model within each node, and Data Parallelism to create multiple replicas of that entire pipeline to handle user load.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now, let&#8217;s dive into the details of each strategy.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="gpu-mps.html">NVIDIA’s Multi-Process Service (MPS)</a></span>
+  <span class="next"><a href="tensor.html">Tensor Parallelism</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
