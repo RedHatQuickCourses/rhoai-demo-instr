@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Multi-Instance GPU (MIG) :: OpenShift AI Lab environment instructions</title>
+    <link rel="prev" href="gpu-time.html">
+    <link rel="next" href="gpu-mps.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">OpenShift AI Lab environment instructions</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhoai-demo-instr" data-version="3.2">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">Model Serving with Red Hat AI Inference Server (RHAIIS)</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Why Customers Need a MaaS Platform</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="intro.html">Serving at Scale</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-aas.html">Architecting GPU as a Service</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-sharing.html">GPU Sharing Technologies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-time.html">GPU Timeslicing</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="4">
+    <a class="nav-link" href="gpu-mig.html">Multi-Instance GPU (MIG)</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="gpu-mps.html">NVIDIA’s Multi-Process Service (MPS)</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="gpu-agg.html">GPU Aggregation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="tensor.html">Tensor Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="pipeline.html">Pipeline Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="data-para.html">Data Parallelism</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="expert-para.html">Expert Parallelism</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="start.html">Models with GitOps</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-sizing.html">Sizing for GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-scaling.html">Scaling Architectures</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-multi.html">Lab: Multi-GPU Model Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gpu-nodes.html">Lab: Multi-Node, Multi-GPU Deployment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="gitops.html">Deploying Models with GitOps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="api-reqs.html">API Gateway Requirements for MaaS</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="index.html">MaaS Logical Architecture</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="intro2.html">The Gateway&#8217;s Core Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="api_checklist.html">Hands-On Lab: Productizing and Consuming an AI Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="api-security.html">Securing the AI Factory: A Defense-in-Depth Approach</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter6/index.html">Agentic AI Placeholder</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter5/index.html">LLM optimization and inference efficiency</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section1.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section2.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section3.html">blank</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section4.html">blank</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/intro_rhaiis.html">Model Serving with Red Hat AI Inference Server</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/rhaiis_overview.html"><strong>Red Hat AI Inference Server (RHAIIS)</strong></a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/gpu-rhaiis.html">GPUs for AI Inference</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/vllm-adv.html">Advanced vLLM Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/rhaiis_lab.html">Lab: Model Serving with Red Hat AI Inference Server</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Model Serving with Red Hat AI Inference Server (RHAIIS)</span>
+    <span class="version">3.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Model Serving with Red Hat AI Inference Server (RHAIIS)</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">3.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Model Serving with Red Hat AI Inference Server (RHAIIS)</a></li>
+    <li><a href="intro.html">Serving at Scale</a></li>
+    <li><a href="gpu-aas.html">Architecting GPU as a Service</a></li>
+    <li><a href="gpu-sharing.html">GPU Sharing Technologies</a></li>
+    <li><a href="gpu-mig.html">Multi-Instance GPU (MIG)</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Multi-Instance GPU (MIG)</h1>
+<div class="sect1">
+<h2 id="_from_underutilized_powerhouse_to_efficient_utility"><a class="anchor" href="#_from_underutilized_powerhouse_to_efficient_utility"></a>From Underutilized Powerhouse to Efficient Utility</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_the_challenge_wasted_potential_in_powerful_gpus"><a class="anchor" href="#_the_challenge_wasted_potential_in_powerful_gpus"></a>The Challenge: Wasted Potential in Powerful GPUs</h3>
+<div class="paragraph">
+<p>Modern GPUs like the NVIDIA A100 and H100 are immensely powerful, but their resources are often wasted. A single development task, inference model, or training job rarely consumes the entire 80GB+ of memory or thousands of CUDA cores available.</p>
+</div>
+<div class="paragraph">
+<p>This leads to a critical business problem: expensive hardware sits idle. Before MIG, your options for sharing were limited and flawed: you could either risk out-of-memory errors with simple time-sharing or waste resources by allocating a full GPU to a small workload.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_solution_multi_instance_gpu_mig"><a class="anchor" href="#_the_solution_multi_instance_gpu_mig"></a>The Solution: Multi-Instance GPU (MIG)</h3>
+<div class="paragraph">
+<p>MIG is a hardware partitioning technology that solves this problem by allowing you to carve a single physical GPU into up to seven smaller, fully isolated "virtual GPUs" known as <strong>GPU Instances</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Think of a physical GPU as an apartment building. MIG is the feature that allows you to build out fully-walled, separate apartment units inside. Each tenant (workload) gets their own guaranteed space and resources, and one tenant&#8217;s activity has no impact on another&#8217;s.</p>
+</div>
+<div class="ulist">
+<div class="title">Each MIG instance provides:</div>
+<ul>
+<li>
+<p><strong>Dedicated Memory:</strong> No sharing or interference between instances.</p>
+</li>
+<li>
+<p><strong>Isolated Compute Resources:</strong> A guaranteed slice of the GPU&#8217;s processing power.</p>
+</li>
+<li>
+<p><strong>Hardware-Level Isolation:</strong> Each instance operates as a completely independent GPU.</p>
+</li>
+<li>
+<p><strong>Guaranteed Quality of Service (QoS):</strong> Predictable, consistent performance for every workload.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gpu-mig-overview.jpg" alt="MIG Overview" width="600">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Why This Matters for Production</div>
+<div class="paragraph">
+<p>MIG is the enterprise standard for GPU multi-tenancy. It enables you to:
+* <strong>Isolate</strong> development and production workloads on the same hardware.
+* <strong>Maximize ROI</strong> by safely running multiple models or experiments simultaneously.
+* <strong>Offer guaranteed resource tiers</strong> to different teams, just like a cloud provider.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_understanding_the_mig_architecture"><a class="anchor" href="#_understanding_the_mig_architecture"></a>Understanding the MIG Architecture</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To configure MIG effectively, you need to understand its fundamental building blocks.</p>
+</div>
+<div class="sect2">
+<h3 id="_core_terminology"><a class="anchor" href="#_core_terminology"></a>Core Terminology</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">GPU Instance (GI)</dt>
+<dd>
+<p>This is your "virtual GPU." It is a combination of dedicated compute resources (SM Slices) and dedicated memory (Memory Slices) that are fully isolated from the rest of the physical GPU. This is the primary resource that your workloads will consume.</p>
+</dd>
+<dt class="hdlist1">Compute Instance (CI)</dt>
+<dd>
+<p>A further subdivision of the compute resources <strong>within</strong> a GPU Instance. Multiple CIs within the same GI share that GI&#8217;s memory. This is a more advanced feature for fine-tuning workloads that can benefit from sharing memory.</p>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+For most use cases, you will primarily work with <strong>GPU Instances (GIs)</strong>. Think of a GI as the main resource partition you create and assign to a container or user.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_partitioning_works_creating_mig_profiles"><a class="anchor" href="#_how_partitioning_works_creating_mig_profiles"></a>How Partitioning Works: Creating MIG Profiles</h3>
+<div class="paragraph">
+<p>MIG works by allowing you to combine slices of the GPU&#8217;s total memory and compute power into different "profiles." These profiles determine the size and capability of your virtual GPU instances.</p>
+</div>
+<div class="paragraph">
+<p>For example, on an A100-40GB GPU, you can create instances with different profiles:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>1g.5gb</code>: A small instance with 5GB of memory, ideal for small models or development tasks. You can fit up to <strong>seven</strong> of these on a single A100.</p>
+</li>
+<li>
+<p><code>2g.10gb</code>: A medium instance with 10GB of memory, suitable for moderately sized models. You can fit up to <strong>three</strong> of these.</p>
+</li>
+<li>
+<p><code>3g.20gb</code>: A large instance with 20GB of memory for more demanding production workloads. You can fit up to <strong>two</strong> of these.</p>
+</li>
+<li>
+<p><code>7g.40gb</code>: An instance that uses the entire GPU.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This flexibility allows you to tailor your GPU resources precisely to the needs of your applications, ensuring no power is wasted.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mig-example.png" alt="MIG partitioning" width="600">
+</div>
+<div class="title">Figure 1. A visual example of MIG partitioning</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hardware_and_software_requirements"><a class="anchor" href="#_hardware_and_software_requirements"></a>Hardware and Software Requirements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>MIG is a hardware feature and requires specific GPUs, drivers, and software to function.</p>
+</div>
+<div class="sect2">
+<h3 id="_supported_gpu_architectures"><a class="anchor" href="#_supported_gpu_architectures"></a>Supported GPU Architectures</h3>
+<div class="paragraph">
+<p>MIG is available on NVIDIA GPUs starting with the <strong>Ampere architecture</strong>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Ampere:</strong> A100, A30</p>
+</li>
+<li>
+<p><strong>Hopper:</strong> H100, H200</p>
+</li>
+<li>
+<p><strong>Blackwell:</strong> B200, RTX 6000 Ada Generation</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_minimum_software_versions"><a class="anchor" href="#_minimum_software_versions"></a>Minimum Software Versions</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">GPU Family</th>
+<th class="tableblock halign-left valign-top">Minimum CUDA Version</th>
+<th class="tableblock halign-left valign-top">Minimum Driver Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ampere (A100/A30)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CUDA 11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R450 (&gt;= 450.80.02)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hopper (H100/H200)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CUDA 12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R525 (&gt;= 525.53)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blackwell (B200)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CUDA 12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R570 (&gt;= 570.x)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_system_and_orchestration_requirements"><a class="anchor" href="#_system_and_orchestration_requirements"></a>System and Orchestration Requirements</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>OS:</strong> A supported Linux distribution.</p>
+</li>
+<li>
+<p><strong>Container Toolkit:</strong> NVIDIA Container Toolkit v2.5.0+</p>
+</li>
+<li>
+<p><strong>Kubernetes/OpenShift:</strong> NVIDIA K8s Device Plugin v0.7.0+ and GPU Feature Discovery v0.2.0+ are required to expose and manage MIG devices within the cluster.</p>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_additional_resources"><a class="anchor" href="#_additional_resources"></a>Additional Resources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For deeper technical details and specific configuration commands, refer to the official NVIDIA documentation.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>NVIDIA MIG User Guide:</strong> <a href="https://docs.nvidia.com/datacenter/tesla/mig-user-guide/" class="bare">https://docs.nvidia.com/datacenter/tesla/mig-user-guide/</a></p>
+</li>
+<li>
+<p><strong>NVIDIA K8s Device Plugin for Kubernetes:</strong> <a href="https://github.com/NVIDIA/k8s-device-plugin" class="bare">https://github.com/NVIDIA/k8s-device-plugin</a></p>
+</li>
+<li>
+<p><strong>NVIDIA GPU Operator for OpenShift:</strong> The recommended way to manage drivers and plugins in an OpenShift environment.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="gpu-time.html">GPU Timeslicing</a></span>
+  <span class="next"><a href="gpu-mps.html">NVIDIA’s Multi-Process Service (MPS)</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
