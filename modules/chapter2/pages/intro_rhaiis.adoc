@@ -42,17 +42,22 @@ Your lab environment has been pre-configured with the following:
 * A **Hugging Face account** with a User Access Token with read permissions. (Provided for this experience)
 
 
-== Ordering the Catalog item on the Demo Platform
+== Setting Up Your RHAIIS Lab Environment
 
-Currently waiting for a dedicated lab environment for this training, however, it will be exactly the same as this environment on the Demo Platform:
+A dedicated lab environment for this training is currently in development. In the meantime, you can use the same environment available on the Demo Platform, https://catalog.demo.redhat.com/catalog?item=babylon-catalog-prod/rhdp.rhaiis-on-rhel.prod&utm_source=webapp&utm_medium=share-link[*Base Red Hat AI Inference Server (RHAIIS)*, window=blank] - which is pre-configured with the Red Hat AI Inference Server (RHAIIS).
 
-https://catalog.demo.redhat.com/catalog?item=babylon-catalog-prod/rhdp.rhaiis-on-rhel.prod&utm_source=webapp&utm_medium=share-link[*Base Red Hat AI Inference Server (RHAIIS)*, window=blank] - so let’s just use this one. 
+This environment includes some pre-configured bonus content:
 
-This lab environment also includes a few bonus tasks such as:
+ * A bonus lab that shows you how to connect to the AI model using Python.
 
- * shows you how to connect to the AI model using Python. 
- * The model runs as a system service, it starts automatically when the system boots. Once you complete the base lab if you choose, you'll stop this service and model freeing up the environment to use the lab environment for our purposes.
- ** sudo systemctl stop rhaiis.service
+ * An Qwen2.5 model running on RHAIIS as a system service. This model starts automatically when the system boots.
+
+Once you have completed the initial exercises, you can stop this service to free up the environment for the this lab's main activities. To stop the service, simply run the following command:
+
+[source,bash]
+----
+sudo systemctl stop rhaiis.service
+----
 
 == Interactive Experiences - Arcades
 
