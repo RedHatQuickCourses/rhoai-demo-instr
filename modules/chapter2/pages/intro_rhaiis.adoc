@@ -2,15 +2,19 @@
 
 == Introduction
 
-Congratulations on your excellent choice to take this training on model serving with:
+Welcome to Model Serving with Red Hat AI Inference Server (RHAIIS). 
+
+This training session was designed to provide you knowledge and skills to make decisions related to large language model (LLM) inference using the supported version of RHAIIS. 
+
+This course begins with a review of Red Hat AI Inference Server 3.2.0, a key component of the Red Hat AI platform, by walking you through the essential first concepts, then we'll move into a lab deploying an LLM, monitor GPU and performing basic GPU memory tuning using vLLM configuration settings. 
 
 **Red Hat AI Inference Server (RHAIIS)**. 
-
-This hands-on guide will introduce you to using Red Hat AI Inference Server (RHAIIS) 3.2.0—a key component of the Red Hat AI platform—by walking you through the essential first concepts, then deploying and verifying an LLM and performing basic performance tuning based on your available hardware. 
 
 Available as a standalone product and included in Red Hat OpenShift AI and Red Hat Enterprise Linux AI, this supported platform provides a powerful and flexible solution for deploying high-performance large language models across any hybrid cloud environment.
 
 RHAIIS provides a hardened, supported distribution of the **vLLM** software via pre-packaged containers, depending on GPU type. The vLLM open-source project is renowned for its high-throughput and memory-efficient performance, achieved through innovative techniques like PagedAttention and continuous batching.
+
+image::rhaiis_containers.png[.RHAIIS Catalog]
 
 == Overview and Objectives
 
@@ -31,6 +35,11 @@ Your lab environment has been pre-configured with the following:
 * Podman and the NVIDIA Container Toolkit are pre-installed.
 * Credentials for **Red Hat account** to access `registry.redhat.io`. (Provided for this experience)
 * A **Hugging Face account** with a User Access Token with read permissions. (Provided for this experience)
+
+
+
+
+
 
 
 

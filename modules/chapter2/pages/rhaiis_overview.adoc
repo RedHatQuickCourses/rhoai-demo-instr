@@ -1,12 +1,14 @@
-= Red Hat AI Inference Server
+= **Red Hat AI Inference Server (RHAIIS)**
+
+Available as a standalone product and included in Red Hat OpenShift AI and Red Hat Enterprise Linux AI, AI inference server provides a powerful and flexible solution for deploying high-performance large language models across any hybrid cloud environment.
+
+RHAIIS provides a hardened, supported distribution of the **vLLM** software via pre-packaged containers, depending on GPU type. 
+
+image::rhaiis_containers.png[.RHAIIS Catalog]
 
 == Key Features of RHAIIS
 
-Red Hat AI Inference Server leverages several advanced techniques to deliver high-performance LLM serving:
-
-=== vLLM Core and Advanced Parallelism
-
-At its heart, RHAIIS is built on the vLLM serving engine, which maximizes throughput and minimizes latency for LLM inference.
+At its heart, RHAIIS is built on the vLLM serving engine. The vLLM open-source project is renowned for its high-throughput and memory-efficient performance, achieved through innovative techniques like PagedAttention and continuous batching.
 
 * **PagedAttention**: This technique optimizes GPU memory management by virtualizing the key-value (KV) cache for each request. It addresses memory wastage and lowers costs by consuming less memory.
 * **Continuous Batching**: It processes requests as they arrive instead of waiting for a full batch to be accumulated, reducing latency and increasing throughput.
@@ -24,7 +26,7 @@ RHAIIS integrates the **LLM Compressor** library, a Developer Preview feature th
 //* **Compression**: This shrinks the saved model file size, ideally with minimal impact on performance.
 
 [NOTE]
-For RHAIIS 3.2, LLM Compressor is a Developer Preview feature and is not included in the standard container image. The product does, however, support specific quantization variants like FP8 (W8A8) and GGUF, particularly for AMD GPUs.
+For RHAIIS 3.2, LLM Compressor is a Developer Preview feature and is not included in the standard container image. The product does, however, support multiple quantization variants; AMD GPUs support only FP8 (W8A8) and GGUF formats. 
 
 === Deployment Portability and Multi-Accelerator Support
 
@@ -64,13 +66,10 @@ The server is engineered with robust multi-accelerator support for a diverse ran
 .Supported AI accelerators
 [cols="2,3,4", options="header"]
 |===
-|AI accelerators
-|
-|
 
 |NVIDIA GPUs:
 |AMD GPUs:
-|Google TPUs
+|Google TPUs:
 
 
 |Ampere: A2, A10, A16, A30, A40, A1000, L40S

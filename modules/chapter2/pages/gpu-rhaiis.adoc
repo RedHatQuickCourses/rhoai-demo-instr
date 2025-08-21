@@ -5,7 +5,7 @@
 
 Successfully deploying a Large Language Model is only half the battle. To build a cost-effective and performant AI platform, you must accurately match the model's requirements to the available hardware. Simply throwing oversized, expensive GPUs at every problem is a wasteful and ineffective strategy that leads to high costs and underutilized resources.
 
-This module equips you with the fundamental knowledge and tools to analyze an LLM's requirements and make informed decisions about the necessary GPU infrastructure. You will learn how to estimate the memory needed for a model and its KV Cache, understand the impact of quantization, and use sizing tools to plan for future deployments.
+This module equips you with the fundamental knowledge and tools to analyze an LLM's requirements and make informed decisions about the necessary GPU infrastructure. You will learn how to estimate the GPU memory needed for a model including its KV Cache. Understand the impact of quantization, and use sizing tools to plan for future deployments.
 
 image::intro_gpu_size.gif[.Objectives, 600]
 
@@ -27,20 +27,20 @@ Calculation:
 A formula to estimate the memory for model weights, including overhead:
 
 ....
-M = ((P * 4) / (32 / Q)) * 1.2
+M = ((P * 4b) / (32 / Q)) * 1.2
 ....
 
 [cols="1,4"]
 |===
 | Symbol | Description
-| M | Total GPU memory required for the model weights (in bytes).
+| M | Total GPU memory required for the model weights (in Gi).
 | P | The number of parameters in the model (e.g., 8 billion).
-| 4 (bytes) | The size of a full-precision parameter in bytes (FP32).
-| Q | The number of bits used for the model's data type after quantization (e.g., 16 for FP16, 8 for INT8).
+| 4b (bytes) | The size of a full-precision parameter in bytes (FP32).
+| Q | The number of bits used for the model's precision type after quantization (e.g., 16 for FP16, 8 for INT8).
 | 1.2| A multiplier representing a ~20% overhead for loading additional components into GPU memory.
 |===
 
-For example, let's calculate the requirement for the ibm-granite/granite-3.3-8b-instruct model, which has 8 billion parameters and uses the FP16 data type (16 bits).
+For example, let's calculate the requirement for the *ibm-granite/granite-3.3-8b-instruct model*, which has *8 billion parameters and uses the FP16 data type (16 bits)*.
 
 [source,bash]
 Formula: (((Parameters * 4 bytes) / (32 / Quantization_Bits)) * 1.2)
@@ -80,7 +80,7 @@ Impact: For applications with long context windows (e.g., document summarization
 
 []
 ****
-For Granite 3.3 8B Instruct, the KV Cache requires about 0.15625 MB per token. With a maximum context length of 131,072 tokens, this results in a KV Cache requirement of approximately 20 Gi.
+For *ibm-granite/granite-3.3-8b-instruct model*, the KV Cache requires about 0.15625 MB per token. With a maximum context length of 131,072 tokens, this results in a KV Cache requirement of approximately 20 Gi.
 ****
 
 === 3. CUDA & System Overhead
@@ -111,15 +111,10 @@ Golden Rule: Always profile your specific use case with realistic batch sizes an
 ****
 *Exercise: KV Cache Estimation*
 
-An NVIDIA A10G or L4 GPU has 24 GB of vRAM. Given that the Granite 3.3 8B model requires ~19.0 Gi for its weights and overhead, what is the maximum context length (in tokens) you could configure for the KV Cache to ensure the entire workload fits on the device? ( using 0.15625 MB per token, 95% GPU usage )
+An NVIDIA A10G or L4 GPU has 24 GB of vRAM. Given that the *ibm-granite/granite-3.3-8b-instruct model* requires ~19.0 Gi for its weights and overhead, what is the maximum context length (in tokens) you could configure for the KV Cache to ensure the entire workload fits on the device? ( using 0.15625 MB per token, 95% GPU usage )
 ****
 
 
-=== A Budget-Conscious Project Strategy
-For customer Proof-of-Concept (PoC) projects with limited budgets, a strategic workflow is recommended.
-
-.   Prioritize Optimized Models: Filter your model search to those that provide quantized versions. A quantized 13B model can often outperform a non-quantized 7B model while fitting in the same 24GB memory budget.
-.   Validate and Iterate: Deploy your chosen model and benchmark its performance and real-world VRAM consumption. Be prepared to test different models to find the optimal balance of speed, accuracy, and cost.
 
 
 [#tensor-parallelism]
@@ -139,7 +134,7 @@ In technical terms, each GPU holds a "shard" or a slice of the model's weight ma
 
 === When to Use Tensor Parallelism
 
-The rule for using Tensor Parallelism is simple and prescriptive.
+The rule for using Tensor Parallelism is simple.
 
 []
 ****
