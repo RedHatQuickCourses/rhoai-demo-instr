@@ -1,28 +1,25 @@
 = Lab: Model Serving with Red Hat AI Inference Server
 
 
-== 1. Lab Overview and Objectives
+== Lab Overview and Objectives
 
 This segment will walk you through the essential first steps of deploying an LLM, verifying its operation, and performing basic performance tuning based on your available hardware resources.
 
 You will begin with a pre-configured Red Hat Enterprise Linux (RHEL) environment that already has the necessary NVIDIA drivers installed. Your focus will be entirely on the deployment and management of the RHAIIS container.
 
 
-== 2. Deploying Your First Model
+== Stop the Existing AI Model.
 
-Our first task is to get a baseline model up and running. 
+Our first task is to get our own baseline model up and running. 
 
-It's not on Red Hat validated models list, but the ibm-granite/granite-3.3-2b-instruct is small ~3B parameter model that have proven itself time and again for my experiments. So let's start with this model and then you tell me what your favorite model is. 
-
-
-. Create a local directory to cache the downloaded model. This saves time on subsequent launches.
+. We first need to stop the running lab model to free up the GPU. In the top terminal run:
 +
 [source,bash]
 ----
-mkdir -p $HOME/rhaiis-cache
+sudo systemctl stop rhaiis.service
 ----
 
-To make sure everything is working correctly, let's run a quick test. This command will start a temporary container and run `nvidia-smi` inside of it. If it works, you'll see details about your GPU.
+To make sure everything is working correctly, let's run a quick test. This command will start a temporary container and run `nvidia-smi` inside of it. If it works, you'll see details about your GPU. Keep this handy, it's great way to test container access to GPUs across environments. 
 
 Run this command in **Terminal 1**:
 
@@ -31,23 +28,43 @@ sudo podman run --rm --device nvidia.com/gpu=all \
   docker.io/nvidia/cuda:11.0.3-base-ubuntu20.04 nvidia-smi
 ```
 
+.Nvidia GPU Status
+image::nvidia_smi.png[Nvidia GPU Status]
 You should see an output similar to the one you'd see if you ran `nvidia-smi` on the host, showing your GPU model, memory usage, and driver version.
 
-=== 3. Run the RHAIIS Container
+== Deploying Your First Model
+
+
+===  1. Create a Cache Directory
+
+Create a local directory to cache the downloaded model. This saves time on subsequent launches.
+[source,bash]
+----
+mkdir -p $HOME/rhaiis-cache
+----
+
+=== 2. Run the RHAIIS Container
 
 This is the core of our lab. We're going to launch the RHAIIS container image and tell it to serve the `ibm-granite/granite-3.3-2b-instruct` model.
 
+====
+
 This command might look a bit complex, but let's break down the important parts:
 
-  * `--device nvidia.com/gpu=all`: This gives the container access to all available GPUs.
-  * `--security-opt=label=disable`: This is important for SELinux systems to allow the container to access local files.
-  * `--shm-size=4GB -p 8000:8000`: This allocates shared memory and maps the container's port 8000 to the host's port 8000, so we can access the API.
-  * `--env "HUGGING_FACE_HUB_TOKEN=$HFTOKEN"`: We're passing our Hugging Face token into the container.
-  * `-v $HOME/rhaiis-cache:/opt/app-root/src/.cache`: This mounts our local cache directory, so the model only needs to be downloaded once.
-  * `registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1`: This is the specific RHAIIS container image we're using.
-  * `--model ibm-granite/granite-3.3-2b-instruct`: This tells the server which model to download and serve.
+  * *`--device nvidia.com/gpu=all`:* This gives the container access to all available GPUs.
+  * *`--security-opt=label=disable`:* This is important for SELinux systems to allow the container to access local files.
+  * *`--shm-size=4GB -p 8000:8000`:* This allocates shared memory and maps the container's port 8000 to the host's port 8000, so we can access the API.
+  * *`--env "HUGGING_FACE_HUB_TOKEN=$HFTOKEN"`:* We're passing our Hugging Face token into the container.
+  * *`-v $HOME/rhaiis-cache:/opt/app-root/src/.cache`:* This mounts our local cache directory, so the model only needs to be downloaded once.
+  * *`registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1`:* This is the specific RHAIIS container image we're using.
+  * *`--model ibm-granite/granite-3.3-2b-instruct`:* This tells the server which model to download and serve.
+
+====
+
 
 In **Terminal 1**, copy and paste the following command and press Enter. This will take some time as the model is downloaded and loaded onto the GPU.
+
+
 
 [source,bash]
 ----
@@ -60,19 +77,39 @@ podman run --rm -it --name rhaiis-server \
   --env=VLLM_NO_USAGE_STATS=1 \
   -v $HOME/rhaiis-cache:/opt/app-root/src/.cache \
   registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2.0-1754088865-hotfix-1 \
-  --model ibm-granite/granite-3.3-2b-instruct \
+  --model ibm-granite/granite-3.3-2b-instruct
 ----
 
+=== 3. Monitor GPU Memory
 
-The server will now start. The first launch will take several minutes as it downloads the model into the cache directory. Subsequent launches will be much faster.
+There are a few tools for monitoring GPU memory. Since we are using Nvidia GPUs, where using their tools.
+
+The `nvidia-smi` command is your primary tool for monitoring the GPU. We saw this demonstrated in our quick GPU test earlier. For this part of the lab, let's use the `nvtop` command.
+
+. In your second terminal, run `nvtop`  to see live updates.
++
+[source,bash]
+----
+nvtop
+----
+
+. Keep an eye on the Memory-Usage box. It will show you how much of the total available VRAM is being used as the model loads its weights and initializes the KV Cache, eventually consuming most of the GPU's memory. This initial usage represents the baseline VRAM consumption for the model with default settings.
+
+.nvtop command status
+image::nvtop.png[Nvidia GPU Status, 480]
+
+
+
+
 
 === 4. Verify the Deployment
 
-Once you see logs indicating "Uvicorn running on http://0.0.0.0:8000", the server is ready.
+Once you see logs indicating "gRPC Server started on http://0.0.0.0:8033", the server is ready.
 
-. In ** terminal 2** . Do not close the terminal or end the process where the RHAIIS container is running.
+. In ** terminal 2**, stop the `nvtop` process by pressing CTRL-C.
+* Do not close the terminal or end the process where the RHAIIS container is running.*
 
-. Use `curl` to send a test prompt to the server's completions endpoint.
+. In ** terminal 2**, Use `curl` to send a test prompt to the server's completions endpoint.
 +
 [source,bash]
 ----
@@ -85,17 +122,19 @@ curl -X POST http://localhost:8000/v1/completions \
 }' | jq .choices[0].text
 ----
 
-You should see standard formatted response generated by the model, confirming that the inference server is working correctly.
+You should now see a standard, formatted response from the model, which confirms that the inference server is working correctly.
+
+Feel free to change the prompt and try a few different queries to experiment with the model.
 
 '''
 
 == 4. Monitoring and Tuning VRAM Usage
 
-Understanding and managing GPU memory is the most critical skill for serving LLMs efficiently. Let's see how much VRAM our model is using and how to tune it.
+Understanding and managing GPU memory is the most critical skill for serving LLMs efficiently. Now that we validated it's working . Let's see how much VRAM our model is using and how to tune it.
 
 === Monitor GPU Memory
 
-The `nvidia-smi` command is your primary tool for monitoring the GPU.
+This time let's use the  `nvidia-smi` command is your primary tool for monitoring the GPU.
 
 . In your second terminal, run `nvidia-smi` in watch mode to see live updates.
 +
@@ -104,7 +143,11 @@ The `nvidia-smi` command is your primary tool for monitoring the GPU.
 watch -n 1 nvidia-smi
 ----
 
-. Observe the **Memory-Usage** column. It will show how much VRAM is being used out of the total available (e.g., `8152MiB / 23028MiB`). This is the baseline VRAM consumption for this model with default settings.
+. Observe the **Memory-Usage** column. It will show how much VRAM is being used out of the total available (e.g., `20052MiB / 23028MiB`). This is the baseline VRAM consumption for this model with default settings.
+
+Press Ctrl-C to stop exist the nvidia smi command.
+
+The other command available in this lab is the `nvtop` command. I like this command better because of the graph style concumption metrics provided for GPU memory usage and GPU processing usage. 
 
 
 
@@ -130,10 +173,14 @@ podman run --rm -it --name rhaiis-server \
   --model ibm-granite/granite-3.3-2b-instruct \
   --max-model-len 80000 <1>
 ----
-<1> Limits the model's context length to 80000 tokens.
+<1> Limits the model's context length to 80000 tokens from the max 128,000 tokens.
 
 
-. Once the server is running, check your `nvidia-smi`, nvtop watch window. You should see a noticeable decrease in VRAM usage.
+Once the server is running, check your `nvidia-smi`, nvtop watch windows. You should see a noticeable decrease in VRAM usage. 
+
+In reality,  what happens in this case is that the inference engine does limit the models max context lgenth to 80K, however, the RHAIIS (vLLM) engine still consumed all the available GPU memory it could based on the .90 (90%) utilization default setting. 
+
+Let's reduce this memory setting next to see how this effects our GPU memory consumption. 
 
 === Fine-Tuning GPU Memory Utilization
 
@@ -141,7 +188,7 @@ The most direct way to *control the memory vLLM reserves* is with the `--gpu-mem
 
 . Stop the running container with `Ctrl+C`.
 
-. Relaunch the server, setting the utilization to 85% to leave more memory for other processes if needed.
+. Relaunch the server, setting the utilization to 70% to leave more memory for other processes if needed.
 +
 [source,bash]
 ----
@@ -203,25 +250,51 @@ You have now successfully deployed and tested two different validated models, de
 
 '''
 
-== 6. Lab Cleanup
+
+== 6. Trouble Shooting the Larger Model
+
+====
+
+If you deployed your lab using the suggested environment, it's highly likely the larger Granite-8B model just crashed during loading. If you were monitoring with nvtop, you would have seen the GPU usage drop to zero.
+
+This was expected. Earlier in the lab guide, you were asked to calculate the context length for the Granite 8B model. Let's revisit that information...
+
+[NOTE]
+****
+*Exercise: KV Cache Estimation*
+
+An NVIDIA A10G or L4 GPU has 24 GB of vRAM. Given that the *RedHatAI/granite-3.1-8b-instruct* requires ~19.0 Gi for its weights and overhead, what is the maximum context length (in tokens) you could configure for the KV Cache to ensure the entire workload fits on the device? ( using 0.15625 MB per token, 95% GPU usage )
+****
+
+*You will need to apply this answer as a argument / setting in order to launch the Granite-3.1-8B model successfully.*
+
+
+[TIP]
+Start small and during a successful launch, the engine will display the max token config for the available memory. 
+
+====
+
+== 7. Wrapping up this Experience
+
+I know, I know you left you hanging on this last lab exercise, we'll add an arcade that shows the answer soon, until then everything you need is in this course.
+
+The key points in this lab were:
+
+Gain hands-on experience with the deployment of Red Hat AI Inference Server. 
+
+You learned how to calculate a model GPU requirements, deploy a model, test its functionality, monitor its resource consumption, and tune its performance based on available VRAM. 
+
+
+== 8. Lab Cleanup
 
 To stop the services and clean up your environment, simply stop the running container.
 
 . In the terminal where RHAIIS is running, press `Ctrl+C`.
-
-. The `--rm` flag used in the `podman run` command ensures the container is automatically removed upon exit.
+.. The `--rm` flag used in the `podman run` command ensures the container is automatically removed upon exit.
+. In the terminal where nvtop nvidia-smi is running, press `Ctrl+C`.
+ .Delete the services on the Demo Platform. 
 
 '''
 
-== 7. Conclusion
 
-In this lab, you gained hands-on experience with the core workflow of Red Hat AI Inference Server. You learned how to deploy a model, test its functionality, monitor its resource consumption, and tune its performance based on available VRAM.
 
-**Key Takeaways:**
-
-* RHAIIS deployment is managed with a single, configurable `podman run` command.
-* `nvidia-smi` is essential for monitoring VRAM usage.
-* The `--gpu-memory-utilization` and `--max-model-len` arguments are your primary tools for memory management.
-* Switching between different validated models is as simple as changing the `--model` parameter.
-
-In the next lab, we will build on this foundation to explore multi-GPU deployments and advanced customizations.
