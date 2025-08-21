@@ -225,3 +225,4 @@ In this lab, you gained hands-on experience with the core workflow of Red Hat AI
 * Switching between different validated models is as simple as changing the `--model` parameter.
 
 In the next lab, we will build on this foundation to explore multi-GPU deployments and advanced customizations.
+

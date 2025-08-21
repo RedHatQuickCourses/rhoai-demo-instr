@@ -1,6 +1,6 @@
 = **Red Hat AI Inference Server (RHAIIS)**
 
-Available as a standalone product and included in Red Hat OpenShift AI and Red Hat Enterprise Linux AI, AI inference server provides a powerful and flexible solution for deploying high-performance large language models across any hybrid cloud environment.
+Available as a standalone product and included in Red Hat OpenShift AI and Red Hat Enterprise Linux AI. AI inference server provides a powerful and flexible solution for deploying high-performance large language models across any hybrid cloud environment.
 
 RHAIIS provides a hardened, supported distribution of the **vLLM** software via pre-packaged containers, depending on GPU type. 
 

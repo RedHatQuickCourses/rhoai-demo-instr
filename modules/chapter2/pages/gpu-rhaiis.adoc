@@ -120,8 +120,6 @@ An NVIDIA A10G or L4 GPU has 24 GB of vRAM. Given that the *ibm-granite/granite-
 [#tensor-parallelism]
 == When Your Model is Too Big for One GPU
 
-You've been asked to deploy a powerful new Large Language Model, but when you try to load it, you hit the most common roadblock in AI infrastructure: the CUDA out of memory error.
-
 This is where GPU aggregation strategies become essential. The first and most common strategy for this scenario is Tensor Parallelism.
 
 
@@ -139,7 +137,7 @@ The rule for using Tensor Parallelism is simple.
 []
 ****
 Use Tensor Parallelism when your AI model is too large to fit on a single GPU, but it can fit within the combined memory of all GPUs in a single server.
-It is the ideal solution for scaling up within the bounds of a single, powerful, multi-GPU node.
+It is the ideal solution for scaling up within the bounds of a single multi-GPU node.
 ****
 
 '''
