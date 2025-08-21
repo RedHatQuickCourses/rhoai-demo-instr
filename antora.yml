@@ -2,8 +2,4 @@ name: rhoai-demo-instr
 title: Model Serving with Red Hat AI Inference Server (RHAIIS)
 version: 3.2
 nav:
-- modules/ROOT/nav.adoc
-- modules/chapter1/nav.adoc
-- modules/chapter6/nav.adoc
-- modules/chapter5/nav.adoc
 - modules/chapter2/nav.adoc
