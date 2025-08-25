@@ -1,4 +1,4 @@
-* xref:intro_rhaiis.adoc[]
+//* xref:intro_rhaiis.adoc[]
 ** xref:rhaiis_overview.adoc[]
 ** xref:gpu-rhaiis.adoc[]
 // ** xref:gpu-sharing.adoc[]
