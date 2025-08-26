@@ -1,60 +1,91 @@
-## Getting started with a new training content repository
+# Model Serving with Red Hat AI Inference Server
 
-- Open the [course-starter-template](https://github.com/RedHatQuickCourses/course-starter-template)
+## Overview and Objectives
 
-- Click on `Use This template` button and select `Create a new repository` option.
+Welcome to Model Serving with Red Hat AI Inference Server (RHAIIS).
+This is a hands-on lab designed to give you practical experience serving large language models (LLMs) with Red Hat AI Inference Server (RHAIIS). 
 
-![use-this-template.png](./images/use-this-template.png)
+By the end of this course, you will be able to:
 
-- On `Create a new repository` page, Select the options as highlighted in the below image and then click `Create repository` button at the bottom of the page.
+ 1. Deploy and serve an LLM for inference using two different Granite models (2B and 8B parameters), gaining firsthand experience with a powerful, enterprise-grade platform.
 
-![create-new-repo.png](./images/create-new-repo.png)
+ 2. Optimize GPU resource usage by monitoring memory consumption in real time, understanding how RHAIIS loads model weights and manages the KV Cache. You'll learn how to fine-tune performance by controlling key parameters like max_tokens.
 
-- Clone this repository on your local system:
-```
-git clone git@github.com:RedHatQuickCourses/my-training-repository.git
-```
-NOTE: Use your repository url in the above command.
+ 3. Troubleshoot and solve deployment challenges, specifically by working through the advanced steps needed to successfully launch a larger 8B model. This will build your skills for real-world scenarios.
 
-- Go in to the course repository directory and initialize the course.
-``` 
-cd my-training-repository/
-sh course-init.sh --type bfx --lab demo
-```
-NOTE: If you are using Mac, use *zsh* in place of *sh* in the above command.
+4. Lay a foundation for further exploration by using the Red Hat AI Model Repository on Hugging Face to serve and experiment with more models after the lab exercises.
 
-Sample output:
-```
-Initializing my-training-repository . . . done
+While the lab environment initializes, take this opportunity to review the provided lab guide. It covers essential topics like RHAIIS requirements, supported deployments, and advanced vLLM configuration settings, giving you the context you need to succeed.
 
-Please replace the specified strings in the files below and commit the changes before proceeding with the course development.
-antora.yml:title: REPLACE Course Title
-```
+Ready to get started? Let’s dive into a powerful platform that helps you deploy AI models with flexibility and high performance across any hybrid cloud environment.
 
-- Edit the files prompted by course initialization script.
 
-- Commit the changes done by course initialization script and your manual edits.
-```
- git status 
- git add -A; git commit -m "course initialization"
- git push origin main 
-```
+## Outcomes
 
-- Browse your git repository url 
+Upon completing this lab, you will be able to:
 
-- On your github repo page, on left hand side pane, click on settings gear icon near `About` heading.
+ * Deploy AI Inference server for Huggingface based models using Podman.
+ * Verify the model is serving correctly by interacting with its API.
+ * Monitor the GPU's video memory (VRAM) usage in real-time.
+ * Tune server parameters to control memory consumption and context length.
+ * Deploy and test an alternative model to see the platform's flexibility.
+ * Determine the max-model-len for a given model.
 
-- Click `Use your GitHub Pages website` option to select (checked) it and then click `Save changes` button.
+## Environment Prerequisites
 
-![github-pages-setting](./images/github-pages-setting.png)
+Your lab environment has been pre-configured with the following:
 
-- You should now see the link to access the rendered content within that same block.
+* A Red Hat Enterprise Linux 9.x system with a valid subscription.
+* An attached and configured NVIDIA data center GPU with drivers installed.
+* Podman and the NVIDIA Container Toolkit are pre-installed.
+* Credentials for **Red Hat account** to access `registry.redhat.io`. (Provided for this experience)
+* A **Hugging Face account** with a User Access Token with read permissions. (Provided for this experience)
 
-![quickcourse-rendered-url](./images/quickcourse-rendered-url.png)
 
-FIXME: highlight the relevant area on images.
+## Setting Up Your RHAIIS Lab Environment
 
-**SEE ALSO**
+A dedicated lab environment for this training is currently in development. In the meantime, you can use the same environment available on the Demo Platform, https://catalog.demo.redhat.com/catalog?item=babylon-catalog-prod/rhdp.rhaiis-on-rhel.prod&utm_source=webapp&utm_medium=share-link[*Base Red Hat AI Inference Server (RHAIIS)*, window=blank] - which is pre-configured with the Red Hat AI Inference Server (RHAIIS).
 
-- [Development using devspace](./DEVSPACE.md)
-- [Guideline for editing your content](./USAGEGUIDE.adoc)
+This environment includes some pre-configured bonus content:
+
+ * A bonus lab that shows you how to connect to the AI model using Python.
+
+ * An Qwen2.5 model running on RHAIIS as a system service. This model starts automatically when the system boots.
+
+Once you have completed the initial exercises, you can stop this service to free up the environment for the this lab's main activities. To stop the service, simply run the following command:
+
+[source,bash]
+----
+sudo systemctl stop rhaiis.service
+----
+
+== Interactive Experiences - Arcades
+
+These embedded interactive experiences are woven throughout the training materials. At times they can malfunction when run from a small window, they work best in full screen.
+
+ * There is a navigation bar across the top.
+ ** use the diagonal arrows at the top right to expand the window. 
+ ** use the arrows at the top left to navigate forward or backwards.
+ ** in the center of the screen you can restart the Arcade.
+ ** the lower section of the screen show video progress or slide progression steps.
+
+++++
+<iframe 
+  src="https://demo.arcade.software/isTBAIOGdpdy2RDLO9ya?embed&embed_mobile=inline&embed_desktop=inline&show_copy_link=true"
+  width="100%" 
+  height="600px" 
+  frameborder="0" 
+  allowfullscreen
+  webkitallowfullscreen
+  mozallowfullscreen
+  allow="clipboard-write"
+  muted>
+</iframe>
+++++
+
+
+
+
+
+
+
