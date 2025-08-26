@@ -1,5 +1,5 @@
 site:
-  title: OpenShift AI Lab environment instructions
+  title: Model Serving with Red Hat AI Inference Server (RHAIIS)
   start_page: rhoai-demo-instr::index.adoc
 
 content:
