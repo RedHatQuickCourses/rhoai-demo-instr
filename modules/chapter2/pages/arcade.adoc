@@ -1,0 +1,29 @@
+= Arcade Interactive Lab Walkthrough
+
+This is here for BETA testing only, and will be removed soon. This page is a bit slow to load, there are 7 Arcades, so don't miss out by not scrolling down. 
+
+These embedded interactive experiences provide a guided walkthrough of the end-to-end lab workshop.  At times they can malfunction when run from a small window, they work best in full screen. 
+
+Here are some tips:
+
+ * There is a navigation bar across the top.
+ ** use the diagonal arrows at the top right to expand the window. 
+ ** use the arrows at the top left to navigate forward or backwards.
+ ** in the center of the screen you can restart the Arcade.
+ ** the lower section of the screen show video progress or slide progression steps.
+
+
+++++
+<iframe 
+  src="https://interact.redhat.com/share/collections/ZbKv8QNzrDwo3ZtdgLnN?embed&show_copy_link=true&force_no_header=true"
+  width="100%" 
+  height="600px" 
+  frameborder="0" 
+  allowfullscreen
+  webkitallowfullscreen
+  mozallowfullscreen
+  allow="clipboard-write"
+  muted>
+</iframe>
+++++
+

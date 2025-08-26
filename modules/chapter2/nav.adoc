@@ -4,3 +4,4 @@
 // ** xref:gpu-sharing.adoc[]
 ** xref:vllm-adv.adoc[]
 ** xref:rhaiis_lab.adoc[]
+** xref:arcade.adoc[]
