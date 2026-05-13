@@ -1,0 +1,134 @@
+= Securing the AI Factory: A Defense-in-Depth Approach
+
+== Why AI Security is Different
+
+Securing a Models-as-a-Service platform requires more than just standard application security. AI and Large Language Models introduce new, unique attack surfaces that traditional security measures are not designed to handle.
+
+As a consultant, you must be able to articulate these new risks to customers:
+
+  * **Model Poisoning:** Malicious actors can tamper with training data or the model file itself to introduce hidden backdoors or biases.
+ * **Prompt Injection:** Attackers can craft malicious inputs (prompts) to bypass safety guardrails, reveal confidential information from the model's context, or cause the model to execute unintended actions.
+ * **Data Extraction Attacks:** Adversaries can interact with a model to try and reconstruct the sensitive, proprietary data it was trained on.
+ * **Denial of Service (Resource Exhaustion):** AI inference is resource-intensive. An attacker can easily overwhelm a service with a few complex requests, leading to massive costs and service outages.
+
+To protect against these threats, we must adopt a **Defense-in-Depth** strategy, building multiple layers of security throughout our AI Factory.
+
+'''
+
+== The Layers of Defense for the AI Factory
+
+A robust security posture is built in layers, from the code and models themselves to the infrastructure they run on and the policies that govern them.
+
+=== Layer 1: Securing the AI Supply Chain
+
+Security starts before the model is ever deployed. We must ensure that the assets we are building with—models, data, and code—are trusted and free from tampering.
+
+.Checklist
+* **Sign and Verify Model Artifacts:**
++
+--
+_Threat:_ Model Poisoning.
+_Control:_ Use tools like `sigstore/cosign` to cryptographically sign model files. The platform should then verify this signature before allowing a model to be deployed, ensuring it hasn't been altered.
+--
+* **Use a Trusted Model Registry:**
++
+--
+_Threat:_ Using compromised or untrusted models.
+_Control:_ Store curated, approved, and scanned models in a secure, private registry, just as you do for container images.
+--
+* **Generate and Maintain an AI Bill of Materials (AIBOM):**
++
+--
+_Threat:_ Lack of transparency and provenance.
+_Control:_ Maintain a record of the model's lineage: what data it was trained on, its core architecture, and its known limitations. This is crucial for accountability and troubleshooting.
+--
+* **Scan All Dependencies (SBOM):**
++
+--
+_Threat:_ Vulnerabilities in third-party code.
+_Control:_ Use tools like Syft and Grype to generate a Software Bill of Materials (SBOM) and scan all dependencies in your inference server code for known CVEs.
+--
+
+'''
+
+=== Layer 2: Securing the Platform & Infrastructure
+
+This layer focuses on securing the underlying OpenShift AI environment where the models will run.
+
+.Checklist
+* **Run Models in Isolated, Hardened Runtimes:**
++
+--
+_Threat:_ Container breakouts and privilege escalation.
+_Control:_ Leverage OpenShift's built-in security by running model containers as non-root users with minimal privileges, enforced by security contexts and technologies like SELinux.
+--
+* **Encrypt Data At Rest and In Transit:**
++
+--
+_Threat:_ Data interception or theft from storage.
+_Control:_ Enforce TLS for all communication. Use OpenShift's storage features with KMS integration to ensure all data, including model weights and cached datasets, is encrypted on disk.
+--
+* **Apply Policy-as-Code with OpenShift GitOps:**
++
+--
+_Threat:_ Inconsistent or insecure deployments.
+_Control:_ Use GitOps to declaratively manage all MaaS configurations. This ensures that every deployment adheres to a version-controlled, peer-reviewed security standard.
+--
+* **Utilize Advanced Cluster Security (ACS):**
++
+--
+_Threat:_ Runtime vulnerabilities and misconfigurations.
+_Control:_ Implement Red Hat Advanced Cluster Security to scan running containers, enforce network policies, and detect anomalous behavior within the cluster.
+--
+
+'''
+
+=== Layer 3: Securing the Service & API Endpoint
+
+This layer protects the "front door" of your AI Factory, controlling who can access the service and what they can do.
+
+.Checklist
+* **Enforce Strong Authentication and Authorization:**
++
+--
+_Threat:_ Unauthorized access.
+_Control:_ Secure all model endpoints through an API Gateway integrated with a corporate SSO (using OIDC/OAuth2). Every request must have a validated user token and application API key.
+--
+* **Validate All Input Payloads:**
++
+--
+_Threat:_ Prompt Injection and Denial of Service.
+_Control:_ The API Gateway or the inference service itself should validate all incoming data, checking for malicious patterns, and enforcing size limits to prevent resource exhaustion attacks.
+--
+* **Implement Comprehensive Auditing and Monitoring:**
++
+--
+_Threat:_ Undetected malicious activity.
+_Control:_ Log every API request and model invocation. Integrate these logs with a SIEM (like Splunk) and monitor resource usage in Prometheus to detect anomalies, such as a sudden spike in token usage from a single user.
+--
+
+'''
+
+== Layer 4: Governance, Risk, and Compliance (GRC)
+
+This final layer is about the human processes and policies that govern the entire platform.
+
+.Checklist
+* **Conduct AI Risk Assessments:**
++
+--
+_Threat:_ Unforeseen business or ethical risks.
+_Control:_ Regularly assess the AI models and platform against a standard framework like the NIST AI Risk Management Framework (RMF) or ISO 42001.
+--
+* **Ensure Regulatory Compliance:**
++
+--
+_Threat:_ Legal and financial penalties.
+_Control:_ If the platform will handle sensitive information, ensure all security controls meet the requirements of relevant regulations like GDPR, HIPAA, etc.
+--
+* **Maintain Incident Response Plans:**
++
+--
+_Threat:_ Being unprepared for a security event.
+_Control:_ Develop and document a plan for how to respond to AI-specific incidents, such as a model leak, a major data extraction event, or the discovery of a critical bias.
+--

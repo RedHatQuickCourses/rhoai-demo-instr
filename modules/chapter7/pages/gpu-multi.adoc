@@ -1,0 +1,145 @@
+= Lab: Multi-GPU Model Deployment
+
+[%hardbreaks]
+
+== Introduction
+
+Deploying Large Language Models often pushes the boundaries of a single GPU's memory. In this lab, you will learn the practical steps to deploy an LLM that requires more vRAM than one accelerator can provide by using **tensor parallelism**. This technique shards the model's weights across multiple GPUs on a single node, allowing you to run larger, more powerful models.
+
+You will walk through a realistic scenario: first attempting to deploy a model on a single GPU, observing the predictable memory failure, and then successfully redeploying it across two GPUs. This process will solidify your understanding of resource requirements and multi-GPU configurations in OpenShift AI.
+
+== Lab Story
+
+The Platform Engineering team at "InnovateForward Corp" has a new task: deploy the `ibm-granite/granite-3.3-8b-instruct` model for an internal developer team. Based on their sizing calculations from the previous module, they know that the model and its full KV Cache require nearly 38Gb of vRAM, which is more than a single 24Gb GPU can handle.
+
+To demonstrate the importance of correct sizing, they decide to first attempt the deployment on a single GPU, fully expecting it to fail. They will then use this failure as a learning opportunity to correctly reconfigure the deployment, using two GPUs and enabling tensor parallelism to bring the model online successfully.
+
+== Step 1: Initial Deployment Attempt (1 GPU)
+
+First, we will deploy the model using the OpenShift AI dashboard and request a single GPU.
+
+. From the OpenShift AI Dashboard, select the **Serving at Scale** project.
+. Navigate to the **Model Serving** tab and click **Deploy model**.
+. Select the **vLLM** Serving Runtime and fill in the deployment details with the following information:
++
+--
+* **Model deployment name:** `granite-8b`
+* **Number of model replicas:** `1`
+* **Model server size:** `Custom`
+** **CPUs requested:** `4`
+** **Memory requested:** `24 GiB`
+* **Accelerator:** `NVIDIA GPU`
+* **Number of accelerators:** `1`
+--
++
+. In the **Model location** section, for the **Source**, select `Use a data connection`. Enter the following:
++
+--
+* **Connection name:** `granite-8b-instruct-oci`
+* **URI:** `oci://quay.io/redhat-ai-services/modelcar-catalog:granite-3.3-8b-instruct`
+--
++
+. Click **Deploy**.
+
+[NOTE]
+====
+We are using **ModelCar** to deploy this model. ModelCar packages a model's weights into an OCI container image, which allows it to be stored in a registry like Quay.io and managed using standard CI/CD and GitOps promotion workflows.
+====
+
+== Step 2: Observe and Diagnose the Failure
+
+The deployment will begin, and a new pod will be created. As expected, this pod will fail because one GPU doesn't have enough memory.
+
+. In your terminal, watch the pods in the `serving-at-scale` project:
++
+[source,bash,role="execute"]
+----
+oc get pods -w -n serving-at-scale
+----
++
+You will see a pod named `granite-8b-predictor-00001-deployment-...` attempt to start, but it will eventually enter an `Error` or `CrashLoopBackOff` state.
+
+. Once the pod has failed, retrieve its logs to diagnose the issue. Use the pod name from the previous step:
++
+[source,bash,role="execute",subs="attributes+"]
+----
+oc logs granite-8b-predictor-00001-deployment-<your-pod-hash> -n serving-at-scale
+----
++
+. In the logs, you will find a `ValueError` from vLLM confirming our hypothesis:
++
+[source,text]
+----
+ValueError: To serve at least one request with the models's max seq len (131072), 20.00 GiB KV cache is needed, which is larger than the available KV cache memory (3.84 GiB). Try increasing `gpu_memory_utilization` or decreasing `max_model_len` when initializing the engine.
+----
+
+== Step 3: Redeploy with Tensor Parallelism (2 GPUs)
+
+Now, let's fix the deployment by providing the necessary resources.
+
+. Return to the **Model Serving** page in the OpenShift AI Dashboard.
+. Find the `granite-8b` deployment, click the three-dots menu on the right, and select **Edit**.
+. Make two critical changes:
+.. **Number of accelerators:** Change this value from `1` to `2`.
+.. **Additional serving runtime arguments:** Add the following argument: `--tensor-parallel-size=2`
+. Click **Deploy**.
+
+This will trigger a new deployment. OpenShift AI will create a new pod named `granite-8b-predictor-00002-deployment-...`. This time, the deployment will succeed because vLLM can now shard the model across both GPUs.
+
+== Step 4: Verify GPU Utilization
+
+Let's confirm that both GPUs are being used by the model server.
+
+. Get the name of the new, running pod:
++
+[source,bash,role="execute"]
+----
+oc get pods -n serving-at-scale
+----
+
+. Use `rsh` to get a shell inside the running pod:
++
+[source,bash,role="execute",subs="attributes+"]
+----
+oc rsh granite-8b-predictor-00002-deployment-<your-pod-hash> -n serving-at-scale
+----
+
+. Inside the pod's shell, run the NVIDIA System Management Interface (`nvidia-smi`) command:
++
+[source,bash]
+----
+nvidia-smi
+----
++
+You will see output showing two NVIDIA GPUs (GPU 0 and GPU 1). In the processes table at the bottom, you should see that there are two `python` processes, one running on each GPU, with a significant amount of vRAM utilized on each. This confirms that tensor parallelism is working.
+
+== Step 5: Test the Deployed Model Endpoint
+
+Finally, let's ensure the model is responsive by testing its API endpoint.
+
+. In the OpenShift AI Dashboard, on the **Model Serving** page for `granite-8b`, find the **Inference endpoint** URL and copy it.
+. Open a new browser tab and paste the URL, adding `/docs` to the end. This will open the FastAPI Swagger UI for your vLLM instance.
+. Find the `POST /v1/chat/completions` endpoint and expand it. Click **Try it out**.
+. In the **Request body**, paste the following JSON payload:
++
+[source,json]
+----
+{
+  "model": "granite-8b",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a helpful Red Hat expert."
+    },
+    {
+      "role": "user",
+      "content": "What is OpenShift AI?"
+    }
+  ]
+}
+----
+. Click **Execute**. You should receive a successful JSON response from the model with a detailed answer to your question.
+
+Congratulations! You have successfully deployed, troubleshot, and scaled an LLM across multiple GPUs.
+```
+

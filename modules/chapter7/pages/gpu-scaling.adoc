@@ -1,0 +1,48 @@
+= Scaling Architectures
+
+[%hardbreaks]
+
+== Introduction
+
+As you begin to deploy larger and more complex Large Language Models, you will quickly encounter the physical limits of a single GPU. To overcome this, the vLLM serving runtime supports two primary scaling architectures: scaling *up* within a single node and scaling *out* across multiple nodes.
+
+Understanding the difference between these two patterns, their underlying technologies, and their performance trade-offs is crucial for designing a cost-effective and efficient AI serving platform. This section provides a conceptual overview of these deployment strategies before you implement them in the hands-on labs.
+
+== Single-Node, Multi-GPU
+
+This is the most common and performant approach for scaling up. When a model is too large for one GPU, you can deploy it on a single OpenShift node that has multiple GPUs available.
+
+vLLM uses **Tensor Parallelism** to automatically shard the model's weights across all the available GPUs within the node. The `--tensor-parallel-size` argument is used to tell vLLM how many GPUs to use. This creates a larger, unified pool of vRAM to accommodate the model and its KV Cache.
+
+.Single-Node, Multi-GPU Architecture
+image::03-single-node-multi-gpu.png[A diagram showing a model sharded across multiple GPUs within a single node, align="center"]
+
+== Multi-Node, Multi-GPU
+
+For the most massive models that exceed the capacity of even a fully-equipped single node, you must scale out across multiple nodes. OpenShift AI provides a multi-node vLLM distribution that uses a **Ray** backend to orchestrate this complex deployment.
+
+This architecture uses a combination of two parallelism techniques:
+* **Pipeline Parallelism**: The model's layers are split across different nodes. The `--pipeline-parallel-size` argument typically corresponds to the number of nodes in the cluster.
+* **Tensor Parallelism**: Within each node, the model's layers are further sharded across all available GPUs using `--tensor-parallel-size`.
+
+A "head" pod manages the Ray cluster, while "worker" pods execute their portion of the model.
+
+.Multi-Node, Multi-GPU Architecture
+image::03-multi-node-multi-gpu.png[A diagram showing a model distributed across multiple nodes, with each node using multiple GPUs, align="center"]
+
+[NOTE]
+====
+The Ray instance used for multi-node vLLM is embedded and managed automatically by the vLLM runtime. It does *not* depend on any external Ray cluster or other distributed computing tools like KubeRay or CodeFlare.
+====
+
+== Performance and Sharding Considerations
+
+=== Performance Limitations of Multi-Node
+While powerful, multi-node deployments introduce network latency. The communication between nodes is significantly slower than the high-speed NVLink interconnects between GPUs within a single node.
+
+Therefore, a model deployed on a single node with 8 GPUs will almost always have better performance (lower latency) than the same model deployed on two nodes with 4 GPUs each. **It is always recommended to scale up within a single node whenever possible.**
+
+=== Model Sharding Constraints
+Models cannot be sharded across an arbitrary number of GPUs. The model's architecture, specifically the `num_attention_heads` parameter found in its `config.json` file, must be divisible by the total number of GPUs being used for tensor parallelism.
+
+For example, the `ibm-granite/granite-3.3-8b-instruct` model has 32 attention heads. This means it can be sharded across 2, 4, or 8 GPUs, but it *cannot* be deployed with 3 GPUs, as 32 is not divisible by 3.

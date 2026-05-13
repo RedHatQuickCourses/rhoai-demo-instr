@@ -1,0 +1,64 @@
+= GPU Timeslicing
+
+== What is GPU Timeslicing and Why Use It?
+
+GPU timeslicing is a software-based sharing technique that allows multiple workloads to run on a single GPU by dividing access to its compute resources over time. Unlike hardware partitioning (MIG), timeslicing gives each workload sequential access to the *full power* of the GPU for very short intervals.
+
+This approach is a powerful tool for maximizing the ROI of your GPU infrastructure.
+
+[NOTE]
+.Primary Use Cases
+====
+* **Development and Testing:** Give multiple developers simultaneous access to GPUs without the cost of dedicating a full device to each.
+* **Low-Traffic AI Inference:** Serve multiple, distinct models from a single GPU, which is highly cost-effective when requests are sporadic.
+* **Improving Utilization:** Ensure expensive GPUs are not sitting idle, driving up utilization rates and making AI workloads more economical.
+====
+
+'''
+
+== How It Works: The Core Mechanism
+
+Timeslicing operates through a rapid, managed process of context switching, enabled by modern NVIDIA GPU architectures (Pascal and newer).
+
+1.  **Time Division:** The GPU driver's scheduler allocates brief time slices to each active workload, typically in a round-robin fashion.
+2.  **Compute Preemption:** The GPU hardware can interrupt a running process (a kernel) when its time slice expires.
+3.  **Context Switching:** The state of the outgoing process is saved, and the state of the incoming process is loaded. This context switch is optimized in hardware to minimize overhead.
+4.  **Shared Memory Pool:** Crucially, all workloads sharing the GPU via timeslicing use the *same VRAM memory pool*. There is no separation or protection.
+
+'''
+
+== The Critical Trade-Off: Performance vs. Isolation
+
+While timeslicing is excellent for maximizing utilization, it comes with a significant trade-off that every platform engineer must understand.
+
+[WARNING]
+.No Isolation is the Biggest Risk
+====
+Timeslicing provides **zero memory or fault isolation** between workloads.
+
+* **Memory Contention:** If the combined memory usage of all containers exceeds the GPU's capacity, one or more workloads will fail with a `CUDA out of memory` error.
+* **Fault Propagation:** An error or crash in a single container can destabilize the GPU driver, potentially affecting *every other workload* running on that GPU.
+* **"Noisy Neighbor" Problem:** A single, compute-intensive workload can consume a disproportionate amount of resources, leading to unpredictable performance and higher latency for other containers.
+
+Because of these risks, timeslicing should be used with caution in production and is best suited for environments where workloads are trusted and performance requirements are not strictly guaranteed.
+====
+
+'''
+
+== Practical Configuration
+
+You can manage timeslicing settings directly on the node and configure your workloads to behave correctly in a shared environment.
+
+=== Setting the Timeslice Duration
+
+The duration of each time slice can be configured on the host using `nvidia-smi`. Shorter slices allow for more responsive switching but incur higher overhead.
+
+```bash
+# Set a SHORT (2ms) time slice, best for latency-sensitive tasks
+nvidia-smi compute-policy --set-timeslice=1
+
+# Set a MEDIUM (10ms) time slice, a balanced default
+nvidia-smi compute-policy --set-timeslice=2
+
+# Set a LONG (30ms) time slice, best for throughput-oriented tasks
+nvidia-smi compute-policy --set-timeslice=3

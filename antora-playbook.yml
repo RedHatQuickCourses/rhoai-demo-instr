@@ -1,5 +1,5 @@
 site:
-  title: Model Serving with Red Hat AI Inference Server (RHAIIS)
+  title: DEV
   start_page: rhoai-demo-instr::index.adoc
 
 content:

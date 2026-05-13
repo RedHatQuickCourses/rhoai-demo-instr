@@ -1,0 +1,95 @@
+= Deploying Models with GitOps
+
+[%hardbreaks]
+
+== Introduction
+
+Up to this point, we have primarily used the OpenShift AI Dashboard to deploy our models. While the UI is an excellent way to get started and experiment, production environments demand a more robust, repeatable, and automated approach. This is where a GitOps workflow becomes essential.
+
+In this module, we will shift our focus from manual UI-driven deployments to a declarative, code-based methodology. By managing our model deployments as code, we can leverage standard GitOps practices for version control, peer review, and automated rollouts. This is the standard practice for managing production-grade infrastructure and applications.
+
+== Lab Story
+
+The Platform Engineering team at "InnovateForward Corp" has successfully proven they can deploy models using various scaling patterns. Now, they must standardize this process to prepare for the influx of new models required by the application and agentic AI teams. Manually deploying each model through the UI is not scalable and is prone to human error.
+
+Their new mission is to establish a standardized GitOps workflow for model deployment. They will use a Helm chart to declaratively define and deploy a new model. This will create a repeatable pattern that can be integrated into their CI/CD pipelines, ensuring that every model deployed to their AI Factory adheres to the same configuration standards and passes through the same automated process.
+
+== KServe Objects: The Building Blocks
+
+To manage deployments declaratively, we need to understand the two primary Kubernetes objects that KServe uses:
+
+*InferenceService*:: This object defines the model itself. It specifies details like the model's location (its `storageUri`), any custom arguments it requires, and the resources it needs (CPU, memory, GPUs).
+
+*ServingRuntime*:: This object defines the runtime environment for the model. It specifies the container image to use (e.g., the vLLM image), the commands to run, and the environment variables required to start the server. A single `ServingRuntime` can be reused by multiple `InferenceServices`.
+
+== The vLLM KServe Helm Chart
+
+To simplify the process of creating these KServe objects, Red Hat Services provides a Helm chart specifically for deploying vLLM instances. Helm charts package up all the necessary Kubernetes manifests into a single, configurable unit, making deployments much easier to manage.
+
+You can find the chart here: https://github.com/redhat-ai-services/helm-charts/tree/main/charts/vllm-kserve
+
+[NOTE]
+The vLLM KServe Helm chart does not currently support multi-node deployments. Multi-node deployments must be managed with custom manifests as shown in the previous lab.
+
+== Lab: Deploying a Model with Helm
+
+In this lab, we will deploy the `granite-guardian-3.2-5b` model, which will be used in the later LlamaStack agent labs. This time, we will use the Helm chart to manage the deployment.
+
+[TIP]
+If you don't already have the Helm CLI installed, please refer to the official documentation: https://helm.sh/docs/intro/install/
+
+=== Step 1: Add the Helm Repository
+
+First, we need to add the Red Hat AI Services Helm repository to our local Helm client so it knows where to find the chart.
+
+. Add the repository:
++
+[source,bash,role="execute"]
+----
+helm repo add redhat-ai-services https://redhat-ai-services.github.io/helm-charts/
+----
+. Update your local chart information:
++
+[source,bash,role="execute"]
+----
+helm repo update redhat-ai-services
+----
+
+=== Step 2: Deploy the Model using Helm
+
+Now, we can use a single `helm upgrade` command to deploy our model. The `-i` flag tells Helm to install the chart if it's not already present.
+
+[source,bash,role="execute"]
+----
+helm upgrade -i granite-guardian redhat-ai-services/vllm-kserve --version 0.4.2 \
+  --set fullnameOverride="granite-guardian" \
+  --set image.tag="rhoai-2.19-cuda" \
+  --set model.uri="oci://quay.io/redhat-ai-services/modelcar-catalog:granite-guardian-3.2-5b" \
+  --set model.args={"--max-model-len=20000"} \
+  --set deploymentMode=RawDeployment \
+  --set scaling.rawDeployment.deploymentStrategy.type=Recreate \
+  -n serving-at-scale
+----
+
+=== Understanding the Helm Parameters
+
+Let's break down the key parameters we used in that command:
+
+`fullnameOverride`:: Overrides the default name of the Kubernetes resources created by Helm. We set it to `granite-guardian` for clarity.
+`image.tag`:: Specifies the tag for the vLLM container image, ensuring we use a version consistent with our OpenShift AI environment.
+`model.uri`:: Defines the location of the model to be served, using the OCI path to our ModelCar container.
+`model.args`:: Passes arguments directly to the vLLM server. Here, we limit the context length to `20000` to ensure the model fits on our available GPU.
+`deploymentMode`:: We set this to `RawDeployment` to deploy the model without the dependencies of Knative and Service Mesh, which simplifies the deployment in our resource-constrained lab environment.
+`scaling.rawDeployment.deploymentStrategy.type`:: Sets the update strategy to `Recreate`. This tells Kubernetes to terminate the old pod before creating a new one during an upgrade. This is useful in our lab to conserve GPU resources but would cause downtime in a production environment.
+`-n serving-at-scale`:: Specifies the namespace where the model should be deployed.
+
+=== Step 3: Verify the Deployment
+
+Check that the pod was created and has started successfully.
+
+[source,bash,role="execute"]
+----
+oc get pods -n serving-at-scale
+----
+
+You should see a pod named `granite-guardian-predictor-...` in the `Running` state. You have now successfully deployed a model using a repeatable, GitOps-friendly workflow.

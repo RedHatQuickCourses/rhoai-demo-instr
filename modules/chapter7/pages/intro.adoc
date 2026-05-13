@@ -1,0 +1,56 @@
+= Serving at Scale
+
+== Overview and Objectives
+
+Welcome to Serving large language models at scale on Red Hat OpenShift AI.
+
+Deploying massive AI models in the enterprise is an end-to-end engineering challenge. It requires mastering everything from the raw hardware all the way to the secure API endpoint that serves your users. This guide is your roadmap through that entire process.
+
+We'll begin at the core, showing you how to provide **GPU as a Service** with NVIDIA accelerators to create an efficient, shareable hardware foundation. From there, you'll get hands-on with **Scalable Model Serving**, deploying large models across complex multi-GPU clusters. Finally, we’ll evaluate our AI models with **LM_Eval_Harness for accuracy and GuildeLLM for performance** 
+
+Let's start by building from the ground up.
+
+== Overview and Objectives
+
+Welcome to Large Language Model (LLM) inference at scale on Red Hat OpenShift AI.
+
+This series builds directly on the Red Hat AI Inference Series, where we deployed smaller models (2-8 billion parameters) and introduced core concepts of model serving, GPU memory, and the vLLM engine.
+
+Now, we will apply those fundamentals to a much bigger challenge: deploying massive language models. We'll tackle the complexities of models that require the power of multiple GPUs, whether on a single machine or spread across a multi-node cluster.
+
+With deployment under our belts, the next logical step is to see how well our models actually perform. We'll use tools like GuideLLM and LM Evaluation Harness to dig into model accuracy and performance metrics.
+
+We’ll finish this section with a practical lab on model compression. You'll get to use LLM Compressor and pre-built Red Hat recipes to learn how to make your models faster, smaller, and more cost-effective.
+
+As we conclude this segment, keep the bigger picture in mind: these skills are the stepping stones toward creating a sophisticated "Models-as-a-Service" platform.
+
+To get there, however, we must start with the basics. Let's rewind a bit and focus on the key hardware component in any AI system: the accelerator, or GPU.
+
+
+== GPU as a Service with NVIDIA Accelerators
+
+This section focuses on the fundamental concepts you need to advise customers on how to maximize the efficiency and utilization of their NVIDIA GPU resources.
+
+ * *GPU Sharing Technologies:* Learn the architectural differences and ideal use cases for NVIDIA Multi-Instance GPU (MIG) and Multi-Process Service (MPS) to guide customers to the right choice for their tenancy and performance needs.
+ * *Parallelism Techniques:* We will demystify complex workload optimization strategies by explaining concepts like *tensor parallelism* and *pipeline parallelism*, enabling you to run models that exceed the memory of a single GPU.
+ * *Resource Sizing:* You will learn how to analyze a Large Language Model's requirements to calculate the specific GPU resources needed to deploy it successfully.
+
+---
+
+=== Hands-On Labs: Scalable Model Serving with OpenShift AI and vLLM
+
+Here, you will put theory into practice by deploying models in progressively complex, real-world scenarios using the vLLM serving runtime on OpenShift AI.
+
+ * *Single-Node, Multi-GPU Deployment:* You will execute the deployment of an AI model on a single OpenShift node that has multiple GPUs available.
+ * *Multi-Node, Multi-GPU Deployment:* You will scale out your deployment by distributing a large language model across a multi-node, multi-GPU cluster, configuring the system for high-throughput, low-latency performance.
+
+---
+
+=== Architecture: API Gateway Requirements for MaaS
+
+The final module focuses on making your models accessible and secure. A model isn't useful if no one can use it.
+
+ * *Defining Gateway Requirements:* We will establish a clear checklist of functional capabilities and validation criteria necessary for an API Gateway to support a MaaS platform.
+ * *Designing a Secure Gateway Architecture:* You will learn how to architect a secure solution using Red Hat 3scale for API management and Keycloak for authentication and authorization.
+ 
+ * *Validating Customer Infrastructure:* You will learn how to understand a customer's existing API gateway to determine if it can support their AI initiatives or where gaps may exist, ensuring project success.
