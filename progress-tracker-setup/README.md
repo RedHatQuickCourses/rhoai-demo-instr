@@ -1,6 +1,6 @@
 # Progress Tracker for Antora Quick Courses
 
-**Version 1.1** - A lightweight, client-side progress tracking system for Antora-based documentation sites. Shows checkmarks (✓) next to visited pages in the navigation sidebar.
+**Version 1.2** - A lightweight, client-side progress tracking system for Antora-based documentation sites. Shows checkmarks (✓) next to visited pages in the navigation sidebar.
 
 ## Features
 
@@ -15,7 +15,12 @@
 
 ## Changelog
 
-### Version 1.1 (Current)
+### Version 1.2 (Current)
+- ✅ **Course-scoped localStorage**: Each course now has isolated progress tracking (fixes shared progress bug across multiple courses)
+- ✅ **Auto-detects course name**: Uses URL path structure to determine course ID automatically
+- 🐛 **Bug fix**: Progress no longer shared across all courses on same GitHub Pages organization
+
+### Version 1.1
 - ✅ **Fixed GitHub Pages URL matching**: Progress tracker now correctly handles GitHub Pages URL structures (`/repo-name/component/version/page.html`)
 - ✅ **Auto-detect repository name**: Installation script automatically detects repository name from git remote and configures "Report Issues" link
 - ✅ **Added header-content.hbs**: Custom header template now included in installation

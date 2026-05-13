@@ -1,7 +1,9 @@
 ;(function () {
   'use strict'
 
-  var STORAGE_KEY = 'antora-course-progress'
+  // Extract course name from URL path to scope progress per course
+  var courseName = window.location.pathname.split('/')[1] || 'default'
+  var STORAGE_KEY = 'antora-course-progress-' + courseName
 
   function normalizeUrl(url) {
     // Remove hash, query params, trailing slashes
