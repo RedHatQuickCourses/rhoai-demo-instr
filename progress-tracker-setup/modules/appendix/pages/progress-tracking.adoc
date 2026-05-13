@@ -1,0 +1,90 @@
+= Visual Progress Tracking
+
+The course navigation includes a visual progress tracking feature that helps you track which pages you've visited.
+
+== How It Works
+
+As you navigate through the course, a checkmark (✓) appears next to each page you've visited in the navigation sidebar. This progress is saved in your browser's local storage, so it persists across sessions.
+
+[NOTE]
+====
+Progress tracking is stored locally in your browser. If you:
+
+* Clear browser data/cookies
+* Use a different browser or device
+* Use private/incognito browsing mode
+
+Your progress will not be saved or will be reset.
+====
+
+== Clearing Your Progress
+
+To reset your progress and start fresh:
+
+. Open your browser's developer console (F12 or right-click → Inspect)
+. Type: `clearCourseProgress()`
+. Press Enter
+
+The page will reload and all checkmarks will be removed.
+
+== Privacy
+
+Progress tracking:
+
+* Stores only page URLs you've visited (no personal data)
+* Remains on your device (never sent to any server)
+* Can be cleared at any time using browser settings or the reset command
+
+== Technical Details
+
+For course maintainers and developers:
+
+* *Implementation*: Client-side JavaScript with localStorage
+* *Storage Key*: `antora-course-progress`
+* *Data Format*: JSON array of absolute URL paths
+* *Checkmark Style*: Green (✓) with `#00a86b` color
+* *Source Files*:
+** Template: `supplemental-ui/partials/nav-tree.hbs`
+** JavaScript: `supplemental-ui/js/progress-tracker.js`
+** CSS: `supplemental-ui/css/progress-tracker.css`
+
+=== URL Normalization
+
+The tracker normalizes URLs to handle edge cases:
+
+* Hash fragments removed: `page.html#section` → `page.html`
+* Query strings removed: `page.html?q=search` → `page.html`
+* Trailing slashes removed: `/page/` → `/page`
+
+This ensures the same page isn't counted as visited multiple times.
+
+=== Changing the Checkmark Icon
+
+To customize the checkmark icon:
+
+. Edit `supplemental-ui/partials/nav-tree.hbs`
+. Find the line: `<span class="nav-progress-mark" aria-hidden="true">✓</span>`
+. Replace `✓` with your desired icon (Unicode character or emoji)
+. Rebuild the site: `npm run build`
+
+Examples:
+
+* ✓ (Default checkmark)
+* ✔ (Heavy checkmark)
+* ★ (Star)
+* 🎯 (Target emoji)
+
+=== Debugging
+
+If progress tracking isn't working:
+
+. Check browser console for errors (F12 → Console tab)
+. Verify localStorage is enabled (Application tab → Local Storage)
+. Check that `progress-tracker.js` loaded (Network tab)
+. Inspect navigation links for `data-progress-path` attribute (Elements tab)
+
+=== Browser Compatibility
+
+* Chrome/Edge/Safari/Firefox (latest 2 versions)
+* IE11+ (with graceful degradation)
+* Mobile browsers (iOS Safari, Chrome Mobile)
