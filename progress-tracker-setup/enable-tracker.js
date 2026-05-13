@@ -105,26 +105,24 @@ function updatePlaybook() {
   const playbookPath = path.join(TARGET_DIR, 'antora-playbook.yml');
 
   if (!fs.existsSync(playbookPath)) {
-    console.warn('⚠️  antora-playbook.yml not found. Please configure ui.supplemental_files manually.');
+    console.warn('⚠️  antora-playbook.yml not found.');
     return;
   }
 
   let content = fs.readFileSync(playbookPath, 'utf8');
   let modified = false;
 
-  // Check if supplemental_files is already configured
+  // 1. Ensure supplemental_files is set
   if (!content.includes('supplemental_files:')) {
-    // Add supplemental_files under ui: section
-    content = content.replace(/ui:/, 'ui:\n  supplemental_files: ./supplemental-ui');
+    content = content.replace(/ui:/, 'ui:\n    supplemental_files: ./supplemental-ui');
     modified = true;
-    console.log('✅ Added supplemental_files to antora-playbook.yml');
-  } else {
-    console.log('ℹ️  supplemental_files already configured in playbook');
+    console.log('✅ Added supplemental_files to ui configuration');
   }
 
-  // Alert user if site.url is missing (recommended for GitHub Pages)
-  if (!content.includes('url:') && content.includes('site:')) {
-    console.warn('💡 Reminder: Consider setting site.url in the playbook for GitHub Pages compatibility.');
+  // 2. Alert/Fix for site.url which is critical for GH Pages URL generation
+  if (!content.includes('url:')) {
+    console.warn('❗ CRITICAL: "site.url" is missing in antora-playbook.yml.');
+    console.warn('   For GitHub Pages, this should be: https://redhatquickcourses.github.io/repo-name');
   }
 
   if (modified) {
