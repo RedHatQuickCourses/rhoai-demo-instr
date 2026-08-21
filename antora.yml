@@ -2,10 +2,7 @@ name: rhoai-demo-instr
 title: DEV
 version: 3.2
 nav:
-- modules/chapter1/nav.adoc
-- modules/chapter3/nav.adoc
-- modules/chapter4/nav.adoc
-- modules/chapter5/nav.adoc
-- modules/chapter7/nav.adoc
-- modules/appendix/nav.adoc
-- modules/LABENV/nav.adoc
+- modules/claude-basics/nav.adoc
+- modules/skill-building/nav.adoc
+- modules/course-creation/nav.adoc
+- modules/archive/nav.adoc

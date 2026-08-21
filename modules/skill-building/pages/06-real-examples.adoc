@@ -1,0 +1,728 @@
+= Module 6: Real-World Examples
+:navtitle: Module 6: Real Examples
+
+== Learning Objectives
+
+After completing this module, you will be able to:
+
+* Analyze production skills from the Showroom ecosystem
+* Understand design decisions in real skills
+* Identify patterns used across multiple skills
+* Learn from working examples
+* Apply patterns to your own skills
+
+== Introduction
+
+The best way to learn skill development is to study real, production skills. In this module, we'll analyze complete examples from the Showroom ecosystem.
+
+You'll see all the patterns from previous modules working together in actual skills that generate hundreds of workshop modules and demos.
+
+== Example 1: showroom-create-lab
+
+This skill creates hands-on workshop modules with exercises and verification checkpoints.
+
+**Location**: `.agents/skills/showroom-create-lab/skill.md`
+
+=== Skill Frontmatter
+
+[source,yaml]
+----
+---
+name: showroom:create-lab
+description: This skill should be used when the user asks to "create a lab module", "write a workshop module", "build a Showroom lab", "convert docs to a lab", "write a hands-on exercise", "create an AsciiDoc module", or "turn this documentation into a lab exercise".
+---
+
+---
+context: main
+model: claude-opus-4-6
+---
+----
+
+**Analysis**:
+
+* **Namespace** - `showroom:` prefix groups related skills
+* **Trigger phrases** - Comprehensive list of user variations
+* **Model** - Opus for complex content generation
+* **Context** - Main conversation (not isolated)
+
+=== Critical Rules Section
+
+[source,markdown]
+----
+## Workflow
+
+**CRITICAL RULES**
+
+### 1. Ask Questions SEQUENTIALLY
+- Ask ONE question or ONE group of related questions at a time
+- WAIT for user's answer before proceeding
+- Do NOT ask questions from multiple steps together
+
+### 2. File Generation Order (First Module ONLY)
+**If this is the FIRST module of a NEW lab, you MUST generate files in this EXACT order:**
+
+1. **index.adoc** - Learner landing page (NOT facilitator guide)
+2. **01-overview.adoc** - Business scenario and learning objectives
+3. **02-details.adoc** - Technical requirements
+4. **03-module-01-*.adoc** - First hands-on module
+
+**NEVER skip index/overview/details for first module!**
+
+### 3. Manage Output Tokens
+- **NEVER output full module content** - Use Write tool
+- **Show brief confirmations only**
+- **Keep total output under 5000 tokens**
+----
+
+**Why this works**:
+
+* **Visible at top** - Rules can't be missed
+* **Numbered priorities** - Clear hierarchy
+* **Bold critical points** - Eye-catching emphasis
+* **Specific commands** - No ambiguity
+
+=== Argument Parsing
+
+[source,markdown]
+----
+### Step 1: Parse Arguments (If Provided)
+
+**Pattern 1: `/create-lab <directory> --new`**
+```
+Parsing arguments: "<directory> --new"
+
+✓ Target directory: <directory>
+✓ Mode: Create new lab
+✓ Will generate: index.adoc → 01-overview → 02-details → 03-module-01
+
+Skipping: Step 2 (mode already known: NEW lab)
+Proceeding to: Step 3 (Plan Overall Lab Story)
+```
+
+**Pattern 2: `/create-lab <directory> --continue <module-path>`**
+[...]
+
+**Pattern 3: `/create-lab` (no arguments)**
+```
+No arguments provided.
+Using interactive mode.
+Proceeding to: Step 2 (Determine Context)
+```
+----
+
+**Analysis**:
+
+* **All patterns documented** - Covers all invocation modes
+* **Visual confirmation** - Shows what was parsed
+* **Skip logic explained** - Makes workflow transparent
+* **Fallback supported** - Always works in interactive mode
+
+=== Sequential Conversational Questions
+
+[source,markdown]
+----
+### Step 3: Plan Overall Lab Story (if first module)
+
+**Question 1 - What Should We Call This?**:
+```
+What's the name of your workshop?
+
+Example: "Building AI/ML Workloads on OpenShift AI"
+
+I'll use this to set up your lab title and generate a clean URL-friendly slug.
+
+Your lab name:
+```
+
+**Question 2 - The Learning Goal**:
+```
+What's the main goal of this lab?
+
+What should learners be able to do when they finish?
+
+Example: "Learn to build and deploy AI/ML workloads"
+
+Your lab goal:
+```
+----
+
+**Why this is excellent**:
+
+* **Conversational headers** - "What Should We Call This?" not "Q1: Module name?"
+* **Context** - Explains why the question matters
+* **Examples** - Shows what good answers look like
+* **Tone** - Friendly, helpful, collaborative
+
+=== Skip Patterns
+
+[source,markdown]
+----
+### Step 2: Determine Context (New Lab vs Existing Lab)
+
+**SKIP THIS STEP IF**:
+- User provided `--new` flag in arguments (already know: NEW lab)
+- User provided `--continue <module>` in arguments (already know: EXISTING lab)
+
+**CRITICAL: DO NOT read any files or make assumptions before asking this question!**
+
+**First, ask the user**:
+[Question here...]
+
+**ONLY AFTER user answers, proceed based on their response.**
+----
+
+**Pattern analysis**:
+
+* **Conditional logic explicit** - No ambiguity
+* **Multiple skip conditions** - Covers all cases
+* **Warning against assumptions** - Prevents premature file reads
+* **Enforces sequential flow** - "ONLY AFTER user answers"
+
+=== Quality Gate Integration
+
+[source,markdown]
+----
+### Step 10: Final Quality Check (Inline)
+
+The generated module is already in context — check it directly.
+
+Read @showroom/docs/SKILL-COMMON-RULES.md for the full quality gate criteria, then verify against this list:
+
+**Must fix before delivering (fix silently, note in Step 12 summary)**:
+
+| Check | Rule |
+|---|---|
+| Headings | Sentence case — not Title Case |
+| Em dashes | Zero `—` — rewrite or use `--` |
+| Prohibited terms | No "robust", "powerful", "leverage" |
+| Student command blocks | All commands use `[source,role="execute"]` |
+| Expected output blocks | Use plain `----` with no source declaration |
+[...]
+
+If anything fails, fix it now. Do not ask the user — just fix and note what was corrected in the Step 12 delivery summary.
+----
+
+**Pattern strengths**:
+
+* **Inline** - No agent spawning
+* **Content in context** - Already available
+* **Auto-fix** - Silent correction
+* **Documentation** - Note corrections in delivery
+* **Shared rules reference** - Links to comprehensive guide
+
+=== Token-Managed Delivery
+
+[source,markdown]
+----
+### Step 12: Deliver
+
+**CRITICAL: Manage Output Tokens to Prevent Overflow**
+
+**Token Management Rules**:
+1. **Write files using Write tool** - Don't output contents
+2. **Show brief confirmations only** - "✅ Created: file (X lines)"
+3. **Provide summary at end** - List what was created
+4. **Never output entire module content** - Files are written
+5. **Keep total output under 5000 tokens** - Brief summaries only
+
+**Output Format**:
+
+```
+✅ Workshop Generation Complete
+
+**Files Created**:
+- content/modules/ROOT/pages/index.adoc (32 lines)
+- content/modules/ROOT/pages/01-overview.adoc (85 lines)
+- content/modules/ROOT/pages/02-details.adoc (67 lines)
+- content/modules/ROOT/pages/03-module-01-intro.adoc (234 lines)
+- content/modules/ROOT/nav.adoc (updated)
+```
+----
+
+**Why this is effective**:
+
+* **Explicit token rules** - Can't be misinterpreted
+* **Template provided** - Exact format specified
+* **Examples of wrong approaches** - Shows what not to do
+* **Token budget stated** - Clear limit
+
+=== Reference File Usage
+
+The skill references external files throughout:
+
+[source,markdown]
+----
+## Shared Rules
+
+See @showroom/docs/SKILL-COMMON-RULES.md for:
+- Version pinning and attribute placeholders (REQUIRED)
+- Reference enforcement (REQUIRED)
+- Image path conventions (REQUIRED)
+- Navigation update expectations (REQUIRED)
+
+### Step 9: Generate Files
+
+**CRITICAL: AsciiDoc rules**:
+See `@showroom/skills/create-lab/references/asciidoc-rules.md` for all rules.
+
+### Step 13: Generate Conclusion Module
+
+→ Full conclusion template: `@showroom/skills/create-lab/references/conclusion-template.md`
+----
+
+**Benefits**:
+
+* Main skill file stays focused on workflow
+* Detailed rules externalized
+* Easy to update rules independently
+* Users can read references directly
+
+=== Key Takeaways from create-lab
+
+✓ **Sequential questioning** - One step at a time +
+✓ **Argument support** - Shortcuts available, not required +
+✓ **Conversational tone** - Friendly, helpful questions +
+✓ **Skip patterns** - Explicit conditional logic +
+✓ **Inline quality gates** - Auto-fix in context +
+✓ **Token management** - Strict output control +
+✓ **Reference files** - External rules and templates
+
+== Example 2: showroom-create-demo
+
+This skill creates presenter-led demos with Know/Show structure.
+
+**Location**: `.agents/skills/showroom-create-demo/skill.md`
+
+=== Different Content Structure
+
+[source,markdown]
+----
+## Know/Show Structure
+
+Demos use a different format than workshops:
+
+- **Know sections**: Business context, customer pain points, value propositions
+- **Show sections**: Step-by-step presenter instructions, demonstrations
+
+This separates what presenters need to **understand** (business value) from what they need to **do** (technical demonstration).
+----
+
+**Analysis**:
+
+* **Domain-specific structure** - Different from workshops
+* **Clear separation** - Know vs Show explicitly defined
+* **Purpose stated** - Why this structure exists
+* **Audience clarified** - For presenters, not learners
+
+=== Demo-Specific Quality Gates
+
+[source,markdown]
+----
+### Step 10: Final Quality Check (Inline)
+
+**Must fix before delivering**:
+
+| Check | Rule |
+|---|---|
+| Know/Show structure | Every section has Know (context) before Show (demonstration) |
+| Business value | ROI or outcome framing stated in every Know section |
+| Presenter notes | At least one `[NOTE]` block per section with talking points |
+| No participant steps | Demo is presenter-led — no hands-on exercises |
+| Headings | Sentence case |
+| Presenter command blocks | All commands presenter runs use `[source,role="execute"]` |
+| Hardcoded values | Use `{user}`, `{password}`, not actual values |
+----
+
+**Differences from labs**:
+
+* **Know/Show enforcement** - Unique to demos
+* **Business value required** - Every Know section
+* **Presenter notes** - Talk tracks included
+* **No hands-on** - Different from workshop labs
+* **Same formatting rules** - Headings, commands, values
+
+=== Content Rules Reference
+
+[source,markdown]
+----
+**CRITICAL: Content rules** (originality, em dashes, Know/Show bullets vs numbers, demo language, talk track):
+
+See `@showroom/skills/create-demo/references/content-rules.md` for all rules with correct/incorrect examples.
+----
+
+**The reference file includes**:
+
+* Content originality (no plagiarism)
+* Em dash prohibition
+* Bullets vs numbers (Know uses bullets, Show uses numbers)
+* Demo language (not learner language)
+* Talk track separation ("What I say" vs "What I do")
+
+**Why externalized**:
+
+* Comprehensive examples too large for main skill
+* Easy to update without changing workflow
+* Users can review detailed rules independently
+
+=== Conclusion Module Generation
+
+[source,markdown]
+----
+### Step 13: Generate Conclusion Module (MANDATORY)
+
+After the final module, ask if this is the last module. If YES: read all previous modules to extract learning outcomes and references, then generate a conclusion module consolidating all references.
+
+**Embedded Demo Conclusion Template**:
+
+Read template from `@showroom/skills/create-demo/references/conclusion-template.md`
+
+Customize with:
+- Business impact from all modules
+- ROI metrics collected
+- Demo capabilities shown
+- Next steps for evaluation
+- **ALL REFERENCES** used across entire demo
+----
+
+**Pattern**:
+
+* **Mandatory step** - Can't be skipped
+* **Reference consolidation** - Reads all previous modules
+* **Template-based** - Consistent structure
+* **Complete attribution** - All references included
+
+=== Key Takeaways from create-demo
+
+✓ **Domain-specific structure** - Know/Show for demos +
+✓ **Content-type quality gates** - Tailored validation rules +
+✓ **Reference file for content rules** - Detailed examples externalized +
+✓ **Business focus** - ROI and value propositions required +
+✓ **Mandatory conclusion** - Reference consolidation
+
+== Example 3: showroom-blog-generate
+
+This skill transforms workshop/demo content into blog posts.
+
+**Location**: `.agents/skills/showroom-blog-generate/skill.md`
+
+=== Transformation Workflow
+
+[source,markdown]
+----
+## Workflow
+
+### Step 1: Identify Source Content
+
+Which completed modules to base the blog on?
+
+### Step 2: Determine Blog Parameters
+
+Target platform, format, blog type, technical depth
+
+### Step 3: Read Source Content
+
+Extract key concepts, procedures, business value
+
+### Step 4: Transform Content
+
+**Workshop → Developer Blog**:
+- Convert step-by-step exercises → narrative "how to" flow
+- Keep technical depth and code samples
+- Add context and explanation
+
+**Demo → Product Announcement**:
+- Extract business value from Know sections
+- Highlight capabilities from Show sections
+- Emphasize customer benefits
+
+**Workshop → Marketing Blog**:
+- Focus on "what you can achieve" not "how to do it"
+- Minimize technical steps
+- Emphasize business outcomes
+----
+
+**Analysis**:
+
+* **Source-aware** - Reads existing content
+* **Multiple transformation paths** - Workshop/demo to different blog types
+* **Content reshaping** - Not just reformatting
+* **Audience adaptation** - Technical vs marketing vs executive
+
+=== Platform-Specific Formatting
+
+[source,markdown]
+----
+### Step 6: Apply Platform-Specific Formatting
+
+**Red Hat Developer Blog** (developers.redhat.com):
+- **Format**: Markdown (.md)
+- Code blocks with syntax highlighting
+- Developer-focused tone
+- Technical accuracy paramount
+
+**Medium, dev.to, Hashnode**:
+- **Format**: Markdown (.md)
+- Standard Markdown support
+- Add cover images
+- Platform-specific tags
+
+**Internal Red Hat Blogs** (Source, Memo):
+- **Format**: Markdown (.md) DEFAULT
+- **Format**: AsciiDoc (.adoc) - Only if team requires it
+- Red Hat product naming standards
+
+**Marketing/Announcement Format**:
+- **Format**: Markdown (.md)
+- Business language
+- Minimal jargon
+- Lead generation CTAs
+----
+
+**Pattern strengths**:
+
+* **Platform awareness** - Adapts to destination
+* **Format defaults** - Markdown primary
+* **Tone adaptation** - Developer vs marketing
+* **Context inclusion** - What matters on each platform
+
+=== Source Traceability
+
+[source,markdown]
+----
+**Source Traceability** (REQUIRED):
+
+Every blog must include attribution to prevent over-claiming.
+
+**For Red Hat Developer Blog**:
+```markdown
+---
+
+**About this tutorial**: This post is based on a hands-on workshop created for Red Hat field demonstrations. [Try the full lab on Red Hat Showroom](https://showroom.example.com/...).
+```
+
+**For Internal Blogs**:
+```markdown
+---
+
+**Source**: Adapted from the "OpenShift Pipelines" demo used in customer technical briefings.
+```
+
+**Rules**:
+- Always include at end of blog
+- Link to full lab if publishing externally
+- Use "adapted from" or "based on" language
+----
+
+**Why this matters**:
+
+* **Prevents over-claiming** - Clear about source
+* **Builds trust** - Transparent attribution
+* **Drives traffic** - Links back to full content
+* **Required pattern** - Can't be skipped
+
+=== Inline Blog Quality Gates
+
+[source,markdown]
+----
+### Step 7: Validate and Deliver
+
+**Inline quality check**:
+
+| Check | Rule |
+|---|---|
+| Tone | Narrative, conversational — not step-by-step instructions |
+| Prohibited terms | No "robust", "powerful", "leverage", "synergy" |
+| Headings | Sentence case |
+| Inclusive language | No "he/she" — use "they/them" |
+| Word count | 800–1200 words for blog audience |
+| Call to action | Clear CTA at end — link to full lab |
+| Code samples | All code blocks complete and syntactically valid |
+| Links | All external links valid |
+----
+
+**Blog-specific rules**:
+
+* **Narrative tone** - Not instructional
+* **Word count target** - Appropriate for blogs
+* **CTA requirement** - Drive action
+* **Code validity** - Must run without errors
+
+=== Key Takeaways from blog-generate
+
+✓ **Transformation workflow** - Reshapes existing content +
+✓ **Platform adaptation** - Format and tone per destination +
+✓ **Source traceability** - Required attribution +
+✓ **Content-type quality gates** - Blog-specific rules +
+✓ **Markdown default** - Universal blog format
+
+== Example 4: generate-course-structure
+
+This skill generates Antora course structures from design documents.
+
+**Location**: `.agents/skills/generate-course-structure/skill.md`
+
+=== Prerequisites Check
+
+[source,markdown]
+----
+## Prerequisites Check
+
+0. **Verify directory structure**
+   - Check that `modules/ROOT/` exists
+   - Check that `templates/` directory exists
+   - If missing critical directories, inform user and stop
+
+1. **Verify course design document exists**
+   - Check that `prompts/course-design.md` exists
+   - If missing, inform the user and stop
+----
+
+**Analysis**:
+
+* **Environment validation** - Checks before proceeding
+* **Fail fast** - Stops if prerequisites missing
+* **User informed** - Clear error messages
+
+=== Edge Case Documentation
+
+[source,markdown]
+----
+## Edge Cases
+
+Handle the following edge cases gracefully:
+
+- **Single learning objective**: Create ch1-{keyword} normally
+- **Learning objective with no sections**: Create chapter with index.adoc only, add note
+- **Unknown session type**: Use default `.adoc` suffix, inform user
+- **Duplicate keywords**: Append sequential numbers (-1, -2)
+- **Empty section descriptions**: Use "section-{number}" as keyword, warn user
+- **Malformed table**: Show sample rows, ask for clarification
+- **Missing template directory**: Create basic structure, inform user
+- **Failed file creation**: Report error, ask user if they want to continue
+----
+
+**Why this is excellent**:
+
+* **Comprehensive** - Covers all edge cases
+* **Graceful handling** - Doesn't crash
+* **User communication** - Informs about issues
+* **Fallback behavior** - Always has a path forward
+
+=== Keyword Extraction Algorithm
+
+[source,markdown]
+----
+**Keyword extraction algorithm**:
+* Take the first paragraph or clause from the section description
+* Remove any leading bullet points or list markers
+* Identify 1-3 key nouns or noun phrases (e.g., "device fleets", "gitops")
+* Convert to lowercase kebab-case (e.g., "device-fleets", "gitops")
+* Ensure uniqueness within the chapter
+* Use different keywords for sections in the same chapter
+* It's OK to use the same keyword for sections from different chapters
+----
+
+**Analysis**:
+
+* **Algorithmic** - Specific procedure
+* **Examples** - Shows expected output
+* **Uniqueness handling** - Prevents collisions
+* **Scope clarified** - Same chapter vs different chapters
+
+=== Validation Step
+
+[source,markdown]
+----
+## Validation
+
+12. **Verify structure**
+    - Validate each created file:
+      * Check AsciiDoc syntax (minimum: one = heading)
+      * Verify nav.adoc xref targets point to existing files
+      * Confirm all template placeholders replaced
+    - Check navigation consistency
+    - Report summary to user:
+      * Number of chapters created
+      * Number of sections per chapter (broken down by type)
+      * List of missing templates
+      * Any issues encountered
+      * Total files created
+----
+
+**Pattern**:
+
+* **Post-generation validation** - Ensures correctness
+* **Comprehensive checks** - Syntax, references, placeholders
+* **User summary** - Clear report of what was done
+
+=== Key Takeaways from generate-course-structure
+
+✓ **Prerequisites validation** - Check environment first +
+✓ **Edge case handling** - Graceful fallbacks +
+✓ **Algorithm documentation** - Clear procedures +
+✓ **Post-generation validation** - Verify output +
+✓ **Comprehensive reporting** - Detailed summaries
+
+== Common Patterns Across All Skills
+
+Looking at these four skills, we see consistent patterns:
+
+**Sequential workflows**::
+All skills ask questions one at a time, waiting for answers
+
+**Argument support**::
+Optional arguments provide shortcuts, interactive mode always works
+
+**Inline quality gates**::
+Validation happens in context, auto-fixes silently
+
+**Token management**::
+Write files, show brief confirmations, keep output under 5K tokens
+
+**Reference files**::
+External files for detailed rules and templates
+
+**Shared rules**::
+Common patterns in `@namespace/docs/SKILL-COMMON-RULES.md`
+
+**Content-type awareness**::
+Different validation for labs, demos, blogs, courses
+
+**User communication**::
+Conversational tone, clear next steps, transparent processes
+
+== Verification Checkpoint
+
+Before proceeding, verify you understand:
+
+✓ **create-lab patterns** - Sequential questions, inline quality, token control +
+✓ **create-demo patterns** - Know/Show structure, business focus +
+✓ **blog-generate patterns** - Transformation workflow, platform adaptation +
+✓ **generate-course-structure patterns** - Prerequisites, edge cases, validation +
+✓ **Common patterns** - Shared across all skills
+
+== Practice Exercise
+
+**Pick one skill** (create-lab, create-demo, or blog-generate) from your .agents/skills/ directory:
+
+. Read the complete skill.md file
+. Identify 3 workflow patterns from this module
+. Note 2 quality gates specific to that skill
+. Document 1 reference file it uses
+. Write down what makes it effective
+
+== Summary
+
+In this module, you learned:
+
+* Production skills use consistent patterns
+* Sequential questioning appears in all workflows
+* Quality gates are content-type specific
+* Token management is critical for generation skills
+* Reference files keep main skills focused
+* Edge case handling prevents failures
+* Clear communication builds trust
+
+== What's Next
+
+Module 7 will compile best practices and anti-patterns to help you build high-quality skills efficiently.

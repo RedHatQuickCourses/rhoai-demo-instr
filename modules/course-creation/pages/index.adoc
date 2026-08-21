@@ -1,0 +1,103 @@
+= Creating Red Hat QuickCourses
+:navtitle: Course Creation
+
+== Module Overview
+
+This module teaches you how to create complete Red Hat QuickCourses using Claude Code. You'll learn the proven 5-phase workflow that takes you from initial course design through publication for any Red Hat product or platform.
+
+== What You'll Learn
+
+By completing this module, you will be able to:
+
+* Design effective course structures for any Red Hat product
+* Use Claude Code skills to automate repository setup and content generation
+* Create professional content with consistent depth and style
+* Request content from Claude using structured templates
+* Maintain terminology consistency across chapters
+* Work effectively across multiple Claude Code sessions
+* Write presentations, labs, and quizzes that match production quality
+* Export courses to PDF and publish to GitHub Pages
+
+== Applicable Technologies
+
+This workflow works for courses about any Red Hat product or platform:
+
+**Platforms**::
+OpenShift, Ansible Automation Platform, OpenStack, OpenShift AI, Satellite
+
+**Products**::
+RHEL, Identity Management, Red Hat Insights, Advanced Cluster Management
+
+**Technologies**::
+Kubernetes, containers, virtualization, AI/ML, storage, networking, automation
+
+**Solutions**::
+Hybrid cloud, edge computing, DevOps, security, GitOps
+
+== Who This Is For
+
+This module is designed for:
+
+* **Content developers** creating Red Hat enablement materials
+* **Subject matter experts** who need to convert knowledge into courses
+* **Technical instructors** building workshop content
+* **Solution architects** creating demonstration courses
+* **Anyone** responsible for Red Hat product training
+
+== Prerequisites
+
+Before starting this module, you should have:
+
+* Completed the "Introduction to Claude Code" module (or equivalent experience)
+* Familiarity with git and GitHub
+* Basic understanding of AsciiDoc or Markdown
+* Subject matter expertise in the Red Hat product you'll teach
+* Access to the course-starter-template repository
+
+== The QuickCourse Advantage
+
+Traditional course development is time-consuming:
+
+* **Manual setup** - Configuring build systems, navigation, templates
+* **Repetitive structure** - Creating the same file patterns for each section
+* **Formatting overhead** - Writing AsciiDoc markup for every element
+* **Time to first draft** - Often 2-4 weeks for a basic course
+
+With the QuickCourse workflow and Claude Code:
+
+* **Automated setup** - Skills handle configuration
+* **Generated structure** - Complete skeleton from design document
+* **Claude-assisted writing** - Focus on content, not formatting
+* **Time to first draft** - As little as 1-2 weeks for a complete course
+
+== What's Covered
+
+This module provides a complete system for professional course creation:
+
+**1. The QuickCourse Generation Workflow**::
+Master the proven 5-phase workflow from setup through publication, applicable to any Red Hat product or platform. Learn design best practices, working with Claude Code skills, and publishing to GitHub Pages and PDF.
+
+**2. Content Request Templates**::
+Use structured templates to request content from Claude Code, ensuring consistent depth, quality, and integration. Includes complete examples for different content types (installations, architecture, troubleshooting).
+
+**3. Writing Style Standards**::
+Master the three-layer depth approach (WHY/WHAT/HOW), example patterns, code conventions, and production guidance styles. Learn how to write concrete scenarios, decision matrices, and transitions.
+
+**4. Terminology Consistency**::
+Maintain canonical term definitions across your course using TERMINOLOGY.md. Learn when to add terms, how to reference prior definitions, and maintain consistency across chapters.
+
+**5. Fresh Session Workflow**::
+Work with Claude Code across multiple sessions while maintaining consistency and quality. Includes fresh prompt templates, integration tracking, and techniques for avoiding common pitfalls.
+
+== Success Stories
+
+This workflow has been used to create:
+
+* **100+ workshop modules** for Red Hat Showroom
+* **QuickCourses** for OpenShift, Ansible, AI, and more
+* **Enablement content** completed in days instead of weeks
+* **Consistent, high-quality** courses across multiple teams
+
+== Let's Get Started
+
+Ready to create your first QuickCourse? Continue to the QuickCourse Workflow guide to begin.

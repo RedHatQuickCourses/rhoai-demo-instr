@@ -1,0 +1,79 @@
+= Getting Started with Claude Code
+:navtitle: Getting Started
+
+== Introduction
+
+Claude Code is Anthropic's official CLI tool for interactive AI-assisted development. This section introduces you to launching and working with Claude Code in your terminal.
+
+== Installing Claude Code
+
+[NOTE]
+====
+This section assumes you have Claude Code installed. Visit the Claude Code documentation for installation instructions for your platform.
+====
+
+== Launching Claude Code
+
+To start Claude Code in your current directory:
+
+[source,bash]
+----
+claude
+----
+
+Claude Code will initialize and present you with a prompt:
+
+[source,console]
+----
+Welcome to Claude Code
+Ready to assist you. What would you like to work on?
+
+>
+----
+
+== Basic Interaction
+
+Claude Code works through conversational interaction. You can:
+
+* **Ask questions** about your codebase
+* **Request file operations** (read, edit, create)
+* **Execute commands** through Claude
+* **Use skills** with the `/skill-name` syntax
+
+=== Example Interactions
+
+**Reading files**:
+----
+> "Can you read the README.md file and summarize it?"
+----
+
+**Editing code**:
+----
+> "Please update the antora.yml file to add a new module called 'troubleshooting'"
+----
+
+**Using skills**:
+----
+> /initialize-course-project
+----
+
+== Working Directory Context
+
+Claude Code is aware of your current working directory and git repository status. It can:
+
+* Read files in your repository
+* Understand your git history
+* Navigate your directory structure
+* Recognize your project type
+
+== Exiting Claude Code
+
+To exit Claude Code:
+
+* Type `exit` or `quit`
+* Press `Ctrl+D`
+* Type `/exit`
+
+== What's Next
+
+In the next section, you'll learn the difference between using skills and conversational prompts, and when to use each approach.

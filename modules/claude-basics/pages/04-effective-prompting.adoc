@@ -1,0 +1,231 @@
+= Effective Prompting Techniques
+:navtitle: Effective Prompting
+
+== Introduction
+
+Getting great results from Claude Code depends on how you communicate. This section teaches effective prompting techniques that help you work efficiently with Claude.
+
+== The Golden Rule: Be Specific
+
+❌ **Vague**: "Fix the navigation"
+
+✅ **Specific**: "Add a new entry to modules/skill-building/nav.adoc for Module 8: QuickCourse Generation, linking to 08-quickcourse-generation.adoc"
+
+== Prompting Patterns That Work
+
+=== Pattern 1: Task + Context + Constraints
+
+**Structure**:
+----
+"[TASK] [CONTEXT] [CONSTRAINTS]"
+----
+
+**Example**:
+----
+"Create a new lab section file [TASK]
+for deploying OpenShift Virtualization [CONTEXT]
+using the same format as s2-install-operator-lab.adoc [CONSTRAINTS]"
+----
+
+=== Pattern 2: Read First, Then Act
+
+Instead of assuming, ask Claude to read first:
+
+❌ **Assuming**:
+----
+"Update the course title to 'Advanced OpenShift'"
+----
+
+✅ **Read first**:
+----
+"Read antora.yml and tell me the current course title.
+Then update it to 'Advanced OpenShift Administration'"
+----
+
+=== Pattern 3: Multi-Step with Verification
+
+Break complex tasks into verifiable steps:
+
+----
+"Please do the following:
+1. Read prompts/course-design.md
+2. Tell me how many learning objectives it contains
+3. Create a chapter directory for each objective
+4. Show me the directory names you created"
+----
+
+=== Pattern 4: Examples Help
+
+Provide examples when you want a specific format:
+
+----
+"Create a quiz question about virtual machines.
+Format it like this example:
+
+**Question**: What is a hypervisor?
+a. A virtual machine monitor
+b. A container runtime
+c. A network plugin
+d. A storage driver
+
+**Answer**: a - A hypervisor is a virtual machine monitor..."
+----
+
+== When Claude Gets Confused
+
+If Claude misunderstands or makes mistakes:
+
+**1. Clarify immediately**:
+----
+"No, I meant update the file in modules/ch1-install/, not ROOT/"
+----
+
+**2. Provide the correct path**:
+----
+"The file is at modules/skill-building/pages/index.adoc"
+----
+
+**3. Ask Claude to check**:
+----
+"Please read the file first and show me its current content"
+----
+
+**4. Start over if needed**:
+----
+"Let's start over. Please undo those changes and I'll explain again."
+----
+
+## Effective Phrases for Course Development
+
+**For reading and analysis**:
+----
+"Read [file] and summarize the main points"
+"Analyze the course structure and tell me if it follows best practices"
+"Review this lab and identify any missing verification steps"
+----
+
+**For content creation**:
+----
+"Write a 3-paragraph introduction about [topic] for a [audience] audience"
+"Create a hands-on lab for [task] with 5-7 steps"
+"Generate 4 quiz questions covering [concepts]"
+----
+
+**For formatting**:
+----
+"Format these commands as an AsciiDoc code block with callouts"
+"Convert this bullet list into a numbered procedure"
+"Add proper AsciiDoc syntax to this rough draft"
+----
+
+**For verification**:
+----
+"Show me what you just changed"
+"Read the file back to me so I can verify"
+"List all the files you modified in this conversation"
+----
+
+== Iterative Refinement
+
+Claude Code works well with iterative refinement:
+
+----
+> "Write an introduction about container security"
+
+[Claude writes intro]
+
+> "Good start. Can you add a paragraph about image scanning?"
+
+[Claude adds paragraph]
+
+> "Perfect. Now add a callout box with a security tip"
+
+[Claude adds callout]
+----
+
+== Managing Context and Memory
+
+Claude Code has conversation memory but it's not unlimited:
+
+**Good practices**:
+
+* Start new conversations for major topic changes
+* Summarize what was accomplished before continuing
+* Reference specific files and line numbers
+* Remind Claude of earlier decisions if needed
+
+**Example**:
+----
+"Earlier we decided to use 'role' for the lab environment.
+Please use that same choice when updating the prerequisites section."
+----
+
+## Common Pitfalls to Avoid
+
+**1. Assuming Claude remembers everything**
+
+❌ "Update that file we talked about earlier"
+
+✅ "Update modules/ch1-deploy/pages/s2-lab.adoc"
+
+**2. Being too brief**
+
+❌ "Make it better"
+
+✅ "Add more specific examples and include verification steps"
+
+**3. Not verifying results**
+
+Always check Claude's work:
+----
+> "Show me the navigation changes you made"
+----
+
+**4. Combining too many unrelated tasks**
+
+❌ "Update navigation, fix typos, add images, and create new quiz"
+
+✅ Do one task, verify, then move to the next
+
+## Getting Unstuck
+
+If you're not getting the results you want:
+
+**1. Ask Claude to explain**:
+----
+"Why did you make that choice?"
+"What did you understand from my request?"
+----
+
+**2. Provide more context**:
+----
+"I'm trying to create a course about OpenShift Virtualization.
+The labs should assume students have basic OpenShift knowledge but
+are new to virtualization concepts."
+----
+
+**3. Show don't tell**:
+----
+"Here's an example of what I want. Please create something similar
+for the topic of virtual machine templates."
+----
+
+== What You've Learned
+
+You now understand:
+
+* ✅ How to write specific, effective prompts
+* ✅ Patterns for complex tasks
+* ✅ How to work iteratively with Claude
+* ✅ When and how to provide examples
+* ✅ How to recover from misunderstandings
+* ✅ Best practices for course development prompts
+
+== Next Steps
+
+With these Claude Code basics mastered, you're ready to:
+
+* **Build Claude Skills** - Learn to create custom skills for your workflows
+* **Create QuickCourses** - Apply your knowledge to course generation
+
+Continue to the next module to deepen your expertise.

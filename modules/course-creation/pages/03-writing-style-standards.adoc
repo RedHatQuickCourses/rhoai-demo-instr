@@ -1,0 +1,682 @@
+= Writing Style Standards for QuickCourses
+:navtitle: Writing Style Standards
+
+== Introduction
+
+Consistent writing style ensures professional, high-quality courses. This guide extracts proven patterns from production Red Hat QuickCourses to maintain consistency across all your content.
+
+== Three-Layer Depth Approach
+
+Every major concept must include all three layers:
+
+**Layer 1: Conceptual (WHY)**
+
+Purpose: Establish business value and problem context
+
+[source,asciidoc]
+----
+Organizations deploying [technology] face [problem].
+[Current approach] requires [time/cost/effort].
+
+[New solution] addresses this by [capability].
+This transforms [old state] into [new state],
+reducing [metric] from [before] to [after].
+----
+
+**Example:**
+```
+Organizations deploying virtual machines on OpenShift face infrastructure
+silos—separate teams managing VMs and containers with different toolsets.
+
+OpenShift Virtualization addresses this by enabling VMs and containers
+on a single platform. This transforms two infrastructure stacks into one,
+reducing operational overhead from 40 hours/week to 10 hours/week.
+```
+
+**Layer 2: Architectural (WHAT)**
+
+Purpose: Explain components, relationships, how they work together
+
+[source,asciidoc]
+----
+[Component X] is [definition].
+
+It consists of [N] parts:
+1. [Part 1]: [Responsibility]
+2. [Part 2]: [Responsibility]
+
+These parts work together to [overall function].
+
+[Component X] interacts with [Component Y] by [mechanism].
+----
+
+**Example:**
+```
+The Ansible Automation Controller is the control plane for executing
+automation workflows.
+
+It consists of 4 core components:
+1. Web UI: User interface for workflow management
+2. API: REST API for programmatic access
+3. Task Engine: Executes automation jobs
+4. Database: Stores configurations and job history
+
+These components work together to schedule, execute, and monitor
+automation workflows across your infrastructure.
+```
+
+**Layer 3: Tactical (HOW)**
+
+Purpose: Show how to use, configure, operate the technology
+
+[source,asciidoc]
+----
+To [accomplish goal]:
+
+1. [Action 1]
+   [code/command]
+
+2. [Action 2]
+   [code/command]
+
+3. Verify [expected state]:
+   [verification command]
+   [expected output]
+----
+
+**Example:**
+```
+To deploy the Virtualization operator:
+
+1. Create the subscription:
+   [source,bash]
+   ----
+   $ oc create -f virtualization-subscription.yaml
+   ----
+
+2. Wait for operator installation (2-3 minutes):
+   [source,bash]
+   ----
+   $ oc get csv -n openshift-cnv
+   NAME                      PHASE
+   kubevirt-hyperconverged   Succeeded
+   ----
+
+3. Verify operator pods are running:
+   [source,bash]
+   ----
+   $ oc get pods -n openshift-cnv
+   ----
+```
+
+== Document Structure Pattern
+
+=== Required Frontmatter
+
+Every page starts with:
+
+[source,asciidoc]
+----
+:time_estimate: 12
+
+= Page Title
+
+_Estimated reading time: *{time_estimate} minutes*._
+
+Objective::
+One-paragraph objective describing what students will understand, learn, or accomplish.
+----
+
+=== Heading Hierarchy
+
+[source,asciidoc]
+----
+= Page Title (level 0 - only once, at top)
+
+== Major Section (level 1 - main topics)
+
+=== Subsection (level 2 - detailed topics)
+
+==== Sub-subsection (level 3 - specific details)
+----
+
+**Rule**: Never skip heading levels. Always progress = → == → === → ====
+
+=== Page Flow Pattern
+
+. **Introduction** (Objective + brief context)
+. **Conceptual Foundation** (WHY it exists, problems it solves)
+. **Architecture/Components** (WHAT it is, how parts relate)
+. **Practical Application** (HOW to use it, examples)
+. **Production Considerations** (Decision points, best practices)
+. **Integration** (How it fits with other concepts)
+. **What's Next** (Transition to next section)
+
+== Writing Style Rules
+
+=== Be Specific, Not Vague
+
+❌ **Vague**:
+```
+The controller quickly recreates the pod.
+```
+
+✅ **Specific**:
+```
+The controller recreates the pod automatically in approximately 30 seconds.
+```
+
+❌ **Generic**:
+```
+You can use operators to manage resources.
+```
+
+✅ **Concrete**:
+```
+With the OpenShift Virtualization operator, you declare your desired VM
+configuration in a VirtualMachine Custom Resource. The operator continuously
+ensures your VMs match this desired state.
+```
+
+=== Use Active Voice
+
+❌ **Passive**:
+```
+An InstallPlan is created by OLM when a Subscription is detected.
+```
+
+✅ **Active**:
+```
+OLM creates an InstallPlan when it detects your Subscription.
+```
+
+=== Connect Technical to Business
+
+Always link capabilities to outcomes:
+
+**Pattern**: `[Technical Capability] → [Business Outcome]`
+
+**Examples**:
+* "Operators automate Day 2 operations" → reduces operational toil from 20 hours to 2 hours per week
+* "Templates standardize VM deployments" → reduces deployment errors by 85%
+* "Automation workflows centralize runbooks" → eliminates tribal knowledge, improves MTTR
+
+== Example Patterns
+
+=== Concrete Scenario Examples
+
+**Structure**:
+. Setup: Describe the scenario
+. Action: What happens
+. Result: Observable outcome with specific timing/metrics
+
+**Template**:
+[source,asciidoc]
+----
+**Scenario:** [Describe real-world situation]
+
+[Action steps or commands]
+
+**What happened:**
+
+1. [Step 1 with specific details]
+2. [Step 2 with specific details]
+3. [Observable result with timing]
+
+**Result:**
+
+[Show output or state change]
+----
+
+**Example**:
+```
+**Scenario:** Platform team needs to deploy 10 RHEL VMs for application testing
+
+Without templates:
+* Manual VM creation: 20 minutes per VM
+* Inconsistent configurations
+* Total time: 3+ hours
+
+With VM templates:
+* Template-based deployment: 3 minutes per VM
+* Standardized, tested configurations
+* Total time: 30 minutes
+
+**Result:** 83% time reduction, zero configuration drift
+```
+
+=== Before/After Comparisons
+
+**Pattern**:
+[source,asciidoc]
+----
+**Before ([old approach]):**
+
+[Description or example]
+
+**After ([new approach]):**
+
+[Description or example]
+
+[Key improvement with metrics]
+----
+
+**Example**:
+```
+**Before (Manual deployment):**
+
+[source,bash]
+----
+for vm in vm1 vm2 vm3; do
+  # Manual YAML editing for each VM
+  # Inconsistent settings across deployments
+  # No version control
+done
+----
+
+**After (Template-based):**
+
+[source,bash]
+----
+$ oc process rhel-vm-template | oc create -f -
+# Consistent configuration from tested template
+# Version controlled in Git
+# Automated parameter substitution
+----
+
+Deployment time: 20 minutes → 3 minutes per VM
+```
+
+== Code Example Conventions
+
+=== YAML Examples
+
+**Requirements**:
+* Use `[source,yaml]` for syntax highlighting
+* Include callout annotations `<1>`, `<2>` for important fields
+* Provide explanation list after code block
+* Show realistic, working examples (not placeholders)
+
+**Template**:
+[source,asciidoc]
+----
+\[source,yaml]
+----
+apiVersion: [api.group]/[version]
+kind: [ResourceKind]
+metadata:
+  name: [specific-name]
+spec:
+  fieldOne: value             # <1>
+  fieldTwo:
+    nestedField: value        # <2>
+----
+<1> Explanation of fieldOne
+<2> Explanation of nestedField
+----
+
+=== Command Examples
+
+**Requirements**:
+* Use `[source,bash]` or `[source,console]` for shell commands
+* Include expected output when showing verification
+* Use `$` prompt for commands
+* Use `#` for comments (sparingly)
+
+**Pattern for Commands**:
+[source,asciidoc]
+----
+\[source,bash]
+----
+$ command with flags
+OUTPUT_SHOWN_HERE
+----
+----
+
+**Pattern for Multi-step Workflows**:
+[source,asciidoc]
+----
+\[source,bash]
+pass:[----]
+# Step 1: Check current state
+$ oc get deployments
+NAME                READY
+app-deployment      3/3
+
+# Step 2: Verify resources
+$ oc get pods
+[output]
+pass:[----]
+----
+
+=== ASCII Diagrams
+
+**Use when**: Illustrating workflows, architecture, relationships
+
+**Requirements**:
+* Use simple box-drawing characters
+* Keep width ≤ 60 characters for readability
+* Include clear labels
+* Use arrows (→, ↓) to show flow
+
+**Example**:
+----
+┌─────────────────────────────────────┐
+│   Automation Controller             │
+│   (Executes workflows)              │
+└─────────────────────────────────────┘
+          ↓
+┌─────────────────────────────────────┐
+│   Execution Environments            │
+│   (Container images with tools)     │
+└─────────────────────────────────────┘
+          ↓
+┌─────────────────────────────────────┐
+│   Managed Nodes                     │
+│   (Target infrastructure)           │
+└─────────────────────────────────────┘
+----
+
+== Callout Usage Patterns
+
+=== TIP - Production Best Practices
+
+**Use for**: Recommended approaches for production environments
+
+[source,asciidoc]
+----
+[TIP]
+====
+For production deployments, configure `installPlanApproval: Manual` to control
+when operator upgrades occur. This prevents unexpected changes during business hours.
+====
+----
+
+=== WARNING - Critical Cautions
+
+**Use for**: Actions that could cause problems, anti-patterns
+
+[source,asciidoc]
+----
+[WARNING]
+====
+Changing storage classes on existing VMs requires migrating data and can cause
+downtime. Plan storage configuration changes during maintenance windows.
+====
+----
+
+=== NOTE - Additional Information
+
+**Use for**: Helpful context, clarifications, optional details
+
+[source,asciidoc]
+----
+[NOTE]
+====
+The label `feature.node.kubernetes.io/cpu-cpuid.AVX512F=true` indicates nodes
+with AVX-512 CPU instructions, useful for certain HPC workloads.
+====
+----
+
+=== IMPORTANT - Critical Information
+
+**Use for**: Must-know information, non-obvious implications
+
+[source,asciidoc]
+----
+[IMPORTANT]
+====
+Operator upgrades may introduce new Custom Resource Definition fields. Review
+release notes before approving production operator upgrades.
+====
+----
+
+**Usage Rules**:
+* Maximum 3-4 callouts per major section
+* Each callout should be ≤4 sentences
+* Don't nest callouts inside other callouts
+* Place callouts immediately after the relevant concept
+
+== Tables and Decision Matrices
+
+=== Decision Matrix Pattern
+
+**Use for**: Production decision points with multiple options
+
+[source,asciidoc]
+----
+[cols="1,2,2",options="header"]
+|===
+|Option |Characteristics |Recommendation
+
+|Option A
+|[Description and trade-offs]
+|✅ **Recommended for [use case]**
+
+|Option B
+|[Description and trade-offs]
+|⚠️ Use with caution
+
+|Option C
+|[Description and trade-offs]
+|❌ **Avoid in production**
+|===
+----
+
+**Example**:
+[cols="1,2,2",options="header"]
+|===
+|VM Deployment Method |Characteristics |Recommendation
+
+|Pre-built Templates
+|Quick deployment, limited customization, tested configurations
+|✅ **Recommended for standard workloads**
+
+|Custom Templates
+|Flexible, requires maintenance, team-specific
+|⚠️ Good for specialized requirements
+
+|Manual YAML
+|Full control, error-prone, no standardization
+|❌ **Avoid in production**
+|===
+
+== Transition Patterns
+
+=== Between Sections (Within Page)
+
+[source,asciidoc]
+----
+Now that you understand [concept from this section],
+the next section covers [concept in next section]
+and how it [relationship to current section].
+----
+
+=== Between Pages (Final "What's Next")
+
+[source,asciidoc]
+----
+== What's Next
+
+In the next [section|lab], you will [action verb] [specific task].
+You'll [specific activity 1], [specific activity 2], and [specific activity 3].
+
+This [hands-on experience|understanding] will [learning outcome].
+----
+
+**Example**:
+```
+== What's Next
+
+In the next lab, you will deploy your first virtual machine using the
+OpenShift Virtualization operator. You'll create a VirtualMachine Custom
+Resource, configure storage and networking, and verify the VM is running.
+
+This hands-on experience will reinforce your understanding of the operator
+workflow and VM lifecycle management.
+```
+
+== Quality Standards
+
+=== Depth Standards
+
+**Minimum Requirements for Each Page**:
+- [ ] At least one concrete, real-world scenario example
+- [ ] At least one before/after comparison
+- [ ] At least one decision matrix or comparison table
+- [ ] At least one annotated code example
+- [ ] Business value connected to technical capability
+- [ ] Production guidance (best practices, warnings)
+
+=== Precision Standards
+
+**❌ Avoid Vague Terms**:
+* "quickly", "slowly", "soon" → Use specific timing: "within 30 seconds"
+* "many", "several" → Use specific counts: "5 components"
+* "high", "low" → Use specific metrics: "95% utilization"
+* "important", "critical" → Explain why it matters
+
+**✅ Use Specific Language**:
+* "The controller reconciles every 5 seconds"
+* "Templates support up to 20 customizable parameters"
+* "VM provisioning completes in 3-4 minutes on first deployment"
+
+=== Completeness Standards
+
+**Each major concept must include**:
+. **Definition**: What it is (1 sentence)
+. **Purpose**: Why it exists / problem it solves
+. **Components**: What it consists of (if applicable)
+. **Operation**: How it works
+. **Example**: Concrete demonstration
+. **Integration**: How it relates to other concepts
+
+== Common Anti-Patterns to Avoid
+
+=== ❌ Information Dumps
+
+**Bad**:
+```
+Operators watch Custom Resources. Controllers reconcile state.
+CRDs define schemas. Subscriptions install operators.
+```
+
+**Good**:
+```
+Operators use four core concepts that work together:
+
+1. Custom Resource Definition (CRD): Schema for your resource type
+2. Custom Resource (CR): Your actual configuration instance
+   → Declares desired state
+3. Controller: Software that watches CRs
+   → Compares desired vs. actual state
+4. Reconciliation Loop: Continuous alignment process
+   → Makes cluster match your CR every ~5 seconds
+
+This workflow automates maintaining your desired configuration...
+```
+
+=== ❌ Tutorial-Style Without Context
+
+**Bad**:
+```
+1. Run oc create subscription
+2. Run oc get csv
+3. Run oc describe csv
+```
+
+**Good**:
+```
+To verify operator installation:
+
+1. Check that OLM created the ClusterServiceVersion:
+   $ oc get csv -n namespace
+
+   Expected: Phase shows "Succeeded"
+
+2. Verify operator pod is running:
+   $ oc get pods -n namespace
+
+This confirms the operator is ready to reconcile Custom Resources...
+```
+
+=== ❌ Assuming Knowledge Not Yet Taught
+
+**Bad (in early chapter)**:
+```
+Configure the AutomationController to enable LDAP authentication
+```
+
+**Good**:
+```
+The AutomationController Custom Resource (introduced in Section 2)
+allows you to configure LDAP authentication by setting the
+spec.ldap_server field...
+```
+
+== Review Checklist
+
+Before submitting content, verify:
+
+=== Structure
+- [ ] Reading time estimate in frontmatter
+- [ ] Clear Objective statement
+- [ ] Logical progression (WHY → WHAT → HOW)
+- [ ] "What's Next" transition at end
+
+=== Depth
+- [ ] Business value explained (WHY)
+- [ ] Architecture/components explained (WHAT)
+- [ ] Usage/configuration shown (HOW)
+- [ ] All three layers present for major concepts
+
+=== Examples
+- [ ] At least one concrete scenario with timing
+- [ ] At least one before/after comparison
+- [ ] Code examples are annotated
+- [ ] Commands show expected output
+
+=== Production Guidance
+- [ ] Decision matrices for choices
+- [ ] TIP callouts for best practices
+- [ ] WARNING callouts for anti-patterns
+- [ ] Specific version/compatibility requirements
+
+=== Integration
+- [ ] References prior concepts correctly
+- [ ] Prepares for next concepts
+- [ ] Cross-references are valid (xrefs work)
+- [ ] Terminology is consistent
+
+=== Technical Quality
+- [ ] YAML is valid and realistic
+- [ ] Commands are accurate
+- [ ] Version numbers are current
+- [ ] No placeholders (all examples are complete)
+
+=== Readability
+- [ ] Headings follow hierarchy (no skipped levels)
+- [ ] Callouts are ≤4 sentences
+- [ ] Tables use proper column widths
+- [ ] ASCII diagrams are ≤60 characters wide
+- [ ] Active voice in key explanations
+- [ ] Specific metrics (not vague qualifiers)
+
+== What You've Learned
+
+You now understand:
+
+* ✅ The three-layer depth approach (WHY/WHAT/HOW)
+* ✅ Document structure and heading patterns
+* ✅ Writing style rules for clarity
+* ✅ How to create effective examples
+* ✅ Code example conventions
+* ✅ Callout usage patterns
+* ✅ Decision matrix formats
+* ✅ Transition patterns
+* ✅ Quality standards and anti-patterns
+* ✅ Review checklist for content verification
+
+== What's Next
+
+In the next section, you'll learn how to maintain terminology consistency across your course and manage canonical definitions for all technical terms.

@@ -1,0 +1,8 @@
+* xref:index.adoc[Building Claude Skills]
+** xref:01-skill-anatomy.adoc[Module 1: Skill Anatomy]
+** xref:02-workflow-design.adoc[Module 2: Workflow Design]
+** xref:03-token-management.adoc[Module 3: Token Management]
+** xref:04-quality-gates.adoc[Module 4: Quality Gates]
+** xref:05-references-templates.adoc[Module 5: References & Templates]
+** xref:06-real-examples.adoc[Module 6: Real Examples]
+** xref:07-best-practices.adoc[Module 7: Best Practices]

@@ -1,0 +1,120 @@
+= Skills vs. Conversational Prompts
+:navtitle: Skills vs. Prompts
+
+== Introduction
+
+Claude Code offers two ways to interact: **skills** (pre-built workflows invoked with `/command`) and **conversational prompts** (natural language requests). Understanding when to use each approach makes you more effective.
+
+== What Are Skills?
+
+Skills are pre-built workflows designed for specific tasks. They:
+
+* Are invoked with `/skill-name` syntax
+* Follow structured, multi-step processes
+* Ask questions to gather needed information
+* Perform complex operations automatically
+* Provide consistent, reliable results
+
+=== Example Skills
+
+* `/initialize-course-project` - Sets up a QuickCourse repository
+* `/generate-course-structure` - Creates course skeleton from design
+* `/generate-pdf` - Exports course to PDF format
+
+== What Are Conversational Prompts?
+
+Conversational prompts are natural language requests. They:
+
+* Use normal English (or other languages)
+* Handle one-off tasks or questions
+* Allow flexible, context-aware responses
+* Work well for custom or unique situations
+* Require clear, specific instructions
+
+=== Example Prompts
+
+----
+"Can you read the course design document and tell me how many chapters it has?"
+----
+
+----
+"Please update the time estimate in s1-intro.adoc to 8 minutes"
+----
+
+----
+"Create a new section file for a lab about deploying operators"
+----
+
+== When to Use Skills
+
+Use skills when:
+
+* ✅ A pre-built skill exists for your task
+* ✅ You need a consistent, repeatable workflow
+* ✅ The task has multiple steps that must happen in order
+* ✅ You want guided questions instead of having to specify everything
+* ✅ The task is complex (like initializing a repository)
+
+**Examples**:
+* Initializing a course project → Use `/initialize-course-project`
+* Generating course structure → Use `/generate-course-structure`
+* Exporting to PDF → Use `/generate-pdf`
+
+== When to Use Prompts
+
+Use conversational prompts when:
+
+* ✅ No skill exists for your specific task
+* ✅ You need a one-time custom operation
+* ✅ You want to explore or ask questions
+* ✅ The task is simple and direct
+* ✅ You need flexibility beyond what a skill provides
+
+**Examples**:
+* "Read this file and summarize the main points"
+* "Update the navigation to add a new section"
+* "Format these commands as an AsciiDoc lab"
+* "Explain what this YAML configuration does"
+
+== Combining Skills and Prompts
+
+The most effective workflow combines both:
+
+. **Use skills** for major operations (initialization, generation, PDF export)
+. **Use prompts** for content development (writing sections, formatting code, creating quizzes)
+. **Use prompts** to ask Claude to clarify or fix issues
+
+=== Example Workflow
+
+[source,bash]
+----
+# Use skill for initialization
+> /initialize-course-project
+
+# Use prompts for content development
+> "Claude, please write an introduction for chapter 1 about OpenShift operators"
+
+> "Claude, can you format these oc commands into a lab section with callouts?"
+
+# Use skill for final export
+> /generate-pdf
+----
+
+== Available Skills
+
+To see all available skills in your current repository:
+
+[source,bash]
+----
+> /help
+----
+
+Or ask Claude:
+
+----
+> "What skills are available in this repository?"
+----
+
+== What's Next
+
+In the next section, you'll learn best practices for working with Claude Code in git repositories.

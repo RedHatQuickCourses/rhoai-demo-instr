@@ -1,0 +1,540 @@
+= Maintaining Terminology Consistency
+:navtitle: Terminology Consistency
+
+== Introduction
+
+Inconsistent terminology confuses learners. One section calls it a "ClusterServiceVersion", another calls it a "CSV", a third calls it an "operator version manifest"—students waste mental energy reconciling these instead of learning concepts.
+
+This guide shows you how to maintain canonical term definitions across your entire course.
+
+== The Problem: Terminology Drift
+
+As you develop a course over multiple sessions:
+
+**Without terminology management**:
+* Chapter 1 defines "Custom Resource" thoroughly
+* Chapter 3 re-defines it slightly differently
+* Chapter 5 assumes a different definition
+* Students are confused about what the term actually means
+
+**With terminology management**:
+* ✅ "Custom Resource" defined once, canonically
+* ✅ All chapters use the exact same definition
+* ✅ Cross-references point to the original definition
+* ✅ New terms are added systematically
+
+## The Solution: TERMINOLOGY.md
+
+Create a single source of truth for all technical terms.
+
+=== File Structure
+
+Create `TERMINOLOGY.md` in your course root:
+
+[source,markdown]
+----
+# Course Terminology Reference
+
+This document maintains canonical definitions for all technical terms
+used across the course.
+
+**Last Updated**: 2026-04-13
+**Course**: [Your course name]
+
+---
+
+## How to Use This Document
+
+1. **When writing new content**: Check here before defining any term
+2. **On first use**: Reference the chapter where term was first defined
+3. **When introducing new terms**: Add canonical definition here
+4. **When updating**: Update here and note which chapters need updating
+
+---
+
+## [Category 1: Core Concepts]
+
+### Term Name
+**Canonical Definition** (from [source chapter/section]):
+> [Exact definition from where it was first properly defined]
+
+**First Defined**: Chapter X, Section Y ([section title])
+
+**Key Characteristics**:
+- [Important attribute 1]
+- [Important attribute 2]
+- [Important attribute 3]
+
+**Related Terms**: [Links to related definitions]
+
+---
+
+## [Category 2: Architecture Components]
+
+[Continue pattern for each term...]
+----
+
+=== Example: OpenShift Virtualization Course
+
+[source,markdown]
+----
+# OpenShift Virtualization Terminology
+
+## Virtual Machine Concepts
+
+### VirtualMachine (VM)
+**Canonical Definition** (from ch1-installation/s3-vm-basics.adoc):
+> A VirtualMachine is a Custom Resource that represents a virtual machine
+> instance running on OpenShift. It defines the VM's desired state including
+> CPU, memory, storage, and network configuration.
+
+**First Defined**: Chapter 1, Section 3 (Creating Your First VM)
+
+**Key Characteristics**:
+- Declarative configuration via YAML
+- Managed by kubevirt-controller
+- Can be started, stopped, or paused
+- Supports live migration
+
+**Related Terms**: VirtualMachineInstance, VirtualMachineInstanceReplicaSet
+
+### VirtualMachineInstance (VMI)
+**Canonical Definition** (from ch1-installation/s3-vm-basics.adoc):
+> A VirtualMachineInstance represents a running instance of a VirtualMachine.
+> It is the actual running VM process, created automatically when a
+> VirtualMachine is started.
+
+**First Defined**: Chapter 1, Section 3
+
+**Relationship**: VirtualMachine is the desired state; VMI is the running instance
+
+## Template Concepts
+
+### DataVolume
+**Canonical Definition** (from ch2-templates/s2-storage.adoc):
+> A DataVolume is a Custom Resource that automates the provisioning of
+> PersistentVolumeClaims and handles data import from various sources
+> (HTTP, S3, Registry, PVC cloning).
+
+**First Defined**: Chapter 2, Section 2 (VM Storage and Templates)
+
+**Import Sources Supported**:
+- HTTP/HTTPS endpoints
+- Container registries
+- S3-compatible storage
+- Existing PVCs (cloning)
+
+**Related Terms**: PersistentVolumeClaim, ContainerDisk
+----
+
+=== Example: Ansible Automation Platform Course
+
+[source,markdown]
+----
+# Ansible Automation Platform Terminology
+
+## Automation Controller Components
+
+### AutomationController
+**Canonical Definition** (from ch2-controller/s1-architecture.adoc):
+> AutomationController is a Custom Resource that deploys and configures
+> the Ansible Automation Platform controller (formerly Ansible Tower).
+> It orchestrates automation workflows, manages inventories, and provides
+> a web UI and API for automation management.
+
+**First Defined**: Chapter 2, Section 1 (Controller Architecture)
+
+**Core Components**:
+- Web UI for workflow management
+- REST API for programmatic access
+- Task engine for job execution
+- PostgreSQL database for persistence
+
+**Related Terms**: AutomationHub, ExecutionEnvironment
+
+### ExecutionEnvironment
+**Canonical Definition** (from ch2-controller/s3-execution.adoc):
+> An Execution Environment is a container image that includes Ansible,
+> Ansible collections, Python dependencies, and system packages needed
+> to run automation jobs. It provides a consistent, portable runtime
+> for playbooks.
+
+**First Defined**: Chapter 2, Section 3 (Execution Environments)
+
+**Purpose**: Isolates automation dependencies, enables version control
+of entire runtime environment
+
+**Related Terms**: AutomationController, Job Template
+
+## Automation Concepts
+
+### Job Template
+**Canonical Definition** (from ch3-workflows/s1-jobs.adoc):
+> A Job Template defines a reusable configuration for running an Ansible
+> playbook, including the project (Git repo), playbook path, inventory,
+> credentials, and execution environment to use.
+
+**First Defined**: Chapter 3, Section 1 (Creating Job Templates)
+
+**Required Fields**:
+- Name and description
+- Project (source of playbooks)
+- Playbook filename
+- Inventory
+- Execution Environment
+
+**Related Terms**: Workflow Job Template, Project
+----
+
+== When to Add Terms
+
+=== Add Immediately
+
+Add terms to TERMINOLOGY.md when:
+
+**First introducing a major concept**:
+* Custom Resource types (VirtualMachine, AutomationController, etc.)
+* Architectural components
+* Product-specific terminology
+* Acronyms and abbreviations
+
+**Example**:
+```
+Chapter 2 introduces "MIG" (Multi-Instance GPU):
+→ Add canonical definition to TERMINOLOGY.md
+→ All future chapters reference this definition
+```
+
+=== Don't Add
+
+Skip these from TERMINOLOGY.md:
+
+**Common industry terms**:
+* Kubernetes (link to Kubernetes docs)
+* YAML, JSON, API (assume general knowledge)
+* Git, container, pod (standard Kubernetes terms)
+
+**Product names**:
+* Red Hat OpenShift (spell out in full on first use, OK to abbreviate after)
+* RHEL, AAP (define abbreviation on first use, don't need separate entry)
+
+**Temporary lab-specific terms**:
+* Variable names in examples
+* Sample resource names
+
+== How to Use TERMINOLOGY.md
+
+=== During Content Creation
+
+**Step 1: Check Before Defining**
+
+Before introducing a term:
+
+[source,bash]
+----
+# Search TERMINOLOGY.md
+grep -i "virtualmachine" TERMINOLOGY.md
+----
+
+If found:
+* ✅ Use the canonical definition
+* ✅ Reference the section where it was first defined
+* ✅ Don't re-define, just cross-reference
+
+**Step 2: Reference Prior Definitions**
+
+In your new content:
+
+[source,asciidoc]
+----
+The VirtualMachine Custom Resource (defined in Chapter 1, Section 3) allows
+you to configure live migration by setting the evictionStrategy field...
+----
+
+Not:
+
+[source,asciidoc]
+----
+A VirtualMachine is a resource that... [redefinition - DON'T DO THIS]
+----
+
+**Step 3: Add New Terms**
+
+When introducing a new term for the first time:
+
+. Define it properly in your content
+. Add the canonical definition to TERMINOLOGY.md
+. Include chapter/section reference
+
+=== During Claude Code Sessions
+
+**Tell Claude about TERMINOLOGY.md**:
+
+----
+> "Before writing this content, please read TERMINOLOGY.md to understand
+  canonical term definitions. Use those exact definitions and reference
+  the chapters where terms were first defined."
+----
+
+**Ask Claude to update it**:
+
+----
+> "Please add the new term 'Workflow Job Template' to TERMINOLOGY.md
+  with a canonical definition based on what we just wrote in Chapter 3."
+----
+
+**Verify consistency**:
+
+----
+> "Check if we're using 'VirtualMachine' consistently with the definition
+  in TERMINOLOGY.md. Update this section if needed."
+----
+
+== Common Terminology Patterns
+
+=== Pattern: Custom Resources
+
+[source,markdown]
+----
+### [ResourceKind]
+**Canonical Definition** (from [chapter/section]):
+> [What it is, what it represents, its purpose]
+
+**First Defined**: Chapter X, Section Y
+
+**Key Fields**:
+- `spec.field1`: [Purpose]
+- `spec.field2`: [Purpose]
+
+**Related Terms**: [Related resources]
+----
+
+=== Pattern: Architectural Components
+
+[source,markdown]
+----
+### [Component Name]
+**Canonical Definition** (from [chapter/section]):
+> [What it is, its role in the architecture]
+
+**First Defined**: Chapter X, Section Y
+
+**Responsibilities**:
+- [Responsibility 1]
+- [Responsibility 2]
+
+**Interacts With**: [Other components]
+----
+
+=== Pattern: Concepts/Features
+
+[source,markdown]
+----
+### [Concept Name]
+**Canonical Definition** (from [chapter/section]):
+> [What it is, why it exists, what problem it solves]
+
+**First Defined**: Chapter X, Section Y
+
+**Use Cases**:
+- [Use case 1]
+- [Use case 2]
+
+**Alternatives**: [Other approaches and when to use them]
+----
+
+== Maintaining TERMINOLOGY.md Over Time
+
+=== Regular Reviews
+
+**After adding each chapter**:
+- [ ] Add new terms introduced
+- [ ] Verify no conflicting definitions
+- [ ] Update cross-references
+
+**Before final course publication**:
+- [ ] Review all definitions for consistency
+- [ ] Ensure every major term is documented
+- [ ] Verify chapter references are accurate
+- [ ] Check for orphaned or outdated terms
+
+=== Updating Definitions
+
+**If a definition needs to change**:
+
+. Update TERMINOLOGY.md with new definition
+. Note which chapter now has the canonical definition
+. Mark which prior chapters need updates
+. Update those chapters
+. Commit all changes together
+
+**Example update entry**:
+
+[source,markdown]
+----
+### VirtualMachine
+**Canonical Definition** (from ch1-installation/s3-vm-basics.adoc):
+> [Updated definition]
+
+**Updated**: 2026-04-15
+**Prior Definition**: See ch1 before this date
+**Chapters Updated**: ch2, ch3, ch5
+----
+
+== Cross-Course Terminology
+
+=== Reusing Definitions Across Courses
+
+If creating multiple related courses:
+
+**Create a shared terminology base**:
+
+`common-terminology.md`:
+```
+# Red Hat Platform Common Terminology
+
+## Kubernetes Concepts
+
+### Operator
+**Canonical Definition**:
+> [Standard definition used across all platform courses]
+
+**Source**: Kubernetes Operator pattern documentation
+**Used in Courses**: OpenShift Basics, Virtualization, ACM, etc.
+```
+
+**Reference in course-specific TERMINOLOGY.md**:
+
+```
+## Common Terms
+
+See `common-terminology.md` for definitions of:
+- Operator
+- Custom Resource
+- Namespace
+- Pod
+
+[... course-specific terms follow ...]
+```
+
+== Integration with Style Guide
+
+TERMINOLOGY.md works with your style guide:
+
+**Style guide says**:
+"Define terms on first use"
+
+**TERMINOLOGY.md ensures**:
+* ✅ Definitions are consistent
+* ✅ You know where it was first defined
+* ✅ Future uses can reference that definition
+
+**Example workflow**:
+
+. Write Chapter 3 content
+. Need to use "AutomationController"
+. Check TERMINOLOGY.md
+. See it was defined in Chapter 2, Section 1
+. Write: "The AutomationController (introduced in Chapter 2)..."
+. Don't redefine, just use it
+
+== Quality Checklist
+
+Before finalizing a course, verify TERMINOLOGY.md:
+
+=== Coverage
+- [ ] All Custom Resource types documented
+- [ ] All architectural components documented
+- [ ] All product-specific concepts documented
+- [ ] All acronyms defined
+
+=== Accuracy
+- [ ] Definitions match official product documentation
+- [ ] Chapter references are correct
+- [ ] Related terms are linked
+- [ ] No conflicting definitions
+
+=== Completeness
+- [ ] Each term has canonical definition
+- [ ] Source chapter/section listed
+- [ ] Key characteristics documented
+- [ ] Related terms cross-referenced
+
+=== Maintenance
+- [ ] Last updated date is current
+- [ ] No orphaned/unused terms
+- [ ] Version-specific notes where needed
+- [ ] Update history for changed definitions
+
+== Example Workflow: Adding a New Chapter
+
+**Scenario**: You're adding Chapter 4 about advanced features.
+
+**Steps**:
+
+. **Read TERMINOLOGY.md first**
++
+----
+$ grep -i "template\|workflow\|inventory" TERMINOLOGY.md
+----
++
+Identify which terms are already defined.
+
+. **Reference existing terms in your content**
++
+[source,asciidoc]
+----
+Workflow Job Templates (introduced in Chapter 3) allow you to chain
+multiple Job Templates together...
+----
+
+. **Define new terms properly on first use**
++
+[source,asciidoc]
+----
+A *Survey* is a set of prompts that collect user input at job launch time.
+Surveys enable self-service automation by allowing users to customize
+job parameters without editing the Job Template itself.
+----
+
+. **Add new terms to TERMINOLOGY.md**
++
+[source,markdown]
+----
+### Survey
+**Canonical Definition** (from ch4-advanced/s2-surveys.adoc):
+> A Survey is a set of prompts that collect user input at job launch time,
+> enabling self-service automation by allowing parameter customization.
+
+**First Defined**: Chapter 4, Section 2 (Job Surveys)
+
+**Use Cases**:
+- Collecting deployment environment from end users
+- Prompting for hostnames or IP addresses
+- Allowing users to select from predefined options
+
+**Related Terms**: Job Template, Extra Variables
+----
+
+. **Build and verify**
++
+----
+npm run build
+# Check for terminology consistency
+----
+
+== What You've Learned
+
+You now understand:
+
+* ✅ Why terminology consistency matters
+* ✅ How to structure TERMINOLOGY.md
+* ✅ When to add terms and when to skip them
+* ✅ How to reference existing definitions
+* ✅ How to use TERMINOLOGY.md with Claude Code
+* ✅ Maintenance workflows for keeping it current
+* ✅ Integration with your style guide
+
+== What's Next
+
+In the next section, you'll learn how to maintain consistency when working with Claude Code across multiple conversation sessions—the "fresh prompt workflow" that ensures new content matches your established standards.

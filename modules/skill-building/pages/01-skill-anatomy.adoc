@@ -1,0 +1,406 @@
+= Module 1: Skill Anatomy
+:navtitle: Module 1: Skill Anatomy
+
+== Learning Objectives
+
+After completing this module, you will be able to:
+
+* Understand the complete structure of a Claude skill file
+* Configure skill frontmatter and metadata correctly
+* Choose appropriate context modes for your skill
+* Select the right model for your use case
+* Organize reference files and supporting materials
+
+== Introduction
+
+Every Claude skill starts with a well-structured file. Understanding the anatomy of a skill file is fundamental to building effective automation.
+
+In this module, we'll dissect a real skill and examine each component.
+
+== The Basic Skill File Structure
+
+A Claude skill consists of a single Markdown file with specific frontmatter and content sections.
+
+**Minimum viable skill**:
+
+[source,markdown]
+----
+---
+name: my-skill
+description: Brief description of what this skill does
+---
+
+# Skill Title
+
+Your skill instructions go here.
+----
+
+**Location**: Skills live in `.agents/skills/<skill-name>/skill.md`
+
+**Example**: `.agents/skills/showroom-create-lab/skill.md`
+
+== Frontmatter: The Skill Header
+
+The frontmatter appears at the top of your skill file and contains metadata.
+
+=== Name Field (Required)
+
+The `name` field identifies your skill and determines how users invoke it.
+
+[source,yaml]
+----
+---
+name: showroom:create-lab
+---
+----
+
+**Naming conventions**:
+
+* Use descriptive, action-oriented names
+* Prefix with namespace for organization (e.g., `showroom:`, `course:`)
+* Use kebab-case for multi-word names
+* Keep it concise but clear
+
+**Examples**:
+
+* `showroom:create-lab` - Creates workshop lab modules
+* `showroom:create-demo` - Creates presenter-led demos
+* `generate-course-structure` - Generates Antora course structure
+* `showroom:blog-generate` - Converts content to blog posts
+
+=== Description Field (Required)
+
+The `description` tells Claude when to invoke this skill automatically.
+
+[source,yaml]
+----
+---
+name: showroom:create-lab
+description: This skill should be used when the user asks to "create a lab module", "write a workshop module", "build a Showroom lab", "convert docs to a lab", "write a hands-on exercise", "create an AsciiDoc module", or "turn this documentation into a lab exercise".
+---
+----
+
+**Best practices for descriptions**:
+
+* **Be specific** - Include exact phrases users might say
+* **Use trigger phrases** - List common variations the user might use
+* **Quote user language** - Use actual words users speak
+* **Cover synonyms** - Different ways to request the same action
+
+**Poor description**:
+[source,yaml]
+----
+description: Creates workshop content
+----
+
+**Good description**:
+[source,yaml]
+----
+description: This skill should be used when the user asks to "create a lab module", "write a workshop module", "build a Showroom lab", "convert docs to a lab", "write a hands-on exercise", "create an AsciiDoc module", or "turn this documentation into a lab exercise".
+----
+
+== Extended Frontmatter
+
+Skills can include additional frontmatter for advanced configuration.
+
+=== Context and Model Configuration
+
+[source,yaml]
+----
+---
+name: showroom:create-demo
+description: Creates presenter-led demos
+---
+
+---
+context: main
+model: claude-opus-4-6
+---
+----
+
+**Context modes**:
+
+* `main` - Skill runs in the main conversation context (default)
+* `isolated` - Skill runs in isolated context (planned feature)
+
+**Model selection**:
+
+* `claude-opus-4-6` - Most capable, best for complex content generation
+* `claude-sonnet-4-6` - Balanced performance and capability (default)
+* `claude-haiku-4-5` - Fast, efficient for simpler tasks
+
+**When to specify a model**:
+
+* **Opus** - Complex content generation, creative writing, business narratives
+* **Sonnet** - Most general purpose skills (default, often unspecified)
+* **Haiku** - Quick validation, simple transformations, formatting
+
+**Example from production**:
+[source,yaml]
+----
+---
+context: main
+model: claude-opus-4-6
+---
+
+# Demo Module Generator
+
+Guide you through creating a Red Hat Showroom demo module using the Know/Show structure for presenter-led demonstrations.
+----
+
+This skill uses Opus because demo creation requires:
+
+* Creative business storytelling
+* Nuanced value proposition writing
+* Complex Know/Show structure
+* High-quality presenter talk tracks
+
+== Skill Content Structure
+
+After the frontmatter comes the skill instructions written in Markdown.
+
+=== Title and Introduction
+
+Start with a clear title and introduction:
+
+[source,markdown]
+----
+# Lab Module Generator
+
+Guide you through creating a single Red Hat Showroom workshop module from reference materials (URLs, files, docs, or text) with business storytelling and proper AsciiDoc formatting.
+----
+
+**The introduction should**:
+
+* State what the skill does in one sentence
+* Set expectations for the workflow
+* Indicate the primary output
+
+=== What You'll Need Before Starting
+
+Help users prepare before invoking the skill:
+
+[source,markdown]
+----
+## What You'll Need Before Starting
+
+Have these ready before running this skill:
+
+**Required:**
+- 📁 **Target directory path** - Where to create modules
+- 📚 **Reference materials** - URLs, files, or text describing content
+- 🎯 **Learning objective** - What should learners accomplish?
+
+**Helpful to have:**
+- 🏢 **Company/scenario context** - Business story for the lab
+- ⏱️ **Target duration** - How long should this module take?
+- 👥 **Audience level** - Beginner, Intermediate, or Advanced
+
+**Access needed:**
+- ✅ Write permissions to the repository directory
+----
+
+**Benefits**:
+
+* Users gather materials before starting
+* Reduces back-and-forth questions
+* Sets clear expectations
+* Identifies potential blockers early
+
+=== When to Use Section
+
+Clarify the skill's scope:
+
+[source,markdown]
+----
+## When to Use
+
+Use this skill to create presenter-led demo content, transform technical documentation into business-focused demos, or add modules to existing demos.
+
+**Don't use this for**:
+- Creating workshop labs → use `/create-lab`
+- Generating PDFs → use `/generate-pdf`
+----
+
+This prevents users from invoking the wrong skill.
+
+=== Arguments Section (Optional)
+
+If your skill supports command-line arguments:
+
+[source,markdown]
+----
+## Arguments (Optional)
+
+This skill supports optional command-line arguments for faster workflows.
+
+**Usage Examples**:
+```bash
+/create-lab                                    # Interactive mode
+/create-lab <directory>                        # Specify target directory
+/create-lab <directory> --new                  # Create new lab
+/create-lab <directory> --continue <module>    # Continue existing
+```
+
+**Parameters**:
+- `<directory>` - Target directory for module files
+- `--new` - Flag to create new lab
+- `--continue <module-path>` - Continue from specified module
+----
+
+=== Workflow Section (The Core)
+
+The workflow section contains the step-by-step instructions that Claude follows.
+
+**Structure**:
+
+[source,markdown]
+----
+## Workflow
+
+### Step 1: Parse Arguments (If Provided)
+
+[Instructions for handling arguments]
+
+### Step 2: Determine Context
+
+[Instructions for understanding user's situation]
+
+### Step 3: Gather Details
+
+[Instructions for collecting information]
+
+### Step 4: Process and Generate
+
+[Instructions for creating output]
+
+### Step 5: Validate and Deliver
+
+[Instructions for quality checks and delivery]
+----
+
+**Key principles**:
+
+* **Sequential** - Steps execute in order
+* **Conditional** - Use "SKIP THIS STEP IF" logic
+* **Clear** - Each step has one clear purpose
+* **Actionable** - Instructions are specific, not vague
+
+We'll dive deeper into workflow design in Module 2.
+
+== Directory Structure for Skills
+
+Skills can include supporting files:
+
+----
+.agents/skills/showroom-create-demo/
+├── skill.md                          # Main skill file
+├── workflow.svg                      # Optional workflow diagram
+└── references/                       # Supporting reference files
+    ├── content-rules.md
+    ├── conclusion-template.md
+    └── showroom-scaffold.md
+----
+
+**Reference files**:
+
+* Store reusable templates
+* Document shared rules across skills
+* Provide examples and patterns
+* Keep the main skill.md focused
+
+**Access references** using relative paths:
+
+[source,markdown]
+----
+See `@showroom/skills/create-demo/references/content-rules.md` for all rules with correct/incorrect examples.
+----
+
+We'll explore references and templates in Module 5.
+
+== Complete Example: Anatomy of a Real Skill
+
+Let's examine the frontmatter and structure of `showroom-create-lab`:
+
+[source,markdown]
+----
+---
+name: showroom:create-lab
+description: This skill should be used when the user asks to "create a lab module", "write a workshop module", "build a Showroom lab", "convert docs to a lab", "write a hands-on exercise", "create an AsciiDoc module", or "turn this documentation into a lab exercise".
+---
+
+---
+context: main
+model: claude-opus-4-6
+---
+
+# Lab Module Generator
+
+Guide you through creating a single Red Hat Showroom workshop module from reference materials (URLs, files, docs, or text) with business storytelling and proper AsciiDoc formatting.
+
+## Workflow Diagram
+
+![Workflow](workflow.svg)
+
+## What You'll Need Before Starting
+[Prerequisites section...]
+
+## Shared Rules
+[References to common rules...]
+
+## Arguments (Optional)
+[Argument documentation...]
+
+## Workflow
+[Step-by-step instructions...]
+----
+
+**What makes this effective**:
+
+✅ Clear, descriptive name with namespace +
+✅ Comprehensive description with trigger phrases +
+✅ Explicit model selection (Opus for complex generation) +
+✅ One-line summary of what it does +
+✅ Visual workflow diagram +
+✅ Prerequisites checklist +
+✅ Optional argument support +
+✅ Structured, sequential workflow
+
+== Verification Checkpoint
+
+Before proceeding to the next module, verify you understand:
+
+✓ **Skill file location** - Where skills live in the `.agents/skills/` directory +
+✓ **Frontmatter structure** - Name, description, context, model fields +
+✓ **Naming conventions** - Namespaced, kebab-case, descriptive +
+✓ **Description best practices** - Include trigger phrases users might say +
+✓ **Model selection** - When to use Opus vs Sonnet vs Haiku +
+✓ **Content sections** - Introduction, prerequisites, workflow structure +
+✓ **Reference files** - Supporting files in subdirectories
+
+== Practice Exercise
+
+**Create a minimal skill file structure**:
+
+. Choose a skill you want to build (e.g., "convert PDF to slides")
+. Write the frontmatter with name and description
+. Select an appropriate model
+. Draft a one-sentence introduction
+. List 3-5 prerequisites users should have ready
+
+Don't worry about the full workflow yet - we'll cover that in Module 2.
+
+== Summary
+
+In this module, you learned:
+
+* Skill files are Markdown with YAML frontmatter
+* The `name` field determines how users invoke the skill
+* The `description` field helps Claude auto-trigger skills
+* Model selection impacts capability and performance
+* Skills include prerequisites, arguments, and workflow sections
+* Reference files organize supporting materials
+
+== What's Next
+
+Now that you understand skill anatomy, Module 2 will teach you how to design effective sequential workflows that guide users through complex tasks without overwhelming them.

@@ -1,0 +1,79 @@
+= Building Claude Skills for Course Development
+:navtitle: Building Claude Skills
+
+== Course Overview
+
+Welcome to the comprehensive guide for building Claude skills designed for course development, demos, labs, and technical content creation.
+
+This course teaches you how to create powerful, reusable Claude Code skills that automate content generation workflows while maintaining high quality standards.
+
+== What You'll Learn
+
+By completing this course, you will be able to:
+
+* **Understand skill anatomy** - Master the structure of Claude skill files including frontmatter, metadata, and context modes
+* **Design effective workflows** - Create sequential, conversational workflows that guide users through complex tasks
+* **Manage token budgets** - Control output size and prevent token overflow in generated content
+* **Implement quality gates** - Build inline validation and quality checks into your skills
+* **Leverage templates and references** - Use external files and shared rules to maintain consistency
+* **Apply best practices** - Follow proven patterns and avoid common pitfalls in skill development
+* **Analyze real examples** - Study production skills from the Showroom ecosystem
+
+== Who This Is For
+
+This course is designed for:
+
+* **Content developers** creating training materials, workshops, and demonstrations
+* **Developer advocates** building technical enablement content
+* **Solution architects** automating documentation and demo creation
+* **DevOps engineers** streamlining lab and course generation workflows
+* **Anyone** who wants to understand Claude skill development patterns
+
+== Prerequisites
+
+Before starting this course, you should have:
+
+* Basic understanding of Claude Code and how skills work
+* Familiarity with AsciiDoc or Markdown
+* Experience with command-line tools
+* Understanding of course/workshop structure (helpful but not required)
+
+== Module Structure
+
+This module is organized into seven sections:
+
+**Module 1: Skill Anatomy**::
+Learn the fundamental structure of Claude skills, including file organization, frontmatter configuration, and metadata.
+
+**Module 2: Sequential Workflow Design**::
+Master the art of creating conversational workflows that ask questions sequentially and build context progressively.
+
+**Module 3: Token Management and Output Control**::
+Understand how to manage Claude's output token budget and prevent overwhelming users with verbose responses.
+
+**Module 4: Quality Gates and Validation**::
+Implement inline quality checks and validation patterns to ensure generated content meets standards.
+
+**Module 5: Reference Materials and Templates**::
+Leverage external reference files, templates, and shared rules to maintain consistency across skills.
+
+**Module 6: Real-World Examples**::
+Analyze production skills from the Showroom ecosystem including lab creation, demo generation, and blog writing.
+
+**Module 7: Best Practices and Anti-Patterns**::
+Learn proven patterns, avoid common mistakes, and optimize your skills for production use.
+
+== What Makes This Course Unique
+
+This course is built from **real, production skills** actively used in Red Hat's enablement ecosystem:
+
+* Skills that generate hundreds of workshop modules
+* Battle-tested patterns for content quality
+* Token management strategies proven at scale
+* Workflows refined through actual user feedback
+
+You'll learn not just theory, but **practical patterns** you can apply immediately.
+
+== Let's Get Started
+
+Ready to build powerful Claude skills? Click through to Module 1 to begin your journey.
