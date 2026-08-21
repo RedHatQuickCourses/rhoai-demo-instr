@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Writing Style Standards for QuickCourses :: DEV</title>
+    <link rel="prev" href="02-content-request-template.html">
+    <link rel="next" href="04-terminology-consistency.html">
+    <meta name="generator" content="Antora 3.1.3">
+<link rel="stylesheet" href="../../../_/css/site.css">
+<link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
+<link rel="stylesheet" href="../../../_/css/vendor/collapsible.css">
+<link rel="stylesheet" href="../../../_/css/vendor/reading-time.css">
+<link rel="stylesheet" href="../../../_/css/progress-tracker.css">    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">DEV</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/rhoai-demo-instr/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhoai-demo-instr" data-version="3.2">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">DEV</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../claude-basics/index.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Introduction to Claude Code
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../claude-basics/01-getting-started.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/01-getting-started.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Getting Started with Claude Code
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../claude-basics/02-skills-vs-prompts.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/02-skills-vs-prompts.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Skills vs. Conversational Prompts
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../claude-basics/03-working-in-repos.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/03-working-in-repos.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Working in Git Repositories
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../claude-basics/04-effective-prompting.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/04-effective-prompting.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Effective Prompting Techniques
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../skill-building/index.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Building Claude Skills
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../skill-building/01-skill-anatomy.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/01-skill-anatomy.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 1: Skill Anatomy
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../skill-building/02-workflow-design.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/02-workflow-design.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 2: Workflow Design
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../skill-building/03-token-management.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/03-token-management.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 3: Token Management
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../skill-building/04-quality-gates.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/04-quality-gates.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 4: Quality Gates
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../skill-building/05-references-templates.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/05-references-templates.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 5: References &amp; Templates
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../skill-building/06-real-examples.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/06-real-examples.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 6: Real Examples
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../skill-building/07-best-practices.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/07-best-practices.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 7: Best Practices
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Creating Red Hat QuickCourses
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-quickcourse-workflow.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/01-quickcourse-workflow.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      The QuickCourse Generation Workflow
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-content-request-template.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/02-content-request-template.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Content Request Template
+    </a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="03-writing-style-standards.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/03-writing-style-standards.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Writing Style Standards
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-terminology-consistency.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/04-terminology-consistency.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Terminology Consistency
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-fresh-session-workflow.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/05-fresh-session-workflow.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Fresh Session Workflow
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Archive — Chapter 1: GPU as a Service</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/intro.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/intro.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Serving at Scale
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/gpu-aas.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-aas.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Architecting GPU as a Service
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/gpu-sharing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-sharing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Sharing Technologies
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/gpu-time.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-time.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Timeslicing
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/gpu-mig.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-mig.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Multi-Instance GPU (MIG)
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/gpu-mps.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-mps.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      NVIDIA’s Multi-Process Service (MPS)
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/gpu-agg.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-agg.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Aggregation
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/tensor.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/tensor.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Tensor Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/pipeline.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/pipeline.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Pipeline Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/data-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/data-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Data Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/expert-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/expert-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Expert Parallelism
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/start.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/start.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Models with GitOps
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gpu-sizing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-sizing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Sizing for GPUs
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gpu-scaling.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-scaling.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Scaling Architectures
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gpu-multi.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-multi.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-GPU Model Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gpu-nodes.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-nodes.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-Node, Multi-GPU Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gitops.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gitops.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Deploying Models with GitOps
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/api-reqs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/api-reqs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      API Gateway Requirements for MaaS
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MaaS Logical Architecture
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/intro2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/intro2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      The Gateway&#8217;s Core Requirements
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/api_checklist.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/api_checklist.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Hands-On Lab: Productizing and Consuming an AI Model
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/api-security.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/api-security.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Securing the AI Factory: A Defense-in-Depth Approach
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/rhaiis_overview.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/rhaiis_overview.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      <strong>Red Hat AI Inference Server (RHAIIS)</strong>
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/gpu-rhaiis.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/gpu-rhaiis.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPUs for AI Inference
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/rhaiis_lab.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/rhaiis_lab.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Model Serving with Red Hat AI Inference Server
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/arcade.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/arcade.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Arcade Interactive Lab Walkthrough
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Archive — Chapter 3: MaaS &amp; API</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter3/api-reqs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/api-reqs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      API Gateway Requirements for MaaS
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter3/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MaaS Logical Architecture
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#chapter3/intro.adoc" data-progress-path="#chapter3/intro.adoc">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      chapter3/intro.adoc
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter3/api_checklist.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/api_checklist.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Hands-On Lab: Productizing and Consuming an AI Model
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter3/api-security.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/api-security.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Securing the AI Factory: A Defense-in-Depth Approach
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter4/start.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/start.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Models with GitOps
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gpu-sizing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-sizing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Sizing for GPUs
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gpu-scaling.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-scaling.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Scaling Architectures
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gpu-multi.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-multi.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-GPU Model Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gpu-nodes.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-nodes.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-Node, Multi-GPU Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gitops.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gitops.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Deploying Models with GitOps
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Archive — Chapter 5</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter5/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      LLM optimization and inference efficiency
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter5/section1.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section1.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter5/section2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter5/section3.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section3.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter5/section4.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section4.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter6/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Agentic AI Placeholder
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter6/section1.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section1.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter6/section2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter6/section3.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section3.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter6/section4.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section4.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/intro.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/intro.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Serving at Scale
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/gpu-aas.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-aas.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Architecting GPU as a Service
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/gpu-sharing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-sharing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Sharing Technologies
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/gpu-time.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-time.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Timeslicing
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/gpu-mig.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-mig.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Multi-Instance GPU (MIG)
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/gpu-mps.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-mps.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      NVIDIA’s Multi-Process Service (MPS)
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/gpu-agg.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-agg.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Aggregation
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/tensor.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/tensor.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Tensor Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/pipeline.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/pipeline.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Pipeline Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/data-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/data-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Data Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/expert-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/expert-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Expert Parallelism
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/start.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/start.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Models with GitOps
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gpu-sizing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-sizing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Sizing for GPUs
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gpu-scaling.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-scaling.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Scaling Architectures
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gpu-multi.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-multi.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-GPU Model Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gpu-nodes.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-nodes.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-Node, Multi-GPU Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gitops.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gitops.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Deploying Models with GitOps
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/api-reqs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/api-reqs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      API Gateway Requirements for MaaS
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MaaS Logical Architecture
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/intro2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/intro2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      The Gateway&#8217;s Core Requirements
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/api_checklist.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/api_checklist.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Hands-On Lab: Productizing and Consuming an AI Model
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/api-security.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/api-security.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Securing the AI Factory: A Defense-in-Depth Approach
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../archive/appendix/appendix.html" data-progress-path="/rhoai-demo-instr/3.2/archive/appendix/appendix.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Appendix
+    </a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/labenv/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab Environment
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/rhoai_self_managed.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/rhoai_self_managed.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      OpenShift AI Lab
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/oai_install.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/oai_install.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      OpenShift AI Install
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/minio-install.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/minio-install.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MinIO S3 Compatible Storage Setup
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/hyperscaler_lab_env.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/hyperscaler_lab_env.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Cloud Provider Lab Environments
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/red-hat-docs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/red-hat-docs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Red Hat Documentation Reference
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../archive/root/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/root/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Serving LLMs at Scale
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">DEV</span>
+    <span class="version">3.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">DEV</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">3.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">DEV</a></li>
+    <li><a href="index.html">Creating Red Hat QuickCourses</a></li>
+    <li><a href="03-writing-style-standards.html">Writing Style Standards</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Writing Style Standards for QuickCourses</h1>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Consistent writing style ensures professional, high-quality courses. This guide extracts proven patterns from production Red Hat QuickCourses to maintain consistency across all your content.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_three_layer_depth_approach"><a class="anchor" href="#_three_layer_depth_approach"></a>Three-Layer Depth Approach</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Every major concept must include all three layers:</p>
+</div>
+<div class="paragraph">
+<p><strong>Layer 1: Conceptual (WHY)</strong></p>
+</div>
+<div class="paragraph">
+<p>Purpose: Establish business value and problem context</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">Organizations deploying [technology] face [problem].
+[Current approach] requires [time/cost/effort].
+
+[New solution] addresses this by [capability].
+This transforms [old state] into [new state],
+reducing [metric] from [before] to [after].</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Organizations deploying virtual machines on OpenShift face infrastructure
+silos—separate teams managing VMs and containers with different toolsets.
+
+OpenShift Virtualization addresses this by enabling VMs and containers
+on a single platform. This transforms two infrastructure stacks into one,
+reducing operational overhead from 40 hours/week to 10 hours/week.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Layer 2: Architectural (WHAT)</strong></p>
+</div>
+<div class="paragraph">
+<p>Purpose: Explain components, relationships, how they work together</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">[Component X] is [definition].
+
+It consists of [N] parts:
+1. [Part 1]: [Responsibility]
+2. [Part 2]: [Responsibility]
+
+These parts work together to [overall function].
+
+[Component X] interacts with [Component Y] by [mechanism].</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">The Ansible Automation Controller is the control plane for executing
+automation workflows.
+
+It consists of 4 core components:
+1. Web UI: User interface for workflow management
+2. API: REST API for programmatic access
+3. Task Engine: Executes automation jobs
+4. Database: Stores configurations and job history
+
+These components work together to schedule, execute, and monitor
+automation workflows across your infrastructure.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Layer 3: Tactical (HOW)</strong></p>
+</div>
+<div class="paragraph">
+<p>Purpose: Show how to use, configure, operate the technology</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">To [accomplish goal]:
+
+1. [Action 1]
+   [code/command]
+
+2. [Action 2]
+   [code/command]
+
+3. Verify [expected state]:
+   [verification command]
+   [expected output]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">To deploy the Virtualization operator:
+
+1. Create the subscription:
+   [source,bash]
+   ----
+   $ oc create -f virtualization-subscription.yaml
+   ----
+
+2. Wait for operator installation (2-3 minutes):
+   [source,bash]
+   ----
+   $ oc get csv -n openshift-cnv
+   NAME                      PHASE
+   kubevirt-hyperconverged   Succeeded
+   ----
+
+3. Verify operator pods are running:
+   [source,bash]
+   ----
+   $ oc get pods -n openshift-cnv
+   ----</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_document_structure_pattern"><a class="anchor" href="#_document_structure_pattern"></a>Document Structure Pattern</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_required_frontmatter"><a class="anchor" href="#_required_frontmatter"></a>Required Frontmatter</h3>
+<div class="paragraph">
+<p>Every page starts with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">:time_estimate: 12
+
+= Page Title
+
+_Estimated reading time: *{time_estimate} minutes*._
+
+Objective::
+One-paragraph objective describing what students will understand, learn, or accomplish.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_heading_hierarchy"><a class="anchor" href="#_heading_hierarchy"></a>Heading Hierarchy</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">= Page Title (level 0 - only once, at top)
+
+== Major Section (level 1 - main topics)
+
+=== Subsection (level 2 - detailed topics)
+
+==== Sub-subsection (level 3 - specific details)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Rule</strong>: Never skip heading levels. Always progress = → == → === → ====</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_page_flow_pattern"><a class="anchor" href="#_page_flow_pattern"></a>Page Flow Pattern</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Introduction</strong> (Objective + brief context)</p>
+</li>
+<li>
+<p><strong>Conceptual Foundation</strong> (WHY it exists, problems it solves)</p>
+</li>
+<li>
+<p><strong>Architecture/Components</strong> (WHAT it is, how parts relate)</p>
+</li>
+<li>
+<p><strong>Practical Application</strong> (HOW to use it, examples)</p>
+</li>
+<li>
+<p><strong>Production Considerations</strong> (Decision points, best practices)</p>
+</li>
+<li>
+<p><strong>Integration</strong> (How it fits with other concepts)</p>
+</li>
+<li>
+<p><strong>What&#8217;s Next</strong> (Transition to next section)</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_writing_style_rules"><a class="anchor" href="#_writing_style_rules"></a>Writing Style Rules</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_be_specific_not_vague"><a class="anchor" href="#_be_specific_not_vague"></a>Be Specific, Not Vague</h3>
+<div class="paragraph">
+<p>❌ <strong>Vague</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">The controller quickly recreates the pod.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>✅ <strong>Specific</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">The controller recreates the pod automatically in approximately 30 seconds.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>❌ <strong>Generic</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">You can use operators to manage resources.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>✅ <strong>Concrete</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">With the OpenShift Virtualization operator, you declare your desired VM
+configuration in a VirtualMachine Custom Resource. The operator continuously
+ensures your VMs match this desired state.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_use_active_voice"><a class="anchor" href="#_use_active_voice"></a>Use Active Voice</h3>
+<div class="paragraph">
+<p>❌ <strong>Passive</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">An InstallPlan is created by OLM when a Subscription is detected.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>✅ <strong>Active</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">OLM creates an InstallPlan when it detects your Subscription.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_connect_technical_to_business"><a class="anchor" href="#_connect_technical_to_business"></a>Connect Technical to Business</h3>
+<div class="paragraph">
+<p>Always link capabilities to outcomes:</p>
+</div>
+<div class="paragraph">
+<p><strong>Pattern</strong>: <code>[Technical Capability] → [Business Outcome]</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Examples</strong>:
+* "Operators automate Day 2 operations" → reduces operational toil from 20 hours to 2 hours per week
+* "Templates standardize VM deployments" → reduces deployment errors by 85%
+* "Automation workflows centralize runbooks" → eliminates tribal knowledge, improves MTTR</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_example_patterns"><a class="anchor" href="#_example_patterns"></a>Example Patterns</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_concrete_scenario_examples"><a class="anchor" href="#_concrete_scenario_examples"></a>Concrete Scenario Examples</h3>
+<div class="paragraph">
+<p><strong>Structure</strong>:
+. Setup: Describe the scenario
+. Action: What happens
+. Result: Observable outcome with specific timing/metrics</p>
+</div>
+<div class="paragraph">
+<p><strong>Template</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">**Scenario:** [Describe real-world situation]
+
+[Action steps or commands]
+
+**What happened:**
+
+1. [Step 1 with specific details]
+2. [Step 2 with specific details]
+3. [Observable result with timing]
+
+**Result:**
+
+[Show output or state change]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Example</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">**Scenario:** Platform team needs to deploy 10 RHEL VMs for application testing
+
+Without templates:
+* Manual VM creation: 20 minutes per VM
+* Inconsistent configurations
+* Total time: 3+ hours
+
+With VM templates:
+* Template-based deployment: 3 minutes per VM
+* Standardized, tested configurations
+* Total time: 30 minutes
+
+**Result:** 83% time reduction, zero configuration drift</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_beforeafter_comparisons"><a class="anchor" href="#_beforeafter_comparisons"></a>Before/After Comparisons</h3>
+<div class="paragraph">
+<p><strong>Pattern</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">**Before ([old approach]):**
+
+[Description or example]
+
+**After ([new approach]):**
+
+[Description or example]
+
+[Key improvement with metrics]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Example</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">**Before (Manual deployment):**
+
+[source,bash]
+----
+for vm in vm1 vm2 vm3; do
+  # Manual YAML editing for each VM
+  # Inconsistent settings across deployments
+  # No version control
+done
+----
+
+**After (Template-based):**
+
+[source,bash]
+----
+$ oc process rhel-vm-template | oc create -f -
+# Consistent configuration from tested template
+# Version controlled in Git
+# Automated parameter substitution
+----
+
+Deployment time: 20 minutes → 3 minutes per VM</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_code_example_conventions"><a class="anchor" href="#_code_example_conventions"></a>Code Example Conventions</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_yaml_examples"><a class="anchor" href="#_yaml_examples"></a>YAML Examples</h3>
+<div class="paragraph">
+<p><strong>Requirements</strong>:
+* Use <code>[source,yaml]</code> for syntax highlighting
+* Include callout annotations <code>&lt;1&gt;</code>, <code>&lt;2&gt;</code> for important fields
+* Provide explanation list after code block
+* Show realistic, working examples (not placeholders)</p>
+</div>
+<div class="paragraph">
+<p><strong>Template</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">\[source,yaml]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>apiVersion: [api.group]/[version]
+kind: [ResourceKind]
+metadata:
+  name: [specific-name]
+spec:
+  fieldOne: value             # &lt;1&gt;
+  fieldTwo:
+    nestedField: value        # &lt;2&gt;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;1&gt; Explanation of fieldOne
+&lt;2&gt; Explanation of nestedField</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_command_examples"><a class="anchor" href="#_command_examples"></a>Command Examples</h3>
+<div class="paragraph">
+<p><strong>Requirements</strong>:
+* Use <code>[source,bash]</code> or <code>[source,console]</code> for shell commands
+* Include expected output when showing verification
+* Use <code>$</code> prompt for commands
+* Use <code>#</code> for comments (sparingly)</p>
+</div>
+<div class="paragraph">
+<p><strong>Pattern for Commands</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">\[source,bash]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>$ command with flags
+OUTPUT_SHOWN_HERE</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Pattern for Multi-step Workflows</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">\[source,bash]
+pass:[----]
+# Step 1: Check current state
+$ oc get deployments
+NAME                READY
+app-deployment      3/3
+
+# Step 2: Verify resources
+$ oc get pods
+[output]
+pass:[----]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ascii_diagrams"><a class="anchor" href="#_ascii_diagrams"></a>ASCII Diagrams</h3>
+<div class="paragraph">
+<p><strong>Use when</strong>: Illustrating workflows, architecture, relationships</p>
+</div>
+<div class="paragraph">
+<p><strong>Requirements</strong>:
+* Use simple box-drawing characters
+* Keep width ≤ 60 characters for readability
+* Include clear labels
+* Use arrows (→, ↓) to show flow</p>
+</div>
+<div class="paragraph">
+<p><strong>Example</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>┌─────────────────────────────────────┐
+│   Automation Controller             │
+│   (Executes workflows)              │
+└─────────────────────────────────────┘
+          ↓
+┌─────────────────────────────────────┐
+│   Execution Environments            │
+│   (Container images with tools)     │
+└─────────────────────────────────────┘
+          ↓
+┌─────────────────────────────────────┐
+│   Managed Nodes                     │
+│   (Target infrastructure)           │
+└─────────────────────────────────────┘</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_callout_usage_patterns"><a class="anchor" href="#_callout_usage_patterns"></a>Callout Usage Patterns</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_tip_production_best_practices"><a class="anchor" href="#_tip_production_best_practices"></a>TIP - Production Best Practices</h3>
+<div class="paragraph">
+<p><strong>Use for</strong>: Recommended approaches for production environments</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">[TIP]
+====
+For production deployments, configure `installPlanApproval: Manual` to control
+when operator upgrades occur. This prevents unexpected changes during business hours.
+====</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_warning_critical_cautions"><a class="anchor" href="#_warning_critical_cautions"></a>WARNING - Critical Cautions</h3>
+<div class="paragraph">
+<p><strong>Use for</strong>: Actions that could cause problems, anti-patterns</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">[WARNING]
+====
+Changing storage classes on existing VMs requires migrating data and can cause
+downtime. Plan storage configuration changes during maintenance windows.
+====</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_note_additional_information"><a class="anchor" href="#_note_additional_information"></a>NOTE - Additional Information</h3>
+<div class="paragraph">
+<p><strong>Use for</strong>: Helpful context, clarifications, optional details</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">[NOTE]
+====
+The label `feature.node.kubernetes.io/cpu-cpuid.AVX512F=true` indicates nodes
+with AVX-512 CPU instructions, useful for certain HPC workloads.
+====</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_important_critical_information"><a class="anchor" href="#_important_critical_information"></a>IMPORTANT - Critical Information</h3>
+<div class="paragraph">
+<p><strong>Use for</strong>: Must-know information, non-obvious implications</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">[IMPORTANT]
+====
+Operator upgrades may introduce new Custom Resource Definition fields. Review
+release notes before approving production operator upgrades.
+====</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Usage Rules</strong>:
+* Maximum 3-4 callouts per major section
+* Each callout should be ≤4 sentences
+* Don&#8217;t nest callouts inside other callouts
+* Place callouts immediately after the relevant concept</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tables_and_decision_matrices"><a class="anchor" href="#_tables_and_decision_matrices"></a>Tables and Decision Matrices</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_decision_matrix_pattern"><a class="anchor" href="#_decision_matrix_pattern"></a>Decision Matrix Pattern</h3>
+<div class="paragraph">
+<p><strong>Use for</strong>: Production decision points with multiple options</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">[cols="1,2,2",options="header"]
+|===
+|Option |Characteristics |Recommendation
+
+|Option A
+|[Description and trade-offs]
+|✅ **Recommended for [use case]**
+
+|Option B
+|[Description and trade-offs]
+|⚠️ Use with caution
+
+|Option C
+|[Description and trade-offs]
+|❌ **Avoid in production**
+|===</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Example</strong>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">VM Deployment Method</th>
+<th class="tableblock halign-left valign-top">Characteristics</th>
+<th class="tableblock halign-left valign-top">Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pre-built Templates</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick deployment, limited customization, tested configurations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">✅ <strong>Recommended for standard workloads</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom Templates</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flexible, requires maintenance, team-specific</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">⚠️ Good for specialized requirements</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manual YAML</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Full control, error-prone, no standardization</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">❌ <strong>Avoid in production</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transition_patterns"><a class="anchor" href="#_transition_patterns"></a>Transition Patterns</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_between_sections_within_page"><a class="anchor" href="#_between_sections_within_page"></a>Between Sections (Within Page)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">Now that you understand [concept from this section],
+the next section covers [concept in next section]
+and how it [relationship to current section].</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_between_pages_final_whats_next"><a class="anchor" href="#_between_pages_final_whats_next"></a>Between Pages (Final "What&#8217;s Next")</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">== What's Next
+
+In the next [section|lab], you will [action verb] [specific task].
+You'll [specific activity 1], [specific activity 2], and [specific activity 3].
+
+This [hands-on experience|understanding] will [learning outcome].</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Example</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">== What's Next
+
+In the next lab, you will deploy your first virtual machine using the
+OpenShift Virtualization operator. You'll create a VirtualMachine Custom
+Resource, configure storage and networking, and verify the VM is running.
+
+This hands-on experience will reinforce your understanding of the operator
+workflow and VM lifecycle management.</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_quality_standards"><a class="anchor" href="#_quality_standards"></a>Quality Standards</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_depth_standards"><a class="anchor" href="#_depth_standards"></a>Depth Standards</h3>
+<div class="paragraph">
+<p><strong>Minimum Requirements for Each Page</strong>:
+- [ ] At least one concrete, real-world scenario example
+- [ ] At least one before/after comparison
+- [ ] At least one decision matrix or comparison table
+- [ ] At least one annotated code example
+- [ ] Business value connected to technical capability
+- [ ] Production guidance (best practices, warnings)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_precision_standards"><a class="anchor" href="#_precision_standards"></a>Precision Standards</h3>
+<div class="paragraph">
+<p><strong>❌ Avoid Vague Terms</strong>:
+* "quickly", "slowly", "soon" → Use specific timing: "within 30 seconds"
+* "many", "several" → Use specific counts: "5 components"
+* "high", "low" → Use specific metrics: "95% utilization"
+* "important", "critical" → Explain why it matters</p>
+</div>
+<div class="paragraph">
+<p><strong>✅ Use Specific Language</strong>:
+* "The controller reconciles every 5 seconds"
+* "Templates support up to 20 customizable parameters"
+* "VM provisioning completes in 3-4 minutes on first deployment"</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_completeness_standards"><a class="anchor" href="#_completeness_standards"></a>Completeness Standards</h3>
+<div class="paragraph">
+<p><strong>Each major concept must include</strong>:
+. <strong>Definition</strong>: What it is (1 sentence)
+. <strong>Purpose</strong>: Why it exists / problem it solves
+. <strong>Components</strong>: What it consists of (if applicable)
+. <strong>Operation</strong>: How it works
+. <strong>Example</strong>: Concrete demonstration
+. <strong>Integration</strong>: How it relates to other concepts</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_common_anti_patterns_to_avoid"><a class="anchor" href="#_common_anti_patterns_to_avoid"></a>Common Anti-Patterns to Avoid</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_information_dumps"><a class="anchor" href="#_information_dumps"></a>❌ Information Dumps</h3>
+<div class="paragraph">
+<p><strong>Bad</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Operators watch Custom Resources. Controllers reconcile state.
+CRDs define schemas. Subscriptions install operators.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Good</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Operators use four core concepts that work together:
+
+1. Custom Resource Definition (CRD): Schema for your resource type
+2. Custom Resource (CR): Your actual configuration instance
+   → Declares desired state
+3. Controller: Software that watches CRs
+   → Compares desired vs. actual state
+4. Reconciliation Loop: Continuous alignment process
+   → Makes cluster match your CR every ~5 seconds
+
+This workflow automates maintaining your desired configuration...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_tutorial_style_without_context"><a class="anchor" href="#_tutorial_style_without_context"></a>❌ Tutorial-Style Without Context</h3>
+<div class="paragraph">
+<p><strong>Bad</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">1. Run oc create subscription
+2. Run oc get csv
+3. Run oc describe csv</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Good</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">To verify operator installation:
+
+1. Check that OLM created the ClusterServiceVersion:
+   $ oc get csv -n namespace
+
+   Expected: Phase shows "Succeeded"
+
+2. Verify operator pod is running:
+   $ oc get pods -n namespace
+
+This confirms the operator is ready to reconcile Custom Resources...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_assuming_knowledge_not_yet_taught"><a class="anchor" href="#_assuming_knowledge_not_yet_taught"></a>❌ Assuming Knowledge Not Yet Taught</h3>
+<div class="paragraph">
+<p><strong>Bad (in early chapter)</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Configure the AutomationController to enable LDAP authentication</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Good</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">The AutomationController Custom Resource (introduced in Section 2)
+allows you to configure LDAP authentication by setting the
+spec.ldap_server field...</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_review_checklist"><a class="anchor" href="#_review_checklist"></a>Review Checklist</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before submitting content, verify:</p>
+</div>
+<div class="sect2">
+<h3 id="_structure"><a class="anchor" href="#_structure"></a>Structure</h3>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> Reading time estimate in frontmatter</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Clear Objective statement</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Logical progression (WHY → WHAT → HOW)</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> "What&#8217;s Next" transition at end</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_depth"><a class="anchor" href="#_depth"></a>Depth</h3>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> Business value explained (WHY)</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Architecture/components explained (WHAT)</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Usage/configuration shown (HOW)</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> All three layers present for major concepts</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h3>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> At least one concrete scenario with timing</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> At least one before/after comparison</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Code examples are annotated</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Commands show expected output</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_production_guidance"><a class="anchor" href="#_production_guidance"></a>Production Guidance</h3>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> Decision matrices for choices</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> TIP callouts for best practices</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> WARNING callouts for anti-patterns</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Specific version/compatibility requirements</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_integration"><a class="anchor" href="#_integration"></a>Integration</h3>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> References prior concepts correctly</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Prepares for next concepts</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Cross-references are valid (xrefs work)</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Terminology is consistent</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_technical_quality"><a class="anchor" href="#_technical_quality"></a>Technical Quality</h3>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> YAML is valid and realistic</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Commands are accurate</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Version numbers are current</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> No placeholders (all examples are complete)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_readability"><a class="anchor" href="#_readability"></a>Readability</h3>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> Headings follow hierarchy (no skipped levels)</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Callouts are ≤4 sentences</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Tables use proper column widths</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> ASCII diagrams are ≤60 characters wide</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Active voice in key explanations</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Specific metrics (not vague qualifiers)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_youve_learned"><a class="anchor" href="#_what_youve_learned"></a>What You&#8217;ve Learned</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You now understand:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>✅ The three-layer depth approach (WHY/WHAT/HOW)</p>
+</li>
+<li>
+<p>✅ Document structure and heading patterns</p>
+</li>
+<li>
+<p>✅ Writing style rules for clarity</p>
+</li>
+<li>
+<p>✅ How to create effective examples</p>
+</li>
+<li>
+<p>✅ Code example conventions</p>
+</li>
+<li>
+<p>✅ Callout usage patterns</p>
+</li>
+<li>
+<p>✅ Decision matrix formats</p>
+</li>
+<li>
+<p>✅ Transition patterns</p>
+</li>
+<li>
+<p>✅ Quality standards and anti-patterns</p>
+</li>
+<li>
+<p>✅ Review checklist for content verification</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_whats_next"><a class="anchor" href="#_whats_next"></a>What&#8217;s Next</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the next section, you&#8217;ll learn how to maintain terminology consistency across your course and manage canonical definitions for all technical terms.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="02-content-request-template.html">Content Request Template</a></span>
+  <span class="next"><a href="04-terminology-consistency.html">Terminology Consistency</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../_/js/vendor/reading-time.js"></script>
+<script src="../../../_/js/progress-tracker.js"></script>  </body>
+</html>

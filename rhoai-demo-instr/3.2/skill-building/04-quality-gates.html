@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Module 4: Quality Gates and Validation :: DEV</title>
+    <link rel="prev" href="03-token-management.html">
+    <link rel="next" href="05-references-templates.html">
+    <meta name="generator" content="Antora 3.1.3">
+<link rel="stylesheet" href="../../../_/css/site.css">
+<link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
+<link rel="stylesheet" href="../../../_/css/vendor/collapsible.css">
+<link rel="stylesheet" href="../../../_/css/vendor/reading-time.css">
+<link rel="stylesheet" href="../../../_/css/progress-tracker.css">    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">DEV</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/rhoai-demo-instr/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhoai-demo-instr" data-version="3.2">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">DEV</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../claude-basics/index.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Introduction to Claude Code
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../claude-basics/01-getting-started.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/01-getting-started.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Getting Started with Claude Code
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../claude-basics/02-skills-vs-prompts.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/02-skills-vs-prompts.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Skills vs. Conversational Prompts
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../claude-basics/03-working-in-repos.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/03-working-in-repos.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Working in Git Repositories
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../claude-basics/04-effective-prompting.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/04-effective-prompting.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Effective Prompting Techniques
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Building Claude Skills
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-skill-anatomy.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/01-skill-anatomy.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 1: Skill Anatomy
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-workflow-design.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/02-workflow-design.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 2: Workflow Design
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-token-management.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/03-token-management.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 3: Token Management
+    </a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="04-quality-gates.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/04-quality-gates.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 4: Quality Gates
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-references-templates.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/05-references-templates.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 5: References &amp; Templates
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06-real-examples.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/06-real-examples.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 6: Real Examples
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07-best-practices.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/07-best-practices.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 7: Best Practices
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../course-creation/index.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Creating Red Hat QuickCourses
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../course-creation/01-quickcourse-workflow.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/01-quickcourse-workflow.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      The QuickCourse Generation Workflow
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../course-creation/02-content-request-template.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/02-content-request-template.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Content Request Template
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../course-creation/03-writing-style-standards.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/03-writing-style-standards.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Writing Style Standards
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../course-creation/04-terminology-consistency.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/04-terminology-consistency.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Terminology Consistency
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../course-creation/05-fresh-session-workflow.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/05-fresh-session-workflow.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Fresh Session Workflow
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Archive — Chapter 1: GPU as a Service</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/intro.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/intro.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Serving at Scale
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/gpu-aas.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-aas.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Architecting GPU as a Service
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/gpu-sharing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-sharing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Sharing Technologies
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/gpu-time.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-time.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Timeslicing
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/gpu-mig.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-mig.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Multi-Instance GPU (MIG)
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/gpu-mps.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-mps.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      NVIDIA’s Multi-Process Service (MPS)
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/gpu-agg.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-agg.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Aggregation
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/tensor.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/tensor.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Tensor Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/pipeline.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/pipeline.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Pipeline Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/data-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/data-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Data Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/expert-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/expert-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Expert Parallelism
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/start.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/start.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Models with GitOps
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gpu-sizing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-sizing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Sizing for GPUs
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gpu-scaling.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-scaling.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Scaling Architectures
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gpu-multi.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-multi.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-GPU Model Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gpu-nodes.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-nodes.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-Node, Multi-GPU Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gitops.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gitops.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Deploying Models with GitOps
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/api-reqs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/api-reqs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      API Gateway Requirements for MaaS
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MaaS Logical Architecture
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/intro2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/intro2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      The Gateway&#8217;s Core Requirements
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/api_checklist.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/api_checklist.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Hands-On Lab: Productizing and Consuming an AI Model
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/api-security.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/api-security.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Securing the AI Factory: A Defense-in-Depth Approach
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/rhaiis_overview.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/rhaiis_overview.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      <strong>Red Hat AI Inference Server (RHAIIS)</strong>
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/gpu-rhaiis.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/gpu-rhaiis.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPUs for AI Inference
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/rhaiis_lab.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/rhaiis_lab.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Model Serving with Red Hat AI Inference Server
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/arcade.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/arcade.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Arcade Interactive Lab Walkthrough
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Archive — Chapter 3: MaaS &amp; API</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter3/api-reqs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/api-reqs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      API Gateway Requirements for MaaS
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter3/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MaaS Logical Architecture
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#chapter3/intro.adoc" data-progress-path="#chapter3/intro.adoc">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      chapter3/intro.adoc
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter3/api_checklist.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/api_checklist.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Hands-On Lab: Productizing and Consuming an AI Model
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter3/api-security.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/api-security.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Securing the AI Factory: A Defense-in-Depth Approach
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter4/start.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/start.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Models with GitOps
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gpu-sizing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-sizing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Sizing for GPUs
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gpu-scaling.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-scaling.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Scaling Architectures
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gpu-multi.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-multi.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-GPU Model Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gpu-nodes.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-nodes.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-Node, Multi-GPU Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gitops.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gitops.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Deploying Models with GitOps
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Archive — Chapter 5</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter5/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      LLM optimization and inference efficiency
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter5/section1.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section1.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter5/section2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter5/section3.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section3.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter5/section4.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section4.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter6/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Agentic AI Placeholder
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter6/section1.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section1.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter6/section2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter6/section3.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section3.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter6/section4.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section4.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/intro.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/intro.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Serving at Scale
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/gpu-aas.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-aas.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Architecting GPU as a Service
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/gpu-sharing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-sharing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Sharing Technologies
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/gpu-time.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-time.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Timeslicing
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/gpu-mig.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-mig.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Multi-Instance GPU (MIG)
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/gpu-mps.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-mps.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      NVIDIA’s Multi-Process Service (MPS)
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/gpu-agg.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-agg.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Aggregation
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/tensor.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/tensor.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Tensor Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/pipeline.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/pipeline.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Pipeline Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/data-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/data-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Data Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/expert-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/expert-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Expert Parallelism
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/start.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/start.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Models with GitOps
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gpu-sizing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-sizing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Sizing for GPUs
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gpu-scaling.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-scaling.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Scaling Architectures
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gpu-multi.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-multi.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-GPU Model Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gpu-nodes.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-nodes.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-Node, Multi-GPU Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gitops.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gitops.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Deploying Models with GitOps
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/api-reqs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/api-reqs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      API Gateway Requirements for MaaS
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MaaS Logical Architecture
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/intro2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/intro2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      The Gateway&#8217;s Core Requirements
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/api_checklist.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/api_checklist.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Hands-On Lab: Productizing and Consuming an AI Model
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/api-security.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/api-security.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Securing the AI Factory: A Defense-in-Depth Approach
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../archive/appendix/appendix.html" data-progress-path="/rhoai-demo-instr/3.2/archive/appendix/appendix.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Appendix
+    </a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/labenv/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab Environment
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/rhoai_self_managed.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/rhoai_self_managed.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      OpenShift AI Lab
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/oai_install.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/oai_install.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      OpenShift AI Install
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/minio-install.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/minio-install.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MinIO S3 Compatible Storage Setup
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/hyperscaler_lab_env.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/hyperscaler_lab_env.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Cloud Provider Lab Environments
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/red-hat-docs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/red-hat-docs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Red Hat Documentation Reference
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../archive/root/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/root/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Serving LLMs at Scale
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">DEV</span>
+    <span class="version">3.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">DEV</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">3.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">DEV</a></li>
+    <li><a href="index.html">Building Claude Skills</a></li>
+    <li><a href="04-quality-gates.html">Module 4: Quality Gates</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Module 4: Quality Gates and Validation</h1>
+<div class="sect1">
+<h2 id="_learning_objectives"><a class="anchor" href="#_learning_objectives"></a>Learning Objectives</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After completing this module, you will be able to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Implement inline quality checks without agent spawning</p>
+</li>
+<li>
+<p>Create validation checklists for generated content</p>
+</li>
+<li>
+<p>Enforce reference attribution requirements</p>
+</li>
+<li>
+<p>Build automatic fix patterns for common issues</p>
+</li>
+<li>
+<p>Document prohibited terms and formatting rules</p>
+</li>
+<li>
+<p>Structure quality gates for different content types</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quality gates ensure generated content meets standards before delivery. The best quality gates are inline, automatic, and fix issues silently.</p>
+</div>
+<div class="paragraph">
+<p>In this module, you&#8217;ll learn validation patterns used in production Showroom skills.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_inline_quality_checks_no_agents_needed"><a class="anchor" href="#_inline_quality_checks_no_agents_needed"></a>Inline Quality Checks: No Agents Needed</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>CRITICAL</strong>: Quality checks should be inline, not delegated to agents.</p>
+</div>
+<div class="paragraph">
+<p>❌ <strong>WRONG - Spawning validation agents</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 10: Validate Content
+
+Use the Agent tool to spawn a validation agent:
+- Check AsciiDoc syntax
+- Verify formatting rules
+- Validate links</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Why this fails</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Adds latency (agent spawn time)</p>
+</li>
+<li>
+<p>Consumes extra tokens</p>
+</li>
+<li>
+<p>Content is already in context</p>
+</li>
+<li>
+<p>Unnecessary complexity</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>✅ <strong>CORRECT - Inline validation</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 10: Final Quality Check (Inline)
+
+The generated module is already in context — check it directly.
+
+Read @showroom/docs/SKILL-COMMON-RULES.md for full quality gate criteria, then verify against this list:
+
+**Must fix before delivering (fix silently, note in delivery summary)**:
+
+| Check | Rule |
+|---|---|
+| Headings | Sentence case — not Title Case |
+| Em dashes | Zero `—` — rewrite or use `--` |
+| Prohibited terms | No "robust", "powerful", "leverage", "synergy" |
+| Command blocks | All commands use `[source,role="execute"]` |
+| Hardcoded values | No cluster URLs, usernames — use `{user}`, `{password}` |
+| Product names | No bare "OCP", "AAP" without first-use expansion |
+
+If anything fails, fix it now. Do not ask the user — just fix and note what was corrected in the delivery summary.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Why this works</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Content already in Claude&#8217;s context</p>
+</li>
+<li>
+<p>Checks happen instantly</p>
+</li>
+<li>
+<p>Fixes apply automatically</p>
+</li>
+<li>
+<p>User sees only corrected output</p>
+</li>
+<li>
+<p>Minimal token overhead</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_validation_checklist_pattern"><a class="anchor" href="#_validation_checklist_pattern"></a>Validation Checklist Pattern</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Create comprehensive checklists for different content types.</p>
+</div>
+<div class="paragraph">
+<p><strong>For Workshop Labs</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">**Must fix before delivering**:
+
+| Check | Rule |
+|---|---|
+| Headings | Sentence case — not Title Case |
+| Em dashes | Zero `—` — rewrite or use `--` |
+| Exercise steps | Numbered lists (`.`) — not bullets (`*`) |
+| Verify sections | Every exercise has `=== Verify` with expected output |
+| Learning objectives | Present with ≥3 bullet points |
+| Command blocks | Student commands use `[source,role="execute"]` |
+| Expected output | Use plain `----` with no source declaration |
+| Config blocks | Non-executable YAML/JSON use `[source,yaml]` without `role="execute"` |
+| Hardcoded values | Use `{user}`, `{password}`, `{openshift_console_url}` |
+| Pronouns | No "he/she" — use "they/them" |
+| Product names | No bare "OCP" without first-use expansion |</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>For Presenter Demos</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">**Must fix before delivering**:
+
+| Check | Rule |
+|---|---|
+| Know/Show structure | Every section has Know (context) before Show (demonstration) |
+| Business value | ROI or outcome framing stated in every Know section |
+| Presenter notes | At least one `[NOTE]` or aside block per section with talking points |
+| No participant steps | Demo is presenter-led — no hands-on exercises |
+| Headings | Sentence case — not Title Case |
+| Em dashes | Zero `—` — rewrite or use `--` |
+| Presenter command blocks | Commands presenter runs use `[source,role="execute"]` |
+| Config blocks | Data/config blocks use `[source,yaml]` without `role="execute"` |
+| Hardcoded values | Use `{user}`, `{password}`, not actual values |
+| Product names | No bare "OCP", "AAP" without first-use expansion |</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Pattern</strong>: Each content type has its own checklist tailored to its structure and purpose.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_auto_fix_pattern"><a class="anchor" href="#_auto_fix_pattern"></a>Auto-Fix Pattern</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quality gates should fix issues automatically, not just report them.</p>
+</div>
+<div class="paragraph">
+<p>✅ <strong>CORRECT - Silent auto-fix with summary</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 10: Final Quality Check
+
+[Run through checklist]
+
+**Auto-fix the following** (silently, note in delivery summary):
+
+1. Headings: Convert Title Case → Sentence case
+2. Em dashes: Replace `—` with `--` or rewrite sentence
+3. Command blocks: Add `role="execute"` to bare `[source,bash]`
+4. Hardcoded credentials: Replace with `{user}`, `{password}` attributes
+5. Prohibited terms: Rewrite sentences to remove "robust", "powerful", "leverage"
+6. External links: Add `^` caret to open in new tab
+
+**Then in delivery**:
+
+✅ Created: 03-module-01-intro.adoc (234 lines)
+
+**Auto-corrections applied**:
+- Fixed 3 headings: Title Case → Sentence case
+- Removed 2 em dashes (rewrote sentences)
+- Updated 5 command blocks to use role="execute"
+- Replaced 3 hardcoded values with attributes
+
+**Next**: Review in your editor.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Benefits</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>User gets correct content immediately</p>
+</li>
+<li>
+<p>No back-and-forth corrections</p>
+</li>
+<li>
+<p>Transparent about changes made</p>
+</li>
+<li>
+<p>User learns what was wrong</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prohibited_terms_and_language"><a class="anchor" href="#_prohibited_terms_and_language"></a>Prohibited Terms and Language</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Document specific language rules.</p>
+</div>
+<div class="paragraph">
+<p><strong>Common prohibited terms</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">**Prohibited terms** (rewrite to remove):
+
+* "robust" → Use specific technical details instead
+* "powerful" → Describe actual capabilities
+* "leverage" → Use "use", "utilize", or specific verb
+* "synergy" → Describe actual benefits
+* "he/she" → Use "they/them" for pronouns
+* "whitelist/blacklist" → Use "allowlist/denylist"
+
+**Examples**:
+
+❌ WRONG: "OpenShift provides a robust platform for developers."
+✅ CORRECT: "OpenShift provides automated scaling, integrated CI/CD, and built-in security."
+
+❌ WRONG: "Leverage OpenShift's powerful capabilities."
+✅ CORRECT: "Use OpenShift's automated build pipelines to accelerate deployments."</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Include in quality checklist</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">| Prohibited terms | No "robust", "powerful", "leverage", "synergy" |
+| Inclusive language | No "he/she" — use "they/them". No "whitelist/blacklist" |</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reference_enforcement"><a class="anchor" href="#_reference_enforcement"></a>Reference Enforcement</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ensure all generated content attributes sources properly.</p>
+</div>
+<div class="paragraph">
+<p><strong>Pattern from create-lab</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">**Reference Enforcement**:
+
+See @showroom/docs/SKILL-COMMON-RULES.md for reference enforcement patterns.
+
+**CRITICAL**: External content must be attributed:
+
+✅ **CORRECT - Original with attribution**:
+```asciidoc
+According to link:https://kubernetes.io/docs/...[Kubernetes documentation^],
+Kubernetes automates container deployment. Red Hat OpenShift extends Kubernetes
+with enterprise features.
+```
+
+❌ **WRONG - Copied without attribution**:
+```asciidoc
+Kubernetes is an open-source system for automating deployment, scaling,
+and management of containerized applications.
+```
+
+**Prohibited**:
+- Copying documentation verbatim from external sources
+- Slightly rewording existing tutorials
+- Presenting others' examples as original work
+
+**Required**:
+- Write original explanations
+- Add domain-specific context
+- Use proper attribution with quotes and links</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>In quality checklist</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">| Originality | No plagiarized content, proper attribution for external sources |
+| Citations | External facts cited with link:url[text^] format |</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_format_specific_rules"><a class="anchor" href="#_format_specific_rules"></a>Format-Specific Rules</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Different formats require different validation rules.</p>
+</div>
+<div class="paragraph">
+<p><strong>AsciiDoc Command Blocks</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">**CRITICAL: Command Block Rules**
+
+**For commands students/presenters execute**:
+```asciidoc
+[source,role="execute"]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>oc create deployment my-app --image=myimage:latest</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>```
+
+**For expected output** (no syntax highlighting, no execute):
+```asciidoc</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>NAME                     READY   STATUS    RESTARTS   AGE
+my-app-xxxxx-xxxxx      1/1     Running   0          2m</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>```
+
+**For configuration files** (syntax highlighting, no execute):
+```asciidoc
+[source,yaml]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>apiVersion: apps/v1
+kind: Deployment</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>```
+
+**Quality check**:
+| Command blocks | Student commands use `[source,role="execute"]` |
+| Expected output | Use plain `----` with no source declaration |
+| Config blocks | YAML/JSON use `[source,yaml]` without `role="execute"` |</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>AsciiDoc List Formatting</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">**CRITICAL: List Formatting Rules**
+
+See @showroom/docs/SKILL-COMMON-RULES.md for complete AsciiDoc list rules.
+
+**Numbered lists require blank lines before/after**:
+```asciidoc
+Introduction text here.
+
+. First step
+. Second step
+. Third step
+
+Conclusion text here.
+```
+
+**Bullets also need blank lines**:
+```asciidoc
+Benefits include:
+
+* Benefit 1
+* Benefit 2
+* Benefit 3
+
+Next section...
+```
+
+**Quality check**:
+| List formatting | Blank lines before and after all lists |
+| Exercise steps | Numbered lists (`.`) for sequential steps |
+| Benefits/features | Bullets (`*`) for non-sequential items |</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_image_and_link_validation"><a class="anchor" href="#_image_and_link_validation"></a>Image and Link Validation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Validate image references and external links.</p>
+</div>
+<div class="paragraph">
+<p><strong>Image Syntax</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">**CRITICAL: Image Syntax Enforcement**
+
+Always include `link=self,window=blank` on every image — makes images clickable to open full-size in new tab.
+
+✅ **CORRECT**:
+```asciidoc
+image::deployment-diagram.png[Architecture,link=self,window=blank,align="center",width=700,title="OpenShift Architecture"]
+```
+
+❌ **WRONG** (missing link attribute):
+```asciidoc
+image::deployment-diagram.png[Architecture,width=700]
+```
+
+**Quality check**:
+| Image syntax | All images include `link=self,window=blank` |
+| Image paths | Images in `content/modules/ROOT/assets/images/` |</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>External Links</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">**CRITICAL: External Link Format**
+
+ALL external links MUST use `^` caret to open in new tab.
+
+✅ **CORRECT**:
+```asciidoc
+link:https://docs.redhat.com/[Red Hat Documentation^]
+```
+
+❌ **WRONG** (missing caret):
+```asciidoc
+link:https://docs.redhat.com/[Red Hat Documentation]
+```
+
+**Internal xrefs should NOT use caret**:
+```asciidoc
+xref:03-module-02-next.adoc[Next Module]
+```
+
+**Quality check**:
+| External links | All external links use `^` caret |
+| Internal links | xref links do NOT use `^` |</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_verification_checkpoint_requirements"><a class="anchor" href="#_verification_checkpoint_requirements"></a>Verification Checkpoint Requirements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ensure labs include verification sections.</p>
+</div>
+<div class="paragraph">
+<p><strong>Pattern from create-lab</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">**Mandatory: Verification Checkpoints**:
+
+Each major step must include:
+
+```asciidoc
+=== Verify
+
+Run the following to confirm success:
+
+[source,role="execute"]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>oc get pods</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Expected output:</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>NAME                     READY   STATUS    RESTARTS   AGE
+my-app-xxxxx-xxxxx      1/1     Running   0          2m</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>✓ Pod status is "Running"
+✓ READY shows 1/1
+```
+
+**Quality check**:
+| Verify sections | Every exercise has `=== Verify` with expected output |
+| Success indicators | Checkmarks (✓) for success criteria |</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_content_type_specific_quality_gates"><a class="anchor" href="#_content_type_specific_quality_gates"></a>Content-Type Specific Quality Gates</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Different content types need different quality gates:</p>
+</div>
+<div class="paragraph">
+<p><strong>For Workshops (create-lab)</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Learning objectives present (≥3 items)</p>
+</li>
+<li>
+<p>Numbered steps for exercises</p>
+</li>
+<li>
+<p>Verification checkpoints after each exercise</p>
+</li>
+<li>
+<p>Commands use <code>role="execute"</code></p>
+</li>
+<li>
+<p>Expected output blocks use plain <code>----</code></p>
+</li>
+<li>
+<p>No hardcoded credentials</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>For Demos (create-demo)</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Know/Show structure in all sections</p>
+</li>
+<li>
+<p>Business value in every Know section</p>
+</li>
+<li>
+<p>Presenter notes/talk tracks</p>
+</li>
+<li>
+<p>No hands-on exercises (presenter-led only)</p>
+</li>
+<li>
+<p>Business metrics quantified</p>
+</li>
+<li>
+<p>Optional visual cues documented</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>For Blogs (blog-generate)</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Narrative flow (not step-by-step instructions)</p>
+</li>
+<li>
+<p>Conversational tone</p>
+</li>
+<li>
+<p>Target word count met (800-1200)</p>
+</li>
+<li>
+<p>Call to action at end</p>
+</li>
+<li>
+<p>Source traceability attribution</p>
+</li>
+<li>
+<p>All code blocks syntactically valid</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_shared_rules_via_reference_files"><a class="anchor" href="#_shared_rules_via_reference_files"></a>Shared Rules via Reference Files</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Create shared quality rules accessible to multiple skills:</p>
+</div>
+<div class="paragraph">
+<p><strong>Example</strong>: <code>@showroom/docs/SKILL-COMMON-RULES.md</code></p>
+</div>
+<div class="paragraph">
+<p>This reference file contains:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Version pinning requirements</p>
+</li>
+<li>
+<p>Image path conventions</p>
+</li>
+<li>
+<p>Navigation update patterns</p>
+</li>
+<li>
+<p>List formatting rules</p>
+</li>
+<li>
+<p>External link requirements</p>
+</li>
+<li>
+<p>Learning outcomes checkpoint template</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Skills reference it</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 10: Final Quality Check
+
+Read @showroom/docs/SKILL-COMMON-RULES.md for full quality gate criteria, then verify the module.
+
+**Must fix before delivering**:
+[Skill-specific additions to shared rules]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This prevents duplication across skills.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_quality_gate_execution_flow"><a class="anchor" href="#_quality_gate_execution_flow"></a>Quality Gate Execution Flow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here&#8217;s the complete quality gate workflow:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 10: Final Quality Check (Inline)
+
+**The generated module is already in context — check it directly.**
+
+**Step 10.1: Read Shared Rules**
+
+Read @showroom/docs/SKILL-COMMON-RULES.md for baseline quality criteria.
+
+**Step 10.2: Apply Content-Type Checklist**
+
+Verify against [workshop/demo/blog] checklist:
+
+| Check | Rule |
+|---|---|
+| [Content-specific rules] |
+
+**Step 10.3: Auto-Fix Issues**
+
+Fix the following silently (note in delivery summary):
+
+1. Headings → Sentence case
+2. Em dashes → Remove or rewrite
+3. Command blocks → Add role="execute"
+4. Hardcoded values → Use attributes
+5. Prohibited terms → Rewrite
+6. External links → Add caret
+
+**Step 10.4: Document Corrections**
+
+Track all corrections to note in delivery message.
+
+**Step 10.5: Proceed to Delivery**
+
+All issues fixed → continue to Step 11 (Update Navigation) and Step 12 (Deliver).</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_real_example_complete_quality_gate"><a class="anchor" href="#_real_example_complete_quality_gate"></a>Real Example: Complete Quality Gate</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From <code>create-lab</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 10: Final Quality Check (Inline)
+
+The generated module is already in context — check it directly.
+
+Read @showroom/docs/SKILL-COMMON-RULES.md for the full quality gate criteria, then verify the just-generated file against this list:
+
+**Must fix before delivering (fix silently, note in Step 12 summary)**:
+
+| Check | Rule |
+|---|---|
+| Headings | Sentence case — not Title Case |
+| Em dashes | Zero `—` — rewrite or use `--` |
+| Prohibited terms | No "robust", "powerful", "leverage", "synergy" |
+| Student command blocks | All commands students run use `[source,role="execute"]` |
+| Expected output blocks | Use plain `----` with no source declaration |
+| Config/code blocks | Non-executable content uses `[source,yaml]` without `role="execute"` |
+| Exercise steps | Numbered lists (`.`) — not bullets (`*`) |
+| Verify sections | Every exercise has `=== Verify` with expected output |
+| Learning objectives | Present with ≥3 bullet points |
+| Hardcoded values | Use `{user}`, `{password}`, `{openshift_console_url}` |
+| Pronouns | No "he/she" — use "they/them" |
+| Product names | No bare "OCP", "AAP" without first-use expansion |
+
+If anything fails, fix it now. Do not ask the user — just fix and note what was corrected in the Step 12 delivery summary.</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_verification_checkpoint"><a class="anchor" href="#_verification_checkpoint"></a>Verification Checkpoint</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before proceeding, verify you understand:</p>
+</div>
+<div class="paragraph">
+<p>✓ <strong>Inline validation</strong> - Check content already in context, don&#8217;t spawn agents<br>
+✓ <strong>Content-type checklists</strong> - Different rules for labs vs demos vs blogs<br>
+✓ <strong>Auto-fix pattern</strong> - Fix issues silently, note in delivery summary<br>
+✓ <strong>Prohibited terms</strong> - Document and enforce language rules<br>
+✓ <strong>Reference enforcement</strong> - Require attribution for external content<br>
+✓ <strong>Format-specific rules</strong> - AsciiDoc, Markdown, code blocks, links, images<br>
+✓ <strong>Shared rules files</strong> - Centralize common patterns</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_practice_exercise"><a class="anchor" href="#_practice_exercise"></a>Practice Exercise</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Create a quality gate checklist for a skill that converts meeting notes to action items</strong>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>List 5-7 validation rules</p>
+</li>
+<li>
+<p>Include format requirements (Markdown lists, task format)</p>
+</li>
+<li>
+<p>Add prohibited language (e.g., vague terms)</p>
+</li>
+<li>
+<p>Specify auto-fix patterns</p>
+</li>
+<li>
+<p>Document what to note in delivery summary</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this module, you learned:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Quality checks should be inline, not agent-based</p>
+</li>
+<li>
+<p>Create content-type specific validation checklists</p>
+</li>
+<li>
+<p>Auto-fix issues silently and note in delivery</p>
+</li>
+<li>
+<p>Enforce prohibited terms and language rules</p>
+</li>
+<li>
+<p>Require proper attribution for external content</p>
+</li>
+<li>
+<p>Validate format-specific syntax (AsciiDoc, Markdown)</p>
+</li>
+<li>
+<p>Use shared rules files to avoid duplication</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_whats_next"><a class="anchor" href="#_whats_next"></a>What&#8217;s Next</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Module 5 will teach you how to leverage reference materials and templates to maintain consistency across your skills.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="03-token-management.html">Module 3: Token Management</a></span>
+  <span class="next"><a href="05-references-templates.html">Module 5: References &amp; Templates</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../_/js/vendor/reading-time.js"></script>
+<script src="../../../_/js/progress-tracker.js"></script>  </body>
+</html>
