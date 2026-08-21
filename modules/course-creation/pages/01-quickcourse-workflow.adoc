@@ -1,0 +1,1348 @@
+= The QuickCourse Generation Workflow
+:navtitle: QuickCourse Workflow
+
+== Learning Objectives
+
+After completing this module, you will be able to:
+
+* Set up a QuickCourse project using the course-starter-template
+* Design effective course structure using the course-design.md format
+* Use the `/initialize-course-project` skill to configure your repository
+* Generate complete course skeletons with `/generate-course-structure`
+* Develop content efficiently using Claude Code assistance
+* Export and publish your course to GitHub Pages and PDF
+
+== Introduction
+
+This guide shows you how to use Claude Code to generate complete Red Hat QuickCourses for any product or platform. You'll learn the proven 5-phase workflow that takes you from initial course design through publication.
+
+The QuickCourse workflow applies to any Red Hat technology:
+
+* **Platforms**: OpenShift, Ansible Automation Platform, OpenStack, OpenShift AI
+* **Products**: RHEL, Satellite, Identity Management, Insights
+* **Technologies**: Kubernetes, containers, AI/ML, storage, networking
+* **Solutions**: Hybrid cloud, edge computing, DevOps, security
+
+This workflow combines:
+
+* **Structured design documents** - Define learning objectives and pedagogical flow
+* **Automated generation** - Use Claude Code skills to create course skeletons
+* **Interactive development** - Work with Claude to write technical content
+* **Quality publishing** - Generate web and PDF outputs
+
+== The 5-Phase QuickCourse Workflow
+
+The QuickCourse generation process follows a sequential, proven workflow:
+
+----
+Phase 0: Setup → Phase 1: Design → Phase 2: Initialize →
+Phase 3: Generate → Phase 4: Develop → Phase 5: Publish
+----
+
+Each phase builds on the previous one, creating a systematic approach to course creation.
+
+== Phase 0: Workspace Setup
+
+=== Prerequisites
+
+Before starting, ensure you have:
+
+* Git installed and configured
+* Node.js and npm installed
+* Claude Code CLI installed
+* GitHub account (for template and publishing)
+
+=== Clone the Course Template
+
+The course-starter-template provides the foundation for all QuickCourses:
+
+[source,bash]
+----
+# Visit GitHub template repository
+# https://github.com/RedHatQuickCourses/course-starter-template
+
+# Click "Use this template" → Create new repository
+# Name your repository (e.g., "gpu-enablement-course")
+# Set visibility to Public
+
+# Clone your new repository
+git clone https://github.com/RedHatQuickCourses/<your-course-name>
+cd <your-course-name>
+----
+
+=== Launch Claude Code
+
+Open the repository in your code editor and start Claude Code:
+
+[source,bash]
+----
+# Open in VS Code or your preferred editor
+code .
+
+# In the integrated terminal, launch Claude Code
+claude
+----
+
+[NOTE]
+====
+All `/commands` and conversational prompts mentioned in this guide are typed directly into the Claude Code terminal prompt. Claude acts as your pair-programmer inside the repository.
+====
+
+=== Understanding the Template Structure
+
+The starter template includes:
+
+----
+course-starter-template/
+├── .agents/                    # Claude skills directory
+│   └── skills/                 # Course generation skills
+├── antora.yml                  # Course metadata (DO NOT MODIFY initially)
+├── antora-playbook.yml         # Build configuration (DO NOT MODIFY)
+├── course-init.sh              # Initialization script
+├── modules/                    # Course content (will be generated)
+├── modules.bfx/                # Business Features templates
+├── package.json                # Build dependencies
+├── prompts/                    # Design documents go here
+├── templates/                  # Section templates
+└── USAGEGUIDE.adoc             # AsciiDoc reference
+----
+
+[IMPORTANT]
+====
+**Never manually modify these files**:
+
+* `antora-playbook.yml` - Build configuration
+* `*.sh` scripts - Automation scripts
+* `package.json` - Dependencies
+* `ui-assets/`, `ui-bundle/`, `supplemental-ui/` - UI components
+
+Skills will manage these files for you.
+====
+
+== Phase 1: Course Design
+
+=== Design Document Purpose
+
+The course design document (`prompts/course-design.md`) drives the entire generation process. It defines:
+
+* **Course goals** - What learners will accomplish
+* **Target audience** - Who should take the course
+* **Learning objectives** - Major competencies (become chapters)
+* **Sections** - Individual topics within objectives
+* **Session types** - Presentation, Lab, Quiz, etc.
+
+=== Design Document Template
+
+Create `prompts/course-design.md` with this structure:
+
+[source,markdown]
+----
+![Course Banner Image](../images/banner.png)
+
+# Course Title
+
+One-sentence tagline describing the course.
+
+# COURSE GOAL
+
+Single paragraph describing what learners will accomplish by completing
+this course. Focus on business value and practical outcomes.
+
+Example: "By completing this course, system administrators will be able to
+deploy and configure Red Hat Ansible Automation Platform on OpenShift,
+enabling self-service automation workflows that reduce deployment time
+from hours to minutes while maintaining enterprise security and compliance."
+
+# TARGET AUDIENCE
+
+Who should take this course:
+
+- **Job roles**: OpenShift administrators, Platform engineers, System architects
+- **Experience level**: Intermediate to advanced
+- **Responsibilities**: Managing enterprise virtualization workloads
+
+# PREREQUISITES
+
+This course assumes learners have:
+
+* Familiarity with OpenShift administration and basic concepts
+* Experience with command-line tools (oc, kubectl)
+* Basic understanding of virtualization concepts
+* Access to an OpenShift cluster (recommended but not required)
+
+# COURSE DESIGN
+
+| Learning Objective / Section | Session Type |
+|------------------------------|--------------|
+| **LEARNING OBJECTIVE #1: Deploy OpenShift Virtualization** | |
+| Understand OpenShift Virtualization architecture and components | Presentation |
+| Install and configure OpenShift Virtualization operator | Lab |
+| Verify installation and create first virtual machine | Lab |
+| **LEARNING OBJECTIVE #2: Manage virtual machine workloads** | |
+| Virtual machine templates and customization | Presentation |
+| Create and configure VM templates for different workloads | Lab |
+| Manage VM networking and storage | Lab |
+| Troubleshooting common VM deployment issues | Lab |
+| **LEARNING OBJECTIVE #3: Advanced features and production operations** | |
+| Live migration, high availability, and backup strategies | Presentation |
+| Configure live migration and test failover scenarios | Lab |
+| Implement backup and disaster recovery for VMs | Lab |
+| Virtual machine management knowledge check | Quiz |
+----
+
+=== Design Best Practices
+
+**Learning Objectives (Chapters)**:
+
+* **Quantity**: 3-6 objectives per course (optimal: 4-5)
+* **Progression**: Build from basic → intermediate → advanced
+* **Format**: "LEARNING OBJECTIVE #N: Action verb + specific skill"
+* **Focus**: Each objective = one major competency
+
+**Sections (Pages within chapters)**:
+
+* **Quantity**: 2-5 sections per objective
+* **Duration**: Each section = 5-15 minutes
+* **Flow**: Follow pedagogical progression:
+  . **Presentation/Lecture** - Introduce concepts and theory
+  . **Lab** - Hands-on practice and application
+  . **Quiz** - Knowledge validation and assessment
+
+**Session Types**:
+
+* `Presentation` - Slideshow-style with diagrams and screenshots
+* `Lecture` - Text-heavy explanatory content
+* `Lab` - Step-by-step hands-on activities with commands
+* `Quiz` - Multiple choice or interactive knowledge checks
+
+[TIP]
+====
+**Start small**: For your first QuickCourse, aim for 3 learning objectives with 2-3 sections each. This creates a focused, completable course in 1-2 weeks.
+====
+
+=== Example Course Designs
+
+Here are complete examples for different Red Hat products:
+
+**Example 1: OpenShift Virtualization**
+
+[source,markdown]
+----
+| Learning Objective / Section | Session Type |
+|------------------------------|--------------|
+| **LEARNING OBJECTIVE #1: Deploy OpenShift Virtualization** | |
+| Understand virtualization architecture and CNV components | Presentation |
+| Install and configure OpenShift Virtualization operator | Lab |
+| Create and manage your first virtual machine | Lab |
+| **LEARNING OBJECTIVE #2: Manage virtual machine workloads** | |
+| VM templates, customization, and golden images | Presentation |
+| Create VM templates for different workloads | Lab |
+| Configure networking and storage for VMs | Lab |
+| **LEARNING OBJECTIVE #3: Production operations** | |
+| Live migration, HA, and backup strategies | Presentation |
+| Configure and test live migration | Lab |
+| Implement VM backup and recovery | Lab |
+----
+
+**Example 2: Advanced Cluster Management (ACM)**
+
+[source,markdown]
+----
+| Learning Objective / Section | Session Type |
+|------------------------------|--------------|
+| **LEARNING OBJECTIVE #1: Deploy and configure ACM** | |
+| ACM architecture and multi-cluster management concepts | Presentation |
+| Install Red Hat Advanced Cluster Management | Lab |
+| Import and register managed clusters | Lab |
+| **LEARNING OBJECTIVE #2: Application lifecycle management** | |
+| GitOps and application deployment strategies | Presentation |
+| Deploy applications across multiple clusters | Lab |
+| Configure placement policies and rules | Lab |
+| **LEARNING OBJECTIVE #3: Governance and compliance** | |
+| Policy framework and compliance automation | Presentation |
+| Create and enforce governance policies | Lab |
+| Monitor compliance across cluster fleet | Lab |
+| Policy management knowledge check | Quiz |
+----
+
+Each design yields:
+
+* **3 chapters** (one per learning objective)
+* **9-10 sections** (3 Presentations, 5-6 Labs, 0-1 Quiz)
+* **~2-3 hours** of content (assuming 10-15 min per section)
+
+== Phase 2: Initialize Course Project
+
+=== Purpose
+
+The initialization phase configures your repository for the specific course type and lab environment. This must be completed before generation.
+
+=== The `/initialize-course-project` Skill
+
+In your Claude Code terminal, invoke the initialization skill:
+
+[source,bash]
+----
+/initialize-course-project
+----
+
+The skill will ask three questions:
+
+=== Question 1: Course Type
+
+----
+What course type? (bfx/hol)
+----
+
+**Options**:
+
+* **`bfx`** (Business Features/QuickCourses) - Modular structure with chapters
+  - Best for: Product features, administration, operations
+  - Structure: Multiple learning objectives, progressive flow
+  - **Use this for most enablement content**
+
+* **`hol`** (Hands-On Labs) - Lab-centric structure
+  - Best for: Pure hands-on workshops, guided exercises
+  - Structure: Simplified, focused on lab activities
+
+[TIP]
+====
+**Golden Path**: Choose `bfx` for standard Red Hat QuickCourses. This provides the modular, chapter-based structure best suited for rapid enablement.
+====
+
+=== Question 2: Lab Environment
+
+----
+What lab environment? (demo/role/other)
+----
+
+**Options**:
+
+* **`demo`** - Self-contained demos, no external lab required
+* **`role`** - Uses Red Hat Online Learning (ROLE) classroom labs
+* **`other`** - Custom environments (self-provisioned, cloud, etc.)
+
+[NOTE]
+====
+If unsure, select **`other`** to keep prerequisites flexible. You can document specific requirements later.
+====
+
+=== Question 3: Course Title
+
+----
+What is the course title?
+----
+
+Provide the full course title. Examples:
+
+----
+User: OpenShift Virtualization Administration
+User: Advanced Cluster Management for Kubernetes
+User: Ansible Automation Platform on OpenShift
+User: Red Hat Satellite 6 Administration
+----
+
+=== What Initialization Does
+
+The skill performs these actions:
+
+. Runs `course-init.sh` script with your selections
+. Updates `antora.yml` with course metadata
+. Configures course type (bfx/hol) structure
+. Sets lab environment prerequisites
+. Cleans up template files
+. Installs npm dependencies (`npm install`)
+. Verifies build works (`npm run build`)
+. Optionally starts watch mode
+. Deletes `course-init.sh` (one-time use)
+
+=== Example Workflow
+
+[source,bash]
+----
+User: /initialize-course-project
+
+Claude: What course type? (bfx/hol)
+User: bfx
+
+Claude: What lab environment? (demo/role/other)
+User: role
+
+Claude: What is the course title?
+User: OpenShift Virtualization Administration
+
+Claude: [Initializing course...]
+  ✅ Running course-init.sh with: bfx role
+  ✅ Updated antora.yml with title and course type
+  ✅ Installed dependencies (npm install)
+  ✅ Build verified successfully
+  ✅ Deleted course-init.sh
+
+  Course initialized! Ready for Phase 3.
+----
+
+[WARNING]
+====
+**This skill runs only once**. After completion, `course-init.sh` is deleted. You cannot re-initialize without starting from a fresh template clone.
+====
+
+== Phase 3: Generate Course Structure
+
+=== Purpose
+
+This phase auto-generates the complete course skeleton from your design document, creating all directories, files, and navigation.
+
+=== Prerequisites
+
+Before running generation:
+
+* ✅ Phase 2 completed (course initialized)
+* ✅ `prompts/course-design.md` exists with proper format
+* ⚠️ Watch mode stopped if running (skill will prompt)
+
+=== The `/generate-course-structure` Skill
+
+In your Claude Code terminal:
+
+[source,bash]
+----
+/generate-course-structure
+----
+
+=== What Generation Does
+
+The skill performs these operations:
+
+. **Parses** `prompts/course-design.md` to extract structure
+. **Creates** chapter directories for each learning objective
+. **Generates** section files with appropriate templates
+. **Builds** navigation files (`nav.adoc` per chapter)
+. **Updates** `antora.yml` with chapter references
+. **Generates** "What's Next" transitions between sections
+. **Cleans up** example chapters (chapter1, chapter2, chapter3)
+. **Optionally** restarts watch mode
+
+=== Generated Structure
+
+For each **Learning Objective**, the skill creates:
+
+----
+modules/ch{N}-{keyword}/
+├── nav.adoc                          # Chapter navigation
+├── pages/
+│   ├── index.adoc                    # Chapter landing page
+│   ├── s1-{keyword}.adoc             # Section 1 (Presentation/Lecture)
+│   ├── s2-{keyword}-lab.adoc         # Section 2 (Lab)
+│   ├── s3-{keyword}-quiz.adoc        # Section 3 (Quiz)
+│   └── ...                           # Additional sections
+└── images/                           # Placeholder for chapter images
+----
+
+Additionally, the **ROOT** module gets updated:
+
+----
+modules/ROOT/pages/index.adoc         # Course overview page
+----
+
+=== Naming Conventions
+
+The skill uses intelligent keyword extraction:
+
+**Chapters**:
+
+* Format: `ch{N}-{keyword}` (e.g., `ch1-installation`, `ch2-configuration`, `ch3-operations`)
+* Number: From learning objective number
+* Keyword: Main concept extracted from objective text
+* Padding: Zero-padded if 10+ chapters (`ch01`, `ch02`, ...)
+* Examples:
+  - `ch1-virtualization-deploy`
+  - `ch2-acm-install`
+  - `ch3-satellite-lifecycle`
+
+**Sections**:
+
+* Format: `s{N}-{keyword}[-suffix].adoc`
+* Examples:
+  - `s1-nvidia-operator-lab.adoc` (Lab)
+  - `s2-verify-gpu.adoc` (Presentation)
+  - `s3-gpu-quiz.adoc` (Quiz)
+* Suffixes:
+  - Lab → `-lab.adoc`
+  - Quiz → `-quiz.adoc`
+  - Presentation/Lecture → `.adoc`
+
+=== Example Generation Output
+
+After running the skill:
+
+----
+✅ Course structure generated successfully!
+
+Created structure:
+  📁 3 chapters
+  📄 9 sections
+     - 3 Presentations
+     - 5 Labs
+     - 1 Quiz
+
+Chapters created:
+  • ch1-virtualization-deploy (Deploy OpenShift Virtualization)
+  • ch2-vm-management (Manage virtual machine workloads)
+  • ch3-production-ops (Advanced features and production operations)
+
+Updated files:
+  ✅ antora.yml - Added chapter navigation
+  ✅ modules/ROOT/pages/index.adoc - Course overview
+  ✅ All nav.adoc files created
+
+Removed:
+  🗑️  modules/chapter1/ (example)
+  🗑️  modules/chapter2/ (example)
+  🗑️  modules/chapter3/ (example)
+
+Next: Fill in content in Phase 4!
+----
+
+=== Validation Checklist
+
+After generation, verify:
+
+* ✅ All chapters appear in `antora.yml` navigation
+* ✅ Each chapter has `nav.adoc` with all sections listed
+* ✅ Each section file has template structure (title, objective, content)
+* ✅ "What's Next" transitions are generated
+* ✅ Build succeeds: `npm run build` (or watch mode rebuilds)
+
+=== Section Templates
+
+Each generated section includes starter content:
+
+**Presentation/Lecture template**:
+
+[source,asciidoc]
+----
+:time_estimate: 7
+
+= Section Title
+
+_Estimated reading time: *{time_estimate} minutes*._
+
+Objective::
+Brief description of what learners will accomplish in this section.
+
+== Introduction
+
+[WARNING]
+====
+This section needs content development.
+====
+
+== Main Content Area
+
+Add your content here.
+
+== What's Next
+
+In the next section, you'll [preview of next activity].
+----
+
+**Lab template**:
+
+[source,asciidoc]
+----
+:time_estimate: 15
+
+= Lab: Section Title
+
+_Estimated reading time: *{time_estimate} minutes*._
+
+Objective::
+Brief description of what learners will accomplish in this lab.
+
+== Before you begin
+
+Prerequisites for this lab:
+
+* Prerequisite 1
+* Prerequisite 2
+
+== Instructions
+
+[WARNING]
+====
+This lab needs content development.
+====
+
+=== Step 1: First Task
+
+Content here.
+
+=== Step 2: Second Task
+
+Content here.
+
+== Verification
+
+How learners verify completion.
+
+== What's next
+
+In the next section, you'll [preview of next activity].
+----
+
+== Phase 4: Develop Content
+
+=== Overview
+
+With the skeleton generated, Phase 4 focuses on filling in actual course content. This is where you work with Claude Code to write presentations, labs, and quizzes.
+
+=== Start Watch Mode (Critical)
+
+Before making any changes, start real-time preview:
+
+[IMPORTANT]
+====
+**Use two separate terminal windows** (NOT the Claude Code terminal):
+
+**Terminal 1** - Watches for changes and rebuilds:
+[source,bash]
+----
+npm run watch:adoc
+----
+
+**Terminal 2** - Serves the local site:
+[source,bash]
+----
+npm run serve
+----
+
+Then open your browser to `http://localhost:8080` to preview the course.
+====
+
+=== Content Development Workflow
+
+Work **chapter-by-chapter**, **section-by-section**:
+
+. **Update chapter index** (`modules/ch1-keyword/pages/index.adoc`)
+  * Refine chapter goal
+  * Add chapter introduction
+  * Remove `WARNING: Not started yet` when complete
+
+. **Fill section content** (work sequentially)
+  * Start with section 1, proceed in order
+  * Follow template structure
+  * Add content between placeholders
+
+. **Add images**
+  * Place in `modules/ch{N}-keyword/images/`
+  * Reference: `image::screenshot.png[Alt text]`
+
+. **Test labs manually**
+  * Verify all commands work
+  * Document actual outputs
+  * Add troubleshooting notes
+
+=== Using Claude Code to Write Content
+
+You don't need to write all AsciiDoc manually! Ask Claude Code to assist:
+
+**Example prompts**:
+
+----
+"Claude, please open modules/ch1-installation/pages/s1-architecture.adoc.
+Write a 3-paragraph introduction about OpenShift Virtualization architecture
+and how it enables VM workloads on Kubernetes. Use standard AsciiDoc formatting."
+----
+
+----
+"Claude, look at the lab file for Section 2. Can you format these rough
+oc commands I pasted into proper AsciiDoc code blocks with callouts and
+add verification steps?"
+----
+
+----
+"Claude, read my chapter 1 index file and generate 3 multiple choice
+quiz questions for s3-quiz.adoc about virtualization concepts."
+----
+
+----
+"Claude, create a troubleshooting section for the VM deployment lab
+covering common issues like failed PVC binding and network configuration."
+----
+
+[TIP]
+====
+**Work with Claude conversationally**: Describe what you need, paste rough notes or commands, and let Claude format it into proper AsciiDoc. You provide the technical knowledge; Claude handles the formatting.
+====
+
+=== Essential AsciiDoc Patterns
+
+==== CLI Commands (Labs)
+
+[source,asciidoc]
+----
+[source,console,subs="verbatim,quotes"]
+----
+$ *oc get nodes -l node-role.kubernetes.io/gpu=*
+NAME                       STATUS   ROLES
+worker-gpu-1.example.com   Ready    worker
+----
+----
+
+The `*bold*` markup highlights user input.
+
+==== Images
+
+Place images in `modules/ch{N}-keyword/images/`, then reference:
+
+[source,asciidoc]
+----
+image::gpu-architecture.png[GPU Architecture Diagram]
+----
+
+==== Callouts and Notes
+
+[source,asciidoc]
+----
+[NOTE]
+====
+NVIDIA A100 and H100 GPUs are optimized for transformer-based models.
+====
+
+[WARNING]
+====
+Ensure GPU nodes have the correct kernel drivers before proceeding.
+====
+
+[TIP]
+====
+Use `oc describe node` to verify GPU resources are detected.
+====
+----
+
+==== Time Estimates
+
+Update the `:time_estimate:` attribute at the top of each file:
+
+[source,asciidoc]
+----
+:time_estimate: 12
+----
+
+Use the included script to calculate automatically:
+
+[source,bash]
+----
+bash reading-time.sh modules/ch1-gpu-nodes/pages/s1-requirements.adoc
+# Output: Counted 1247 words and 3 images, for a reading time of 7 minutes
+# (Updates :time_estimate: attribute automatically)
+----
+
+=== Presentation/Lecture Content Example
+
+[source,asciidoc]
+----
+:time_estimate: 7
+
+= Understanding OpenShift Virtualization Architecture
+
+_Estimated reading time: *{time_estimate} minutes*._
+
+Objective::
+Explain the architecture and components of OpenShift Virtualization and
+how it enables running virtual machines alongside containers.
+
+== OpenShift Virtualization Overview
+
+OpenShift Virtualization enables organizations to run traditional virtual
+machine workloads alongside container-native applications on the same
+OpenShift platform. This unified approach eliminates the need to maintain
+separate infrastructure for VMs and containers.
+
+Key benefits:
+
+* **Unified platform** - Single control plane for VMs and containers
+* **Consistent operations** - Same tools and processes for all workloads
+* **Cost optimization** - Better resource utilization across workload types
+
+[NOTE]
+====
+OpenShift Virtualization is based on the KubeVirt project and integrates
+with OpenShift's storage, networking, and security features.
+====
+
+image::virtualization-architecture.png[OpenShift Virtualization Architecture]
+
+== Core Components
+
+OpenShift Virtualization consists of several key components that work together...
+
+== What's Next
+
+Now that you understand the architecture, the next section walks you
+through installing and configuring OpenShift Virtualization.
+----
+
+=== Lab Content Example
+
+[source,asciidoc]
+----
+:time_estimate: 15
+
+= Lab: Install OpenShift Virtualization Operator
+
+_Estimated reading time: *{time_estimate} minutes*._
+
+Objective::
+Install and configure the OpenShift Virtualization operator to enable
+virtual machine workloads on your OpenShift cluster.
+
+== Before you begin
+
+* Access to OpenShift cluster (version 4.12 or later)
+* Cluster administrator privileges (`cluster-admin` role)
+* `oc` CLI installed and configured
+* At least one worker node with nested virtualization enabled (for production)
+
+== Instructions
+
+=== Step 1: Verify Cluster Prerequisites
+
+First, verify your cluster meets the requirements:
+
+[source,console,subs="verbatim,quotes"]
+----
+$ *oc get nodes*
+NAME                           STATUS   ROLES                  AGE   VERSION
+master-1.example.com           Ready    control-plane,master   10d   v1.28.0
+worker-1.example.com           Ready    worker                 10d   v1.28.0
+worker-2.example.com           Ready    worker                 10d   v1.28.0
+----
+
+Check if hardware virtualization is available:
+
+[source,console,subs="verbatim,quotes"]
+----
+$ *oc debug node/worker-1.example.com*
+Starting pod/worker-1examplecom-debug ...
+sh-4.4# *cat /proc/cpuinfo | grep -E 'vmx|svm'*
+flags           : ... vmx ... <1>
+----
+<1> `vmx` (Intel) or `svm` (AMD) indicates virtualization support
+
+=== Step 2: Install OpenShift Virtualization Operator
+
+Navigate to the OperatorHub in the OpenShift web console, or use CLI:
+
+[source,console,subs="verbatim,quotes"]
+----
+$ *cat <<EOF | oc apply -f -*
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-cnv
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: hco-operatorhub
+  namespace: openshift-cnv
+spec:
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  name: kubevirt-hyperconverged
+  channel: "stable"
+EOF
+----
+
+=== Step 3: Verify Installation
+
+[Continues with detailed verification steps...]
+
+== Verification
+
+Verify the operator and components are running:
+
+[source,console,subs="verbatim,quotes"]
+----
+$ *oc get pods -n openshift-cnv*
+NAME                                               READY   STATUS    RESTARTS   AGE
+cdi-operator-6d8f7b9c5d-abcde                      1/1     Running   0          5m
+virt-operator-7b9c8d6f5e-fghij                     1/1     Running   0          5m
+----
+
+== What's next
+
+In the next section, you'll create your first virtual machine using
+OpenShift Virtualization.
+----
+
+=== Quiz Content Example
+
+[source,asciidoc]
+----
+:time_estimate: 5
+
+= Quiz: Virtualization Fundamentals Knowledge Check
+
+_Estimated reading time: *{time_estimate} minutes*._
+
+Objective::
+Validate understanding of OpenShift Virtualization architecture and deployment.
+
+== Questions
+
+1. **What is the primary benefit of OpenShift Virtualization?**
++
+a. It replaces the need for containers entirely
++
+b. It allows running VMs and containers on a unified platform
++
+c. It provides better performance than traditional hypervisors
++
+d. It eliminates the need for storage configurations
++
+**Answer: b** - OpenShift Virtualization enables running virtual machines
+alongside container workloads on the same OpenShift platform, eliminating
+the need for separate infrastructure.
+
+2. **Which technology is OpenShift Virtualization based on?**
++
+a. VMware ESXi
++
+b. KVM directly
++
+c. KubeVirt
++
+d. Docker
++
+**Answer: c** - OpenShift Virtualization is based on the KubeVirt project,
+which brings VM capabilities to Kubernetes.
+
+3. **What command verifies that hardware virtualization is enabled?**
++
+a. `oc get virtualization`
++
+b. `cat /proc/cpuinfo | grep -E 'vmx|svm'`
++
+c. `virtctl version`
++
+d. `oc describe node`
++
+**Answer: b** - Checking for `vmx` (Intel) or `svm` (AMD) flags in
+/proc/cpuinfo confirms hardware virtualization support.
+
+[Add 3-5 questions total per quiz]
+
+== What's next
+
+In the next chapter, you'll learn how to create and manage virtual machines
+using templates and custom configurations.
+----
+
+=== Iterative Preview Workflow
+
+. **Edit files** in your editor
+. **Save** → watch mode detects change → rebuilds automatically
+. **Refresh browser** → see updates in real-time
+. **Verify**:
+  * Navigation flows correctly
+  * "What's Next" transitions make sense
+  * Images render properly
+  * All xref links work
+
+[TIP]
+====
+**When Claude Gets Confused**
+
+Sometimes Claude might generate a file in the wrong place or use incorrect syntax. Don't panic:
+
+* **Tell Claude directly**: "Claude, that command failed" or "You put that in the ROOT folder, it needs to be in ch1. Please fix it."
+* **Check git status**: Run `git status` or `git diff` in a standard terminal to see exactly what changed
+* **Revert if needed**: Use `git checkout -- <file>` to undo unwanted changes
+====
+
+== Phase 5: Publish and Export
+
+=== Overview
+
+Phase 5 generates final outputs and deploys your completed course.
+
+=== Generate PDF Export
+
+Use the `/generate-pdf` skill to create a PDF version:
+
+[source,bash]
+----
+/generate-pdf
+----
+
+The skill will:
+
+. Install `asciidoctor-pdf` gem (if needed)
+. Install `@antora/pdf-extension` npm package (if needed)
+. Build course with PDF extension
+. Locate generated PDF
+. Open PDF for preview (optional)
+
+**Output location**: `build/assembler-pdf/{component}/{version}/_exports/index.pdf`
+
+**Use cases**:
+
+* Offline distribution to learners
+* Print materials for workshops
+* Archival copies for compliance
+* LMS uploads (Canvas, Moodle, etc.)
+
+[NOTE]
+====
+PDF generation requires Ruby and the `asciidoctor-pdf` gem. The skill will attempt to install these automatically.
+====
+
+=== Deploy to GitHub Pages
+
+==== Automatic Deployment (Recommended)
+
+The course-starter-template includes a GitHub Actions workflow:
+
+. **Commit** your changes:
++
+[source,bash]
+----
+git add .
+git commit -m "Complete GPU enablement course"
+----
+
+. **Push** to `main` branch:
++
+[source,bash]
+----
+git push origin main
+----
+
+. **GitHub Actions** runs automatically (`.github/workflows/main.yml`):
+  * Installs dependencies (`npm install`)
+  * Builds site (`npm run build`)
+  * Publishes to GitHub Pages
+
+. **Access** your course at:
++
+----
+https://<your-username>.github.io/<repository-name>/
+----
+
+==== Manual Deployment
+
+Alternatively, build and deploy manually:
+
+[source,bash]
+----
+npm run build
+# Manually upload build/site/ to your web server
+----
+
+=== Final Quality Checks
+
+Before announcing your course, verify:
+
+* ✅ All sections complete (no "WARNING: Not started" blocks)
+* ✅ All images display correctly (no broken links)
+* ✅ All navigation links work (test every xref)
+* ✅ Labs tested and verified manually
+* ✅ Reading time estimates updated (`reading-time.sh`)
+* ✅ PDF exports successfully (no rendering errors)
+* ✅ GitHub Pages deployment succeeds
+* ✅ Course metadata correct in `antora.yml`
+
+== Advanced Scenarios
+
+=== Scenario 1: Iterative Design Updates
+
+**Problem**: You need to add a new chapter or reorganize sections.
+
+**Solution**:
+
+. Update `prompts/course-design.md` with new structure
+. Run `/generate-course-structure` again
+. Skill asks: "Keep existing modules or start fresh?"
+. Choose **"keep existing"** to preserve completed content
+. New chapters/sections added
+. Manually reconcile any conflicts if needed
+
+=== Scenario 2: Collaborative Development
+
+**Problem**: Multiple authors working on different chapters.
+
+**Solution**:
+
+. One person runs Phases 1-3 (design & generate)
+. Commit skeleton to git (`git push`)
+. Authors work on separate chapters (branch per chapter or per author)
+. Each author merges completed chapters to main
+. Final person runs Phase 5 to publish from main branch
+
+=== Scenario 3: Course Updates and Revisions
+
+**Problem**: Course needs updates for new product version.
+
+**Solution**:
+
+. Create new version branch (e.g., `v2.0`):
++
+[source,bash]
+----
+git checkout -b v2.0
+----
+
+. Update `antora.yml` version number:
++
+[source,yaml]
+----
+version: '2.0'
+----
+
+. Modify affected sections
+. Keep old version branch for reference
+. Antora can build multi-version documentation
+
+== Troubleshooting
+
+=== Build Fails After Generation
+
+**Symptom**: `npm run build` produces errors
+
+**Solutions**:
+
+* Check `antora.yml` for syntax errors (YAML indentation)
+* Verify all xref targets exist (typo in filename?)
+* Look for malformed AsciiDoc (unclosed blocks, invalid attributes)
+* Run debug build:
++
+[source,bash]
+----
+npx antora --log-level=debug antora-playbook.yml
+----
+
+=== Navigation Not Showing Sections
+
+**Symptom**: Chapter appears but sections don't show in navigation
+
+**Solutions**:
+
+* Verify `modules/ch{N}-keyword/nav.adoc` exists
+* Check xref format (should be): `pass:[** xref:s1-section.adoc[]]`
+* Ensure filenames match exactly (case-sensitive)
+* Rebuild: `npm run build`
+
+=== Images Not Displaying
+
+**Symptom**: Broken image links in rendered site
+
+**Solutions**:
+
+* Verify image is in `modules/ch{N}-keyword/images/`
+* Use correct syntax: `image::filename.png[]` (NOT Markdown `![]()`)
+* Check filename matches exactly (case-sensitive)
+* Hard refresh browser (Cmd+Shift+R / Ctrl+Shift+F5)
+
+=== Watch Mode Not Rebuilding
+
+**Symptom**: Changes don't trigger rebuild in browser
+
+**Solutions**:
+
+* Kill and restart `npm run watch:adoc` in Terminal 1
+* Verify you're editing files in `modules/` directory
+* Try manual build: `npm run build`
+* Check for syntax errors in AsciiDoc
+
+=== PDF Generation Fails
+
+**Symptom**: `/generate-pdf` skill errors
+
+**Solutions**:
+
+* Install Ruby: `brew install ruby` (macOS) or `apt install ruby` (Linux)
+* Install gem manually: `gem install asciidoctor-pdf`
+* Install PDF extension: `npm install @antora/pdf-extension`
+* Check for AsciiDoc syntax errors (PDF renderer is stricter than HTML)
+
+== Best Practices Summary
+
+=== Design Phase
+
+* ✅ Start with clear learning objectives (4-6 is optimal)
+* ✅ Balance theory (Presentation) and practice (Lab)
+* ✅ Include knowledge checks (Quiz) after key concepts
+* ✅ Keep sections focused and short (5-15 minutes each)
+* ✅ Design for progressive learning (simple → complex)
+
+=== Development Phase
+
+* ✅ Work sequentially (complete chapter 1 before chapter 2)
+* ✅ Let Claude write the boilerplate AsciiDoc; you provide technical facts
+* ✅ Test all lab instructions yourself
+* ✅ Use watch mode (`Terminal 1`) and serve mode (`Terminal 2`) for real-time preview
+* ✅ Update time estimates with `reading-time.sh`
+* ✅ Add images generously (diagrams, screenshots, flowcharts)
+
+=== Technical Quality
+
+* ✅ Use AsciiDoc syntax correctly (see `USAGEGUIDE.adoc`)
+* ✅ Keep code blocks short and focused
+* ✅ Highlight important output in command examples (bold user input)
+* ✅ Test all xref links
+* ✅ Use NOTE, WARNING, TIP callouts appropriately
+
+=== Content Quality
+
+* ✅ Write for the target audience level
+* ✅ Define technical terms on first use
+* ✅ Provide context (why, not just how)
+* ✅ Include troubleshooting tips in labs
+* ✅ Show actual command output (not theoretical)
+* ✅ Validate prerequisites are accurate
+
+== Quick Reference: Skills
+
+[cols="2,3,3,2", options="header"]
+|===
+|Skill |When to Use |Prerequisites |Output
+
+|`/initialize-course-project`
+|Once at project start
+|Clean repository with `course-init.sh`
+|Configured project, installed deps
+
+|`/generate-course-structure`
+|After creating design doc
+|Course initialized, `prompts/course-design.md` exists
+|Complete course skeleton
+
+|`/generate-pdf`
+|When ready to export
+|Course content complete
+|PDF file in `build/`
+|===
+
+== Complete Workflow Examples
+
+=== Example 1: OpenShift Virtualization Course
+
+**Day 1: Design**
+
+[source,bash]
+----
+# Clone template
+git clone https://github.com/RedHatQuickCourses/course-starter-template ocp-virtualization
+cd ocp-virtualization
+
+# Launch Claude Code
+claude
+
+# Create design document
+vi prompts/course-design.md
+# [Write complete course design for OpenShift Virtualization]
+----
+
+**Day 2: Initialize & Generate**
+
+[source,bash]
+----
+# In Claude Code terminal:
+/initialize-course-project
+# → Choose: bfx, role, "OpenShift Virtualization Administration"
+
+/generate-course-structure
+# → Reviews prompts/course-design.md
+# → Creates ch1-installation, ch2-vm-management, ch3-production-ops
+# → Generates all section skeletons
+----
+
+**Days 3-10: Develop Content**
+
+[source,bash]
+----
+# Terminal 1 (not Claude terminal)
+npm run watch:adoc
+
+# Terminal 2 (not Claude terminal)
+npm run serve
+
+# In Claude Code terminal, ask Claude to write content:
+"Claude, write the virtualization architecture overview for s1-architecture.adoc"
+"Claude, format these oc commands into a lab for creating VMs"
+"Claude, create a troubleshooting table for common VM deployment issues"
+
+# Update time estimates as you complete sections
+bash reading-time.sh modules/ch1-installation/pages/s1-architecture.adoc
+----
+
+**Day 11: Publish**
+
+[source,bash]
+----
+# In Claude Code terminal:
+/generate-pdf
+
+# Standard terminal:
+git add .
+git commit -m "Complete OpenShift Virtualization course"
+git push origin main
+
+# GitHub Actions deploys to:
+# https://redhatquickcourses.github.io/ocp-virtualization/
+----
+
+=== Example 2: Ansible Automation Platform Course
+
+**Abbreviated workflow for different product:**
+
+[source,bash]
+----
+# Initialize
+/initialize-course-project
+# → bfx, demo, "Ansible Automation Platform on OpenShift"
+
+# Generate structure
+/generate-course-structure
+# → Creates ch1-aap-deploy, ch2-automation-controller, ch3-workflows
+
+# Develop content with Claude
+"Claude, write about AAP architecture and components"
+"Claude, create a lab for deploying automation controller"
+"Claude, generate quiz questions about automation workflows"
+
+# Publish
+/generate-pdf
+git push origin main
+----
+
+== What You've Learned
+
+In this module, you learned:
+
+* ✅ How to set up a QuickCourse project from the template
+* ✅ The 5-phase workflow: Setup → Design → Initialize → Generate → Develop → Publish
+* ✅ How to create effective course designs using `course-design.md`
+* ✅ How to use the `/initialize-course-project` skill
+* ✅ How to use the `/generate-course-structure` skill
+* ✅ Techniques for developing content with Claude Code assistance
+* ✅ How to export PDFs and publish to GitHub Pages
+* ✅ Troubleshooting common issues
+
+== Next Steps
+
+. **Practice**: Create a simple 3-chapter course on a topic you know
+. **Experiment**: Try different session types (Presentation, Lab, Quiz)
+. **Collaborate**: Work with others using git branches
+. **Share**: Publish to GitHub Pages and gather feedback
+
+For AsciiDoc syntax reference, see: `USAGEGUIDE.adoc` in the repository.
+
+== References
+
+* **Course Starter Template**: https://github.com/RedHatQuickCourses/course-starter-template
+* **Antora Documentation**: https://docs.antora.org
+* **AsciiDoc Syntax**: https://docs.asciidoctor.org/asciidoc/latest/
+* **GitHub Pages**: https://pages.github.com

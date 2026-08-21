@@ -1,0 +1,189 @@
+= Working in Git Repositories
+:navtitle: Working in Repositories
+
+== Introduction
+
+Claude Code is designed to work seamlessly within git repositories. This section covers how Claude Code interacts with git and best practices for repository-based workflows.
+
+== Claude Code and Git Awareness
+
+When you launch Claude Code in a git repository, it automatically understands:
+
+* **Current branch** - Which branch you're working on
+* **Git status** - Modified, untracked, and staged files
+* **Commit history** - Recent commits and changes
+* **Repository structure** - Directory organization and file locations
+
+== Checking Repository Status
+
+Ask Claude about your repository status:
+
+----
+> "What's the current git status?"
+----
+
+Claude will respond with:
+
+* Current branch name
+* Modified files
+* Untracked files
+* Staged changes
+
+== Making Changes with Claude Code
+
+When Claude Code edits files, it:
+
+* Modifies files in your working directory
+* Does NOT automatically commit changes
+* Preserves your git workflow
+* Allows you to review changes before committing
+
+== Reviewing Changes
+
+After Claude makes changes, you can review them:
+
+**In Claude Code**:
+----
+> "What files did you just modify?"
+----
+
+**In your terminal** (outside Claude):
+[source,bash]
+----
+git status
+git diff
+----
+
+**In your editor**:
+Open the files to see the changes highlighted
+
+== Committing Changes
+
+Claude Code can help you commit, but you should understand what's being committed:
+
+**Option 1: Let Claude create a commit**:
+----
+> "Please commit these changes with an appropriate message"
+----
+
+**Option 2: Commit manually** (recommended for important changes):
+[source,bash]
+----
+# In a standard terminal:
+git add <files>
+git commit -m "Your commit message"
+----
+
+[TIP]
+====
+For important changes, review the diff yourself before committing. Claude is helpful but you're responsible for what goes in your repository.
+====
+
+== Working with Branches
+
+Claude Code can work with git branches:
+
+**Create a new branch**:
+----
+> "Create a new branch called 'feature/new-chapter' and switch to it"
+----
+
+**Check current branch**:
+----
+> "What branch am I on?"
+----
+
+**Switch branches** (in terminal):
+[source,bash]
+----
+git checkout <branch-name>
+----
+
+[WARNING]
+====
+Always ensure your changes are committed or stashed before switching branches.
+====
+
+## Best Practices for Repository Work
+
+**1. Start with a clean repository**
+
+Before using Claude Code for major changes:
+
+[source,bash]
+----
+git status  # Should show "nothing to commit, working tree clean"
+----
+
+**2. Work on feature branches**
+
+For significant changes, create a branch:
+
+[source,bash]
+----
+git checkout -b feature/skill-building-module
+----
+
+**3. Review before committing**
+
+Always review Claude's changes:
+
+----
+> "Show me what you changed in antora.yml"
+----
+
+**4. Commit frequently**
+
+Make small, logical commits:
+
+----
+> "Commit the navigation changes with message 'Add skill-building module to nav'"
+----
+
+**5. Pull before pushing**
+
+Before pushing your changes:
+
+[source,bash]
+----
+git pull origin main
+git push origin <your-branch>
+----
+
+## Undoing Changes
+
+If Claude makes unwanted changes:
+
+**Revert a specific file**:
+[source,bash]
+----
+git checkout -- <filename>
+----
+
+**Discard all changes**:
+[source,bash]
+----
+git reset --hard HEAD
+----
+
+[WARNING]
+====
+`git reset --hard` discards ALL uncommitted changes. Use carefully.
+====
+
+## .gitignore and Claude Code
+
+Claude Code respects `.gitignore` files. It can:
+
+* Read files in `.gitignore`
+* Help you add patterns to `.gitignore`
+* Avoid creating files that should be ignored
+
+Example:
+----
+> "Please add build/ and node_modules/ to .gitignore"
+----
+
+== What's Next
+
+In the next section, you'll learn effective prompting techniques for getting the best results from Claude Code.

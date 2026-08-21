@@ -1,0 +1,583 @@
+= Module 4: Quality Gates and Validation
+:navtitle: Module 4: Quality Gates
+
+== Learning Objectives
+
+After completing this module, you will be able to:
+
+* Implement inline quality checks without agent spawning
+* Create validation checklists for generated content
+* Enforce reference attribution requirements
+* Build automatic fix patterns for common issues
+* Document prohibited terms and formatting rules
+* Structure quality gates for different content types
+
+== Introduction
+
+Quality gates ensure generated content meets standards before delivery. The best quality gates are inline, automatic, and fix issues silently.
+
+In this module, you'll learn validation patterns used in production Showroom skills.
+
+== Inline Quality Checks: No Agents Needed
+
+**CRITICAL**: Quality checks should be inline, not delegated to agents.
+
+❌ **WRONG - Spawning validation agents**:
+
+[source,markdown]
+----
+### Step 10: Validate Content
+
+Use the Agent tool to spawn a validation agent:
+- Check AsciiDoc syntax
+- Verify formatting rules
+- Validate links
+----
+
+**Why this fails**:
+
+* Adds latency (agent spawn time)
+* Consumes extra tokens
+* Content is already in context
+* Unnecessary complexity
+
+✅ **CORRECT - Inline validation**:
+
+[source,markdown]
+----
+### Step 10: Final Quality Check (Inline)
+
+The generated module is already in context — check it directly.
+
+Read @showroom/docs/SKILL-COMMON-RULES.md for full quality gate criteria, then verify against this list:
+
+**Must fix before delivering (fix silently, note in delivery summary)**:
+
+| Check | Rule |
+|---|---|
+| Headings | Sentence case — not Title Case |
+| Em dashes | Zero `—` — rewrite or use `--` |
+| Prohibited terms | No "robust", "powerful", "leverage", "synergy" |
+| Command blocks | All commands use `[source,role="execute"]` |
+| Hardcoded values | No cluster URLs, usernames — use `{user}`, `{password}` |
+| Product names | No bare "OCP", "AAP" without first-use expansion |
+
+If anything fails, fix it now. Do not ask the user — just fix and note what was corrected in the delivery summary.
+----
+
+**Why this works**:
+
+* Content already in Claude's context
+* Checks happen instantly
+* Fixes apply automatically
+* User sees only corrected output
+* Minimal token overhead
+
+== Validation Checklist Pattern
+
+Create comprehensive checklists for different content types.
+
+**For Workshop Labs**:
+
+[source,markdown]
+----
+**Must fix before delivering**:
+
+| Check | Rule |
+|---|---|
+| Headings | Sentence case — not Title Case |
+| Em dashes | Zero `—` — rewrite or use `--` |
+| Exercise steps | Numbered lists (`.`) — not bullets (`*`) |
+| Verify sections | Every exercise has `=== Verify` with expected output |
+| Learning objectives | Present with ≥3 bullet points |
+| Command blocks | Student commands use `[source,role="execute"]` |
+| Expected output | Use plain `----` with no source declaration |
+| Config blocks | Non-executable YAML/JSON use `[source,yaml]` without `role="execute"` |
+| Hardcoded values | Use `{user}`, `{password}`, `{openshift_console_url}` |
+| Pronouns | No "he/she" — use "they/them" |
+| Product names | No bare "OCP" without first-use expansion |
+----
+
+**For Presenter Demos**:
+
+[source,markdown]
+----
+**Must fix before delivering**:
+
+| Check | Rule |
+|---|---|
+| Know/Show structure | Every section has Know (context) before Show (demonstration) |
+| Business value | ROI or outcome framing stated in every Know section |
+| Presenter notes | At least one `[NOTE]` or aside block per section with talking points |
+| No participant steps | Demo is presenter-led — no hands-on exercises |
+| Headings | Sentence case — not Title Case |
+| Em dashes | Zero `—` — rewrite or use `--` |
+| Presenter command blocks | Commands presenter runs use `[source,role="execute"]` |
+| Config blocks | Data/config blocks use `[source,yaml]` without `role="execute"` |
+| Hardcoded values | Use `{user}`, `{password}`, not actual values |
+| Product names | No bare "OCP", "AAP" without first-use expansion |
+----
+
+**Pattern**: Each content type has its own checklist tailored to its structure and purpose.
+
+== Auto-Fix Pattern
+
+Quality gates should fix issues automatically, not just report them.
+
+✅ **CORRECT - Silent auto-fix with summary**:
+
+[source,markdown]
+----
+### Step 10: Final Quality Check
+
+[Run through checklist]
+
+**Auto-fix the following** (silently, note in delivery summary):
+
+1. Headings: Convert Title Case → Sentence case
+2. Em dashes: Replace `—` with `--` or rewrite sentence
+3. Command blocks: Add `role="execute"` to bare `[source,bash]`
+4. Hardcoded credentials: Replace with `{user}`, `{password}` attributes
+5. Prohibited terms: Rewrite sentences to remove "robust", "powerful", "leverage"
+6. External links: Add `^` caret to open in new tab
+
+**Then in delivery**:
+
+✅ Created: 03-module-01-intro.adoc (234 lines)
+
+**Auto-corrections applied**:
+- Fixed 3 headings: Title Case → Sentence case
+- Removed 2 em dashes (rewrote sentences)
+- Updated 5 command blocks to use role="execute"
+- Replaced 3 hardcoded values with attributes
+
+**Next**: Review in your editor.
+----
+
+**Benefits**:
+
+* User gets correct content immediately
+* No back-and-forth corrections
+* Transparent about changes made
+* User learns what was wrong
+
+== Prohibited Terms and Language
+
+Document specific language rules.
+
+**Common prohibited terms**:
+
+[source,markdown]
+----
+**Prohibited terms** (rewrite to remove):
+
+* "robust" → Use specific technical details instead
+* "powerful" → Describe actual capabilities
+* "leverage" → Use "use", "utilize", or specific verb
+* "synergy" → Describe actual benefits
+* "he/she" → Use "they/them" for pronouns
+* "whitelist/blacklist" → Use "allowlist/denylist"
+
+**Examples**:
+
+❌ WRONG: "OpenShift provides a robust platform for developers."
+✅ CORRECT: "OpenShift provides automated scaling, integrated CI/CD, and built-in security."
+
+❌ WRONG: "Leverage OpenShift's powerful capabilities."
+✅ CORRECT: "Use OpenShift's automated build pipelines to accelerate deployments."
+----
+
+**Include in quality checklist**:
+
+[source,markdown]
+----
+| Prohibited terms | No "robust", "powerful", "leverage", "synergy" |
+| Inclusive language | No "he/she" — use "they/them". No "whitelist/blacklist" |
+----
+
+== Reference Enforcement
+
+Ensure all generated content attributes sources properly.
+
+**Pattern from create-lab**:
+
+[source,markdown]
+----
+**Reference Enforcement**:
+
+See @showroom/docs/SKILL-COMMON-RULES.md for reference enforcement patterns.
+
+**CRITICAL**: External content must be attributed:
+
+✅ **CORRECT - Original with attribution**:
+```asciidoc
+According to link:https://kubernetes.io/docs/...[Kubernetes documentation^],
+Kubernetes automates container deployment. Red Hat OpenShift extends Kubernetes
+with enterprise features.
+```
+
+❌ **WRONG - Copied without attribution**:
+```asciidoc
+Kubernetes is an open-source system for automating deployment, scaling,
+and management of containerized applications.
+```
+
+**Prohibited**:
+- Copying documentation verbatim from external sources
+- Slightly rewording existing tutorials
+- Presenting others' examples as original work
+
+**Required**:
+- Write original explanations
+- Add domain-specific context
+- Use proper attribution with quotes and links
+----
+
+**In quality checklist**:
+
+[source,markdown]
+----
+| Originality | No plagiarized content, proper attribution for external sources |
+| Citations | External facts cited with link:url[text^] format |
+----
+
+== Format-Specific Rules
+
+Different formats require different validation rules.
+
+**AsciiDoc Command Blocks**:
+
+[source,markdown]
+----
+**CRITICAL: Command Block Rules**
+
+**For commands students/presenters execute**:
+```asciidoc
+[source,role="execute"]
+----
+oc create deployment my-app --image=myimage:latest
+----
+```
+
+**For expected output** (no syntax highlighting, no execute):
+```asciidoc
+----
+NAME                     READY   STATUS    RESTARTS   AGE
+my-app-xxxxx-xxxxx      1/1     Running   0          2m
+----
+```
+
+**For configuration files** (syntax highlighting, no execute):
+```asciidoc
+[source,yaml]
+----
+apiVersion: apps/v1
+kind: Deployment
+----
+```
+
+**Quality check**:
+| Command blocks | Student commands use `[source,role="execute"]` |
+| Expected output | Use plain `----` with no source declaration |
+| Config blocks | YAML/JSON use `[source,yaml]` without `role="execute"` |
+----
+
+**AsciiDoc List Formatting**:
+
+[source,markdown]
+----
+**CRITICAL: List Formatting Rules**
+
+See @showroom/docs/SKILL-COMMON-RULES.md for complete AsciiDoc list rules.
+
+**Numbered lists require blank lines before/after**:
+```asciidoc
+Introduction text here.
+
+. First step
+. Second step
+. Third step
+
+Conclusion text here.
+```
+
+**Bullets also need blank lines**:
+```asciidoc
+Benefits include:
+
+* Benefit 1
+* Benefit 2
+* Benefit 3
+
+Next section...
+```
+
+**Quality check**:
+| List formatting | Blank lines before and after all lists |
+| Exercise steps | Numbered lists (`.`) for sequential steps |
+| Benefits/features | Bullets (`*`) for non-sequential items |
+----
+
+== Image and Link Validation
+
+Validate image references and external links.
+
+**Image Syntax**:
+
+[source,markdown]
+----
+**CRITICAL: Image Syntax Enforcement**
+
+Always include `link=self,window=blank` on every image — makes images clickable to open full-size in new tab.
+
+✅ **CORRECT**:
+```asciidoc
+image::deployment-diagram.png[Architecture,link=self,window=blank,align="center",width=700,title="OpenShift Architecture"]
+```
+
+❌ **WRONG** (missing link attribute):
+```asciidoc
+image::deployment-diagram.png[Architecture,width=700]
+```
+
+**Quality check**:
+| Image syntax | All images include `link=self,window=blank` |
+| Image paths | Images in `content/modules/ROOT/assets/images/` |
+----
+
+**External Links**:
+
+[source,markdown]
+----
+**CRITICAL: External Link Format**
+
+ALL external links MUST use `^` caret to open in new tab.
+
+✅ **CORRECT**:
+```asciidoc
+link:https://docs.redhat.com/[Red Hat Documentation^]
+```
+
+❌ **WRONG** (missing caret):
+```asciidoc
+link:https://docs.redhat.com/[Red Hat Documentation]
+```
+
+**Internal xrefs should NOT use caret**:
+```asciidoc
+xref:03-module-02-next.adoc[Next Module]
+```
+
+**Quality check**:
+| External links | All external links use `^` caret |
+| Internal links | xref links do NOT use `^` |
+----
+
+== Verification Checkpoint Requirements
+
+Ensure labs include verification sections.
+
+**Pattern from create-lab**:
+
+[source,markdown]
+----
+**Mandatory: Verification Checkpoints**:
+
+Each major step must include:
+
+```asciidoc
+=== Verify
+
+Run the following to confirm success:
+
+[source,role="execute"]
+----
+oc get pods
+----
+
+Expected output:
+----
+NAME                     READY   STATUS    RESTARTS   AGE
+my-app-xxxxx-xxxxx      1/1     Running   0          2m
+----
+
+✓ Pod status is "Running"
+✓ READY shows 1/1
+```
+
+**Quality check**:
+| Verify sections | Every exercise has `=== Verify` with expected output |
+| Success indicators | Checkmarks (✓) for success criteria |
+----
+
+## Content-Type Specific Quality Gates
+
+Different content types need different quality gates:
+
+**For Workshops (create-lab)**:
+
+* Learning objectives present (≥3 items)
+* Numbered steps for exercises
+* Verification checkpoints after each exercise
+* Commands use `role="execute"`
+* Expected output blocks use plain `----`
+* No hardcoded credentials
+
+**For Demos (create-demo)**:
+
+* Know/Show structure in all sections
+* Business value in every Know section
+* Presenter notes/talk tracks
+* No hands-on exercises (presenter-led only)
+* Business metrics quantified
+* Optional visual cues documented
+
+**For Blogs (blog-generate)**:
+
+* Narrative flow (not step-by-step instructions)
+* Conversational tone
+* Target word count met (800-1200)
+* Call to action at end
+* Source traceability attribution
+* All code blocks syntactically valid
+
+== Shared Rules via Reference Files
+
+Create shared quality rules accessible to multiple skills:
+
+**Example**: `@showroom/docs/SKILL-COMMON-RULES.md`
+
+This reference file contains:
+
+* Version pinning requirements
+* Image path conventions
+* Navigation update patterns
+* List formatting rules
+* External link requirements
+* Learning outcomes checkpoint template
+
+**Skills reference it**:
+
+[source,markdown]
+----
+### Step 10: Final Quality Check
+
+Read @showroom/docs/SKILL-COMMON-RULES.md for full quality gate criteria, then verify the module.
+
+**Must fix before delivering**:
+[Skill-specific additions to shared rules]
+----
+
+This prevents duplication across skills.
+
+== Quality Gate Execution Flow
+
+Here's the complete quality gate workflow:
+
+[source,markdown]
+----
+### Step 10: Final Quality Check (Inline)
+
+**The generated module is already in context — check it directly.**
+
+**Step 10.1: Read Shared Rules**
+
+Read @showroom/docs/SKILL-COMMON-RULES.md for baseline quality criteria.
+
+**Step 10.2: Apply Content-Type Checklist**
+
+Verify against [workshop/demo/blog] checklist:
+
+| Check | Rule |
+|---|---|
+| [Content-specific rules] |
+
+**Step 10.3: Auto-Fix Issues**
+
+Fix the following silently (note in delivery summary):
+
+1. Headings → Sentence case
+2. Em dashes → Remove or rewrite
+3. Command blocks → Add role="execute"
+4. Hardcoded values → Use attributes
+5. Prohibited terms → Rewrite
+6. External links → Add caret
+
+**Step 10.4: Document Corrections**
+
+Track all corrections to note in delivery message.
+
+**Step 10.5: Proceed to Delivery**
+
+All issues fixed → continue to Step 11 (Update Navigation) and Step 12 (Deliver).
+----
+
+== Real Example: Complete Quality Gate
+
+From `create-lab`:
+
+[source,markdown]
+----
+### Step 10: Final Quality Check (Inline)
+
+The generated module is already in context — check it directly.
+
+Read @showroom/docs/SKILL-COMMON-RULES.md for the full quality gate criteria, then verify the just-generated file against this list:
+
+**Must fix before delivering (fix silently, note in Step 12 summary)**:
+
+| Check | Rule |
+|---|---|
+| Headings | Sentence case — not Title Case |
+| Em dashes | Zero `—` — rewrite or use `--` |
+| Prohibited terms | No "robust", "powerful", "leverage", "synergy" |
+| Student command blocks | All commands students run use `[source,role="execute"]` |
+| Expected output blocks | Use plain `----` with no source declaration |
+| Config/code blocks | Non-executable content uses `[source,yaml]` without `role="execute"` |
+| Exercise steps | Numbered lists (`.`) — not bullets (`*`) |
+| Verify sections | Every exercise has `=== Verify` with expected output |
+| Learning objectives | Present with ≥3 bullet points |
+| Hardcoded values | Use `{user}`, `{password}`, `{openshift_console_url}` |
+| Pronouns | No "he/she" — use "they/them" |
+| Product names | No bare "OCP", "AAP" without first-use expansion |
+
+If anything fails, fix it now. Do not ask the user — just fix and note what was corrected in the Step 12 delivery summary.
+----
+
+== Verification Checkpoint
+
+Before proceeding, verify you understand:
+
+✓ **Inline validation** - Check content already in context, don't spawn agents +
+✓ **Content-type checklists** - Different rules for labs vs demos vs blogs +
+✓ **Auto-fix pattern** - Fix issues silently, note in delivery summary +
+✓ **Prohibited terms** - Document and enforce language rules +
+✓ **Reference enforcement** - Require attribution for external content +
+✓ **Format-specific rules** - AsciiDoc, Markdown, code blocks, links, images +
+✓ **Shared rules files** - Centralize common patterns
+
+== Practice Exercise
+
+**Create a quality gate checklist for a skill that converts meeting notes to action items**:
+
+. List 5-7 validation rules
+. Include format requirements (Markdown lists, task format)
+. Add prohibited language (e.g., vague terms)
+. Specify auto-fix patterns
+. Document what to note in delivery summary
+
+== Summary
+
+In this module, you learned:
+
+* Quality checks should be inline, not agent-based
+* Create content-type specific validation checklists
+* Auto-fix issues silently and note in delivery
+* Enforce prohibited terms and language rules
+* Require proper attribution for external content
+* Validate format-specific syntax (AsciiDoc, Markdown)
+* Use shared rules files to avoid duplication
+
+== What's Next
+
+Module 5 will teach you how to leverage reference materials and templates to maintain consistency across your skills.

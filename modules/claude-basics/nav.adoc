@@ -1,0 +1,5 @@
+* xref:index.adoc[Introduction to Claude Code]
+** xref:01-getting-started.adoc[Getting Started with Claude Code]
+** xref:02-skills-vs-prompts.adoc[Skills vs. Conversational Prompts]
+** xref:03-working-in-repos.adoc[Working in Git Repositories]
+** xref:04-effective-prompting.adoc[Effective Prompting Techniques]

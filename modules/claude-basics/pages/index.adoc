@@ -1,0 +1,66 @@
+= Introduction to Claude Code
+:navtitle: Claude Code Basics
+
+== Module Overview
+
+This module introduces you to Claude Code, Anthropic's official CLI tool for interactive AI-assisted development. You'll learn the fundamentals of working with Claude Code in your terminal and repositories.
+
+== What You'll Learn
+
+By completing this module, you will be able to:
+
+* Launch and navigate Claude Code in your terminal
+* Understand the difference between Claude Code prompts and bash commands
+* Use built-in Claude Code skills effectively
+* Work with Claude Code in git repositories
+* Understand when to use skills vs. conversational prompts
+* Manage your Claude Code session and context
+
+== Who This Is For
+
+This module is designed for:
+
+* **First-time Claude Code users** getting started with the tool
+* **Content creators** who need to understand Claude Code basics before building skills
+* **Developers** who want to use Claude Code for course and documentation creation
+* **Anyone** new to working with AI-assisted development tools
+
+== Prerequisites
+
+Before starting this module, you should have:
+
+* Claude Code installed on your system
+* Basic familiarity with command-line interfaces
+* Git installed and configured (helpful but not required)
+* A code editor (VS Code, vim, etc.)
+
+== Topics Covered
+
+**Getting Started**::
+Learn how to launch Claude Code, navigate the interface, and understand the basic interaction model.
+
+**Skills vs. Prompts**::
+Understand when to use pre-built skills (like `/initialize-course-project`) versus conversational prompts.
+
+**Working in Repositories**::
+Learn how Claude Code works within git repositories and how to manage file operations.
+
+**Session Management**::
+Understand Claude Code's context window, memory, and how to manage long conversations.
+
+**Best Practices**::
+Learn tips for effective communication with Claude Code and common pitfalls to avoid.
+
+== What Makes Claude Code Powerful
+
+Claude Code combines:
+
+* **Conversational AI** - Natural language understanding for complex tasks
+* **Code awareness** - Reads and understands your codebase structure
+* **Tool integration** - Executes commands, edits files, and manages git operations
+* **Skills system** - Pre-built workflows for common tasks
+* **Context retention** - Remembers your conversation and decisions
+
+== Let's Get Started
+
+Ready to learn Claude Code? The following sections will walk you through the fundamentals of working with this powerful tool.

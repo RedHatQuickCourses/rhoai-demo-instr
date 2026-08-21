@@ -1,0 +1,558 @@
+= Module 3: Token Management and Output Control
+:navtitle: Module 3: Token Management
+
+== Learning Objectives
+
+After completing this module, you will be able to:
+
+* Understand Claude Code's output token limits
+* Use the Write tool instead of displaying full content
+* Provide brief confirmations instead of verbose summaries
+* Structure delivery messages for clarity
+* Prevent token overflow in content generation skills
+* Balance informativeness with token efficiency
+
+== Introduction
+
+One of the most common issues in skill development is token overflow. When a skill generates large files (workshops, demos, documentation), displaying the full content to the user wastes tokens and creates poor UX.
+
+In this module, you'll learn the patterns production skills use to manage output effectively.
+
+== Understanding Token Limits
+
+Claude Code has output token limits:
+
+* **Maximum output**: ~32,000 tokens per response
+* **Recommended target**: Under 5,000 tokens for skill responses
+* **Why it matters**: Exceeding limits causes truncated output
+
+**Token approximations**:
+
+* 1 token ≈ 4 characters
+* 1 token ≈ 0.75 words
+* A 500-line AsciiDoc file ≈ 5,000-10,000 tokens
+
+**The problem**: If your skill generates a 300-line module and outputs it to the user, you've used 3,000-6,000 tokens just showing content they can read in their editor.
+
+== The Cardinal Rule: Write Files, Don't Display Them
+
+**CRITICAL**: The #1 cause of token overflow is displaying generated content.
+
+❌ **WRONG - Displaying full content**:
+
+[source,markdown]
+----
+### Step 10: Deliver
+
+I've created your workshop module! Here's what I generated:
+
+```asciidoc
+= Module 1: Introduction to OpenShift
+
+Welcome to the workshop...
+
+[300 more lines of content]
+```
+
+Your module is ready!
+----
+
+**Token cost**: 3,000-6,000 tokens for content display
+
+**Why this is bad**:
+
+* Wastes tokens showing what's already in a file
+* Overwhelms user with unreadable wall of text
+* Doesn't add value (user will read in their editor)
+* Approaches or exceeds token limits
+
+✅ **CORRECT - Write and confirm**:
+
+[source,markdown]
+----
+### Step 10: Deliver
+
+**CRITICAL: Manage Output Tokens to Prevent Overflow**
+
+**Token Management Rules**:
+1. **Write files using Write tool** - Don't output full file contents to user
+2. **Show brief confirmations only** - "✅ Created: file.adoc (X lines)"
+3. **Provide summary at end** - List what was created, not the full content
+4. **Never output entire module content** - Files are already written
+5. **Keep total output under 5000 tokens** - Brief summaries only
+----
+
+**Token cost**: ~100-200 tokens for instructions
+
+**Why this works**:
+
+* Instructions consume minimal tokens
+* User gets confirmation without content dump
+* Files are written where user expects them
+* Clear guidance on token management
+
+== Using the Write Tool Effectively
+
+The Write tool creates files without displaying them.
+
+**Pattern**: Write the file, then provide brief confirmation
+
+[source,markdown]
+----
+### Step 9: Generate Module
+
+I'll create a complete module with:
+
+**Required Structure**:
+- Learning objectives (3-4 items)
+- Business introduction with scenario
+- 2-3 progressive exercises
+- Verification checkpoints
+- Module summary
+
+[Use Write tool to create the file]
+
+Then immediately:
+
+✅ Created: content/modules/ROOT/pages/03-module-01-intro.adoc (234 lines)
+----
+
+**The Write tool does the work silently** - No need to show the content.
+
+== Brief Confirmation Pattern
+
+After using Write, provide structured confirmations:
+
+✅ **CORRECT - Brief confirmation format**:
+
+[source,markdown]
+----
+✅ Workshop Generation Complete
+
+**Files Created**:
+- content/modules/ROOT/pages/index.adoc (32 lines) - Learner landing page
+- content/modules/ROOT/pages/01-overview.adoc (85 lines) - Business scenario
+- content/modules/ROOT/pages/02-details.adoc (67 lines) - Technical details
+- content/modules/ROOT/pages/03-module-01-intro.adoc (234 lines) - First hands-on module
+- content/modules/ROOT/nav.adoc (updated)
+
+**Module Structure**:
+- Learning objectives: 4 items
+- Exercises: 3
+- Verification checkpoints: 3
+- Images needed: 2 placeholders
+
+**Next Steps**:
+1. Review module: content/modules/ROOT/pages/03-module-01-intro.adoc
+2. Capture screenshots for placeholder images
+3. Test commands in your environment
+4. Run: verify-content to check quality
+
+**Note**: All files have been written. Use your editor to review them.
+----
+
+**Token cost**: ~150-250 tokens
+
+**What this includes**:
+
+* **Files Created** - List with line counts
+* **Module Structure** - Key metrics
+* **Next Steps** - Clear guidance
+* **Note** - Reminds user files are written
+
+== What NOT to Include
+
+❌ **WRONG - Showing content examples**:
+
+[source,markdown]
+----
+✅ Created: 03-module-01-intro.adoc
+
+Here's a sample of what I created:
+
+```asciidoc
+= Module 1: Introduction
+
+== Learning Objectives
+
+After completing this module, you will:
+
+* Understand OpenShift architecture
+* Deploy your first application
+[150 more lines...]
+```
+----
+
+**Token cost**: 1,500-3,000 tokens wasted
+
+❌ **WRONG - Verbose summaries**:
+
+[source,markdown]
+----
+I've created a comprehensive workshop module that includes four detailed learning objectives. The first learning objective focuses on understanding the core architecture of OpenShift. The second learning objective covers deployment strategies. The module includes three hands-on exercises, each carefully designed to build on the previous exercise. The first exercise walks users through logging into the console. The second exercise...
+[continues for paragraphs]
+----
+
+**Token cost**: 500-1,000 tokens wasted
+
+**Why verbose summaries fail**:
+
+* Repeats information from the file
+* Doesn't add new value
+* Slows down user
+* Wastes tokens
+
+✅ **CORRECT - Structured, minimal summary**:
+
+[source,markdown]
+----
+✅ Created: 03-module-01-intro.adoc (234 lines)
+
+**Structure**: 4 learning objectives, 3 exercises, 3 verification checkpoints
+**Images**: 2 placeholders (see module for TODO comments)
+**Attributes**: Uses {openshift_console_url}, {user}, {password}
+
+**Next**: Review in your editor and capture screenshots.
+----
+
+**Token cost**: ~50-100 tokens
+
+== Delivery Message Structure
+
+Effective delivery messages follow this template:
+
+[source,markdown]
+----
+### Step 10: Deliver
+
+**Output Format**:
+
+```
+✅ [Skill Name] Complete
+
+**Files Created**:
+- path/to/file1.adoc (X lines) - Brief description
+- path/to/file2.adoc (Y lines) - Brief description
+- nav.adoc (updated)
+
+**Content Summary** (optional):
+- Key metric 1: Value
+- Key metric 2: Value
+- Key metric 3: Value
+
+**Assets** (if applicable):
+- Images needed: N placeholders
+- Dynamic attributes used: {attr1}, {attr2}
+
+**Next Steps**:
+1. Action 1
+2. Action 2
+3. Action 3
+
+**Note**: Files have been written. Review with your editor.
+```
+----
+
+**Token budget**: 150-300 tokens total
+
+**Sections**:
+
+* **Files Created** (required) - What was written
+* **Content Summary** (optional) - Key metrics only
+* **Assets** (optional) - What user needs to provide
+* **Next Steps** (required) - Clear guidance
+* **Note** (recommended) - Remind user to use editor
+
+== Handling Multiple File Generation
+
+When generating multiple files (index, overview, details, modules):
+
+✅ **CORRECT - Batch confirmation**:
+
+[source,markdown]
+----
+**CRITICAL: If this is the FIRST module of a NEW lab, generate files in this order:**
+
+#### Step 9.1: Generate index.adoc (First Module Only)
+
+[Use Write tool to create index.adoc]
+
+#### Step 9.2: Generate 01-overview.adoc (First Module Only)
+
+[Use Write tool to create 01-overview.adoc]
+
+#### Step 9.3: Generate 02-details.adoc (First Module Only)
+
+[Use Write tool to create 02-details.adoc]
+
+#### Step 9.4: Generate 03-module-01-*.adoc (Always)
+
+[Use Write tool to create module]
+
+---
+
+### Step 10: Deliver
+
+✅ Workshop Generation Complete
+
+**Files Created**:
+- content/modules/ROOT/pages/index.adoc (32 lines)
+- content/modules/ROOT/pages/01-overview.adoc (85 lines)
+- content/modules/ROOT/pages/02-details.adoc (67 lines)
+- content/modules/ROOT/pages/03-module-01-intro.adoc (234 lines)
+- content/modules/ROOT/nav.adoc (updated)
+----
+
+**Key principles**:
+
+* Write all files in sequence
+* Provide single consolidated confirmation
+* List all files with line counts
+* Keep confirmation under 300 tokens
+
+== Progress Updates During Generation
+
+For long-running workflows, provide brief progress updates:
+
+✅ **CORRECT - Brief progress updates**:
+
+[source,markdown]
+----
+### Step 7: Fetch and Analyze References
+
+**Reading reference materials**...
+
+✓ Fetched: https://docs.openshift.com/... (Technical overview)
+✓ Read: local-guide.pdf (45 pages)
+✓ Analyzed: 3 procedures, 12 commands identified
+
+### Step 8: Generate Module
+
+**Creating module with Know/Show structure**...
+
+[Use Write tool - no output]
+
+### Step 9: Validate
+
+**Running quality checks**...
+
+✓ All headings use sentence case
+✓ All commands use [source,role="execute"]
+✓ No hardcoded credentials found
+✓ External links use caret notation
+----
+
+**Token cost**: ~100-150 tokens total
+
+**Benefits**:
+
+* User knows skill is working
+* Shows progress through workflow
+* Minimal token usage
+* No unnecessary detail
+
+== Avoiding Token Overflow: Checklist
+
+Before delivering, verify your skill instructions include:
+
+✓ **Explicit token management rules** in delivery section +
+✓ **"Use Write tool" instructions** - Not "show the content" +
+✓ **"Brief confirmations only"** - Specific format provided +
+✓ **"Keep output under 5000 tokens"** - Clear limit stated +
+✓ **Examples of WRONG approaches** - Show what NOT to do +
+✓ **Examples of CORRECT approaches** - Show what TO do +
+✓ **Structured delivery template** - Exact format to follow
+
+**From create-demo skill**:
+
+[source,markdown]
+----
+### Step 12: Deliver
+
+**CRITICAL: Manage Output Tokens to Prevent Overflow**
+
+**Token Management Rules**:
+1. **Write files using Write tool** - Don't output full file contents to user
+2. **Show brief confirmations only** - "✅ Created: filename (X lines)"
+3. **Provide summary at end** - List what was created, not the full content
+4. **Never output entire demo content** - Files are already written
+5. **Keep total output under 5000 tokens** - Brief summaries only
+
+**Output Format**:
+
+```
+✅ Demo Module Generation Complete
+
+**Files Created**:
+- content/modules/ROOT/pages/demo-01.adoc (312 lines)
+- content/modules/ROOT/nav.adoc (updated)
+
+[Structured summary as shown above]
+```
+
+**What NOT to do**:
+- ❌ Don't show full demo content in response
+- ❌ Don't output the entire file you just created
+- ❌ Don't paste hundreds of lines of generated AsciiDoc
+
+**What TO do**:
+- ✅ Write files using Write tool
+- ✅ Show brief confirmations
+- ✅ Keep output concise (under 5000 tokens)
+----
+
+== Inline Quality Checks Without Agents
+
+Quality checks should be inline and token-efficient:
+
+✅ **CORRECT - Inline quality check**:
+
+[source,markdown]
+----
+### Step 10: Final Quality Check (Inline)
+
+The generated module is already in context — check it directly.
+
+**Must fix before delivering (fix silently, note in delivery summary)**:
+
+| Check | Rule |
+|---|---|
+| Headings | Sentence case — not Title Case |
+| Em dashes | Zero `—` — rewrite or use `--` |
+| Prohibited terms | No "robust", "powerful", "leverage" |
+| Command blocks | All commands use `[source,role="execute"]` |
+| Hardcoded values | Use `{user}`, `{password}`, not actual values |
+
+If anything fails, fix it now. Do not ask the user — just fix and note what was corrected in the delivery summary.
+----
+
+**Why this works**:
+
+* Checks happen inline (no agent spawning)
+* Claude already has the content in context
+* Fixes happen automatically
+* User sees only the results
+* Minimal token overhead
+
+**Delivery with fixes noted**:
+
+[source,markdown]
+----
+✅ Created: 03-module-01-intro.adoc (234 lines)
+
+**Auto-corrections applied**:
+- Fixed 3 headings from Title Case → Sentence case
+- Replaced 2 instances of em dash (—) with en dash (--)
+- Updated 5 command blocks to use role="execute"
+
+**Next**: Review in your editor.
+----
+
+== Real Example: Token-Efficient Delivery
+
+Here's the complete delivery section from `create-lab`:
+
+[source,markdown]
+----
+### Step 12: Deliver
+
+**CRITICAL: Manage Output Tokens to Prevent Overflow**
+
+**Token Management Rules**:
+1. **Write files using Write tool** - Don't output full file contents to user
+2. **Show brief confirmations only** - "✅ Created: file.adoc (X lines)"
+3. **Provide summary at end** - List what was created, not the full content
+4. **Never output entire module content** - Files are already written
+5. **Keep total output under 5000 tokens** - Brief summaries only
+
+**Output Format for FIRST module**:
+
+```
+✅ Workshop Generation Complete
+
+**Files Created**:
+- content/modules/ROOT/pages/index.adoc (32 lines) - Learner landing page
+- content/modules/ROOT/pages/01-overview.adoc (85 lines) - Business scenario
+- content/modules/ROOT/pages/02-details.adoc (67 lines) - Technical details
+- content/modules/ROOT/pages/03-module-01-intro.adoc (234 lines) - First hands-on module
+- content/modules/ROOT/nav.adoc (updated)
+```
+
+**Output Format for CONTINUATION modules**:
+
+```
+✅ Module Generation Complete
+
+**Files Created**:
+- content/modules/ROOT/pages/04-module-02-advanced.adoc (198 lines)
+- content/modules/ROOT/nav.adoc (updated)
+
+**Module Structure**:
+- Learning objectives: 4 items
+- Exercises: 3
+- Verification checkpoints: 3
+
+**Next Steps**:
+1. Review module in your editor
+2. Test commands in your environment
+3. Run: verify-content to check quality
+
+**Note**: All files have been written. Use your editor to review them.
+```
+----
+
+**Token efficiency**:
+
+* Entire delivery section: ~400 tokens
+* Actual delivery output: ~150-250 tokens
+* Files generated: Could be 10,000+ tokens if displayed
+* **Savings**: 95%+ token reduction
+
+== Verification Checkpoint
+
+Before proceeding, verify you understand:
+
+✓ **Output limits** - Claude Code ~32K max, target <5K for skills +
+✓ **Write, don't display** - Use Write tool, show brief confirmations +
+✓ **Structured delivery** - Files Created, Summary, Next Steps +
+✓ **Token budget** - Delivery messages should be 150-300 tokens +
+✓ **What to exclude** - No content display, no verbose summaries +
+✓ **Progress updates** - Brief checkmarks, not detailed logs +
+✓ **Inline checks** - Quality validation without agent spawning
+
+== Practice Exercise
+
+**Rewrite this token-wasteful delivery**:
+
+❌ **Current (wasteful)**:
+
+[source,markdown]
+----
+Here's your generated workshop:
+
+```asciidoc
+= Workshop Title
+[200 lines of content]
+```
+
+I created a comprehensive workshop with detailed learning objectives and hands-on exercises. The first section introduces the technology with background information. The second section provides detailed technical requirements. The third section contains the actual hands-on module with step-by-step instructions...
+[3 more paragraphs of summary]
+----
+
+**Your task**: Rewrite this as a token-efficient delivery following the patterns in this module.
+
+== Summary
+
+In this module, you learned:
+
+* Claude Code has ~32K token output limit, target <5K for skills
+* Use Write tool to create files without displaying them
+* Provide brief, structured confirmations instead of content dumps
+* Keep delivery messages to 150-300 tokens
+* Show what was created, not the full content
+* Include structured summaries with metrics and next steps
+* Perform inline quality checks without agent spawning
+
+== What's Next
+
+Module 4 will teach you how to implement quality gates and validation patterns to ensure generated content meets your standards.

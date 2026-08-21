@@ -1,0 +1,898 @@
+= Module 7: Best Practices and Anti-Patterns
+:navtitle: Module 7: Best Practices
+
+== Learning Objectives
+
+After completing this module, you will be able to:
+
+* Apply proven skill development patterns
+* Avoid common mistakes that degrade user experience
+* Optimize skills for performance and maintainability
+* Write clear, actionable instructions for Claude
+* Debug and improve existing skills
+* Build production-ready skills from the start
+
+== Introduction
+
+This module compiles best practices and anti-patterns learned from building production Showroom skills. You'll learn what works, what doesn't, and why.
+
+== Best Practice 1: Sequential Over Simultaneous
+
+✅ **DO**: Ask questions one at a time
+
+[source,markdown]
+----
+### Step 3.1: Module file name?
+
+Ask: "What would you like to name this module file?"
+
+[WAIT for answer]
+
+### Step 3.2: Reference materials?
+
+Ask: "Do you have reference materials?"
+
+[WAIT for answer]
+----
+
+❌ **DON'T**: Ask all questions at once
+
+[source,markdown]
+----
+I'll need some information:
+1. Module filename?
+2. Reference materials?
+3. Learning objective?
+4. Duration?
+
+Please provide all of the above.
+----
+
+**Why**:
+
+* User not overwhelmed
+* Context builds progressively
+* Each question has clear purpose
+* Feels conversational, not bureaucratic
+
+== Best Practice 2: Write Files, Don't Display Them
+
+✅ **DO**: Use Write tool with brief confirmation
+
+[source,markdown]
+----
+[Use Write tool to create file]
+
+✅ Created: 03-module-01-intro.adoc (234 lines)
+
+**Structure**: 4 objectives, 3 exercises, 3 verification checkpoints
+----
+
+**Token cost**: ~50 tokens
+
+❌ **DON'T**: Display generated content
+
+[source,markdown]
+----
+Here's your generated module:
+
+```asciidoc
+= Module 1: Introduction
+[200 lines of content...]
+```
+----
+
+**Token cost**: 2,000-5,000 tokens
+
+**Why**:
+
+* 95%+ token savings
+* User reads in editor anyway
+* Faster skill execution
+* Better user experience
+
+== Best Practice 3: Inline Quality Gates
+
+✅ **DO**: Check content already in context
+
+[source,markdown]
+----
+### Step 10: Final Quality Check (Inline)
+
+The generated module is already in context — check it directly.
+
+**Must fix before delivering**:
+
+| Check | Rule |
+|---|---|
+| Headings | Sentence case |
+| Command blocks | Use `[source,role="execute"]` |
+
+If anything fails, fix it now.
+----
+
+❌ **DON'T**: Spawn validation agents
+
+[source,markdown]
+----
+### Step 10: Validate
+
+Use the Agent tool to spawn a validation agent:
+- Check syntax
+- Verify formatting
+----
+
+**Why**:
+
+* Content already in Claude's context
+* No agent spawn overhead
+* Faster execution
+* Lower token cost
+
+== Best Practice 4: Conversational Questions
+
+✅ **DO**: Use friendly, contextual questions
+
+[source,markdown]
+----
+**Question 1 - What Should We Call This?**:
+```
+What's the name of your workshop?
+
+Example: "Building AI/ML Workloads on OpenShift AI"
+
+I'll use this to set up your lab title and generate a clean URL-friendly slug.
+
+Your lab name:
+```
+----
+
+❌ **DON'T**: Use interrogative forms
+
+[source,markdown]
+----
+Q1: Module name?
+Q2: Objective?
+Q3: Duration?
+----
+
+**Why**:
+
+* Builds rapport with user
+* Context explains why it matters
+* Examples guide good answers
+* Professional yet friendly
+
+== Best Practice 5: Explicit Skip Logic
+
+✅ **DO**: Document conditional flows clearly
+
+[source,markdown]
+----
+### Step 2: Determine Context
+
+**SKIP THIS STEP IF**:
+- User provided `--new` flag in arguments
+- User provided `--continue <module>` in arguments
+
+**CRITICAL: DO NOT read any files before asking!**
+
+**First, ask the user**: [question]
+
+**ONLY AFTER user answers, proceed.**
+----
+
+❌ **DON'T**: Implicit conditional logic
+
+[source,markdown]
+----
+### Step 2: Determine Context
+
+If the user provided arguments, skip to Step 3, otherwise ask about context.
+----
+
+**Why**:
+
+* Crystal clear decision logic
+* Prevents Claude from making assumptions
+* Enforces sequential flow
+* Easy to debug
+
+== Best Practice 6: Reference External Files
+
+✅ **DO**: Externalize detailed rules
+
+[source,markdown]
+----
+## Shared Rules
+
+See `@showroom/docs/SKILL-COMMON-RULES.md` for:
+- Version pinning (REQUIRED)
+- Image conventions (REQUIRED)
+- Navigation updates (REQUIRED)
+
+**CRITICAL: Content rules**:
+See `@showroom/skills/create-demo/references/content-rules.md` for examples.
+----
+
+❌ **DON'T**: Embed everything in main skill
+
+[source,markdown]
+----
+## Content Rules
+
+[5 pages of examples inline]
+
+## Quality Gates
+
+[3 pages of checklists inline]
+----
+
+**Why**:
+
+* Main skill stays focused
+* Rules easy to update
+* Multiple skills can share rules
+* Better organization
+
+== Best Practice 7: Auto-Fix with Documentation
+
+✅ **DO**: Fix issues silently, note in delivery
+
+[source,markdown]
+----
+**Must fix before delivering** (fix silently, note in summary):
+
+| Check | Rule |
+|---|---|
+| Headings | Sentence case — not Title Case |
+| Em dashes | Zero `—` — rewrite or use `--` |
+
+**In delivery**:
+
+✅ Created: module.adoc (234 lines)
+
+**Auto-corrections applied**:
+- Fixed 3 headings: Title Case → Sentence case
+- Removed 2 em dashes (rewrote sentences)
+----
+
+❌ **DON'T**: Ask user to fix
+
+[source,markdown]
+----
+I found 3 headings in Title Case. Would you like me to fix them?
+
+I found 2 em dashes. Should I remove them?
+----
+
+**Why**:
+
+* User gets correct content immediately
+* No back-and-forth friction
+* Transparent about changes
+* User learns from corrections
+
+== Best Practice 8: Structured Delivery Messages
+
+✅ **DO**: Use consistent template
+
+[source,markdown]
+----
+✅ [Skill Name] Complete
+
+**Files Created**:
+- path/file.adoc (X lines) - Description
+- nav.adoc (updated)
+
+**Content Summary**:
+- Metric 1: Value
+- Metric 2: Value
+
+**Next Steps**:
+1. Action 1
+2. Action 2
+
+**Note**: Files written. Review in your editor.
+----
+
+**Token cost**: 150-300 tokens
+
+❌ **DON'T**: Verbose paragraphs
+
+[source,markdown]
+----
+I've created a comprehensive workshop module that includes detailed learning objectives. The module has been carefully designed to provide hands-on exercises. Each exercise builds on the previous one...
+[continues for paragraphs]
+----
+
+**Token cost**: 1,000+ tokens
+
+**Why**:
+
+* Scannable structure
+* Predictable format
+* Token efficient
+* Clear next steps
+
+== Best Practice 9: Handle Edge Cases Gracefully
+
+✅ **DO**: Document and handle edge cases
+
+[source,markdown]
+----
+**Edge Cases**:
+
+- **Directory doesn't exist**: Ask "Create it? [Yes/No]"
+- **Module path invalid**: Fall back to story recap questions
+- **Template missing**: Create basic structure, inform user
+- **Malformed input**: Show sample, ask for clarification
+----
+
+❌ **DON'T**: Assume happy path
+
+[source,markdown]
+----
+### Step 3: Read previous module
+
+Read the module at the path provided.
+[No handling if path is invalid]
+----
+
+**Why**:
+
+* Skills don't crash unexpectedly
+* User gets helpful error messages
+* Fallback paths always available
+* Professional error handling
+
+== Best Practice 10: Support Both Modes
+
+✅ **DO**: Arguments + interactive
+
+[source,markdown]
+----
+**Usage**:
+```bash
+/create-lab                          # Interactive mode
+/create-lab <dir> --new              # Quick create
+/create-lab <dir> --continue <mod>   # Continue existing
+```
+
+**Argument Validation**:
+- If directory doesn't exist, ask user
+- If invalid, fall back to interactive
+- All arguments optional
+----
+
+❌ **DON'T**: Require arguments
+
+[source,markdown]
+----
+**Usage**:
+```bash
+/create-lab <directory> --mode <new|continue>
+```
+
+Both arguments required.
+----
+
+**Why**:
+
+* Arguments are shortcuts, not requirements
+* Interactive mode always works
+* Accommodates different user preferences
+* Graceful fallbacks
+
+== Anti-Pattern 1: Asking Everything Upfront
+
+❌ **DON'T DO THIS**:
+
+[source,markdown]
+----
+Before we begin, I need:
+1. Module filename
+2. UserInfo variables
+3. Learning objective
+4. Number of exercises
+5. Target duration
+6. Troubleshooting needed?
+7. Reference materials
+8. Audience level
+
+Please provide all information above.
+----
+
+**Problems**:
+
+* Overwhelms user
+* User lacks context
+* Some answers depend on others
+* Feels like a form, not a conversation
+
+**Fix**: Ask sequentially, one question/group at a time
+
+== Anti-Pattern 2: Displaying Generated Files
+
+❌ **DON'T DO THIS**:
+
+[source,markdown]
+----
+Here's what I created for you:
+
+```asciidoc
+= Module 1: Introduction to OpenShift
+
+Welcome to this comprehensive workshop...
+
+[300 lines of content]
+```
+
+Your file is ready!
+----
+
+**Problems**:
+
+* Wastes 3,000-5,000 tokens
+* Clutters conversation
+* User reads in editor anyway
+* Slows down skill execution
+
+**Fix**: Use Write tool, show brief confirmation
+
+== Anti-Pattern 3: Spawning Validation Agents
+
+❌ **DON'T DO THIS**:
+
+[source,markdown]
+----
+### Step 10: Validate Content
+
+Use the Agent tool to spawn a validation agent to:
+- Check AsciiDoc syntax
+- Verify formatting rules
+- Validate link syntax
+----
+
+**Problems**:
+
+* Content already in Claude's context
+* Adds latency for agent spawn
+* Extra token cost
+* Unnecessary complexity
+
+**Fix**: Inline validation with content already in context
+
+== Anti-Pattern 4: Vague Instructions
+
+❌ **DON'T DO THIS**:
+
+[source,markdown]
+----
+### Step 5: Generate Content
+
+Create appropriate content based on the user's needs.
+
+### Step 6: Validate
+
+Check that the content is good quality.
+----
+
+**Problems**:
+
+* "Appropriate" is ambiguous
+* "Good quality" undefined
+* No actionable guidance
+* Claude must guess intent
+
+**Fix**: Be specific and actionable
+
+✅ **DO THIS**:
+
+[source,markdown]
+----
+### Step 5: Generate Workshop Module
+
+Create module with:
+- Title: `= Module {number}: {topic}`
+- Learning objectives: ≥3 bullet points
+- Exercises: 2-3, numbered steps
+- Verification: After each exercise
+- Summary: Recap of what was learned
+
+### Step 6: Quality Check
+
+Verify:
+- All commands use `[source,role="execute"]`
+- No hardcoded credentials
+- Headings use sentence case
+- Lists have blank lines before/after
+----
+
+== Anti-Pattern 5: Missing Skip Conditions
+
+❌ **DON'T DO THIS**:
+
+[source,markdown]
+----
+### Step 2: Determine if New or Continue
+
+Ask the user if this is a new lab or continuation.
+
+### Step 3: Plan Overall Story
+
+Ask about the lab goals and objectives.
+----
+
+**Problems**:
+
+* Step 3 not needed for continuation
+* Wastes user time with irrelevant questions
+* No conditional logic
+* Poor user experience
+
+**Fix**: Explicit skip conditions
+
+✅ **DO THIS**:
+
+[source,markdown]
+----
+### Step 2: Determine Context
+
+[Ask user: new or continue]
+
+### Step 3: Plan Overall Story
+
+**SKIP THIS STEP IF**: User selected "continue" in Step 2
+
+[Story planning questions]
+----
+
+== Anti-Pattern 6: Requiring Perfect Inputs
+
+❌ **DON'T DO THIS**:
+
+[source,markdown]
+----
+### Step 3: Get Repository Path
+
+Ask for the repository path.
+
+If path is invalid, stop and report error.
+----
+
+**Problems**:
+
+* No fallback for user mistakes
+* Skill becomes brittle
+* Poor error handling
+* Frustrating user experience
+
+**Fix**: Validate and provide fallbacks
+
+✅ **DO THIS**:
+
+[source,markdown]
+----
+### Step 3: Get Repository Path
+
+Ask for repository path (local or GitHub URL).
+
+**Validation**:
+- If directory doesn't exist, ask "Create it? [Yes/No]"
+- If GitHub URL, clone to /tmp/ automatically
+- If invalid path, ask user to clarify or provide different path
+
+**Fallback**: If cannot resolve, proceed with defaults and inform user
+----
+
+== Anti-Pattern 7: Embedding Large Examples
+
+❌ **DON'T DO THIS**:
+
+[source,markdown]
+----
+## AsciiDoc Formatting Rules
+
+Here's an example of proper formatting:
+
+```asciidoc
+[200 lines of example content]
+```
+
+Here's another example:
+
+```asciidoc
+[150 lines more]
+```
+----
+
+**Problems**:
+
+* Bloats main skill file
+* Hard to maintain
+* Difficult to scan
+* Not reusable across skills
+
+**Fix**: Use reference files
+
+✅ **DO THIS**:
+
+[source,markdown]
+----
+## AsciiDoc Formatting Rules
+
+See `@showroom/skills/create-lab/references/asciidoc-rules.md` for:
+- List formatting (blank lines before/after)
+- Command blocks (`[source,role="execute"]`)
+- Image syntax (link=self,window=blank)
+- External links (caret notation)
+- Complete examples with correct/incorrect patterns
+----
+
+== Anti-Pattern 8: No Token Budget
+
+❌ **DON'T DO THIS**:
+
+[source,markdown]
+----
+### Step 12: Deliver
+
+Show the user what was created and provide helpful information about next steps.
+----
+
+**Problems**:
+
+* No token limit guidance
+* Claude might output full files
+* Risk of token overflow
+* Unpredictable output size
+
+**Fix**: Explicit token management
+
+✅ **DO THIS**:
+
+[source,markdown]
+----
+### Step 12: Deliver
+
+**CRITICAL: Manage Output Tokens**
+
+**Token Rules**:
+1. Write files using Write tool — don't output contents
+2. Show brief confirmations — "✅ Created: file (X lines)"
+3. Keep total output under 5000 tokens
+
+**Output Format**:
+[Template here]
+----
+
+== Anti-Pattern 9: Hardcoding Values
+
+❌ **DON'T DO THIS**:
+
+[source,markdown]
+----
+Generate module with:
+- Console URL: https://console.apps.cluster-abc.com
+- Username: admin
+- Password: redhat123
+----
+
+**Problems**:
+
+* Values won't work in other environments
+* Security risk (exposed credentials)
+* Not portable
+* Requires manual editing
+
+**Fix**: Use placeholders
+
+✅ **DO THIS**:
+
+[source,markdown]
+----
+Generate module with:
+- Console URL: {openshift_console_url}
+- Username: {user}
+- Password: {password}
+
+Showroom replaces these at runtime with actual deployment values.
+----
+
+== Anti-Pattern 10: Silent Failures
+
+❌ **DON'T DO THIS**:
+
+[source,markdown]
+----
+### Step 5: Read Templates
+
+Try to read template from user's repo.
+
+If not found, continue anyway.
+----
+
+**Problems**:
+
+* User doesn't know what happened
+* Generates incorrect output
+* Hard to debug
+* Poor transparency
+
+**Fix**: Communicate and fallback
+
+✅ **DO THIS**:
+
+[source,markdown]
+----
+### Step 5: Read Templates
+
+**Check user's repo first**:
+```bash
+ls {showroom_repo}/examples/workshop/templates/ 2>/dev/null
+```
+
+**If found**: Read and use user's templates
+**If NOT found**: Use bundled templates from `@showroom/templates/`
+
+**Inform user**: "Using bundled templates (no custom templates found in repo)"
+----
+
+== Debugging Skills: Common Issues
+
+**Issue**: Skill asks all questions at once
+
+**Fix**: Add explicit "WAIT for answer" markers between questions
+
+**Issue**: Token overflow
+
+**Fix**: Add token management rules to delivery step, use Write tool
+
+**Issue**: Quality issues in generated content
+
+**Fix**: Add inline quality checklist with auto-fix patterns
+
+**Issue**: Skill doesn't handle edge cases
+
+**Fix**: Document edge cases and fallback behaviors
+
+**Issue**: Users confused by workflow
+
+**Fix**: Add "What You'll Need Before Starting" section
+
+**Issue**: Skill works once but not repeatably
+
+**Fix**: Ensure idempotency, check for file conflicts, validate inputs
+
+== Skill Development Checklist
+
+Before releasing a skill, verify:
+
+✓ **Frontmatter**:
+- [ ] Name uses namespace and kebab-case
+- [ ] Description includes trigger phrases
+- [ ] Model specified if not Sonnet
+
+✓ **Structure**:
+- [ ] "What You'll Need" section present
+- [ ] "When to Use" clarifies scope
+- [ ] Workflow divided into clear steps
+
+✓ **Questions**:
+- [ ] Sequential, not all at once
+- [ ] Conversational tone with context
+- [ ] Examples provided
+- [ ] "WAIT for answer" markers
+
+✓ **Conditional Logic**:
+- [ ] "SKIP THIS STEP IF" used
+- [ ] All paths documented
+- [ ] No implicit assumptions
+
+✓ **Quality Gates**:
+- [ ] Inline validation (no agents)
+- [ ] Content-type specific checklist
+- [ ] Auto-fix patterns defined
+
+✓ **Output Control**:
+- [ ] Token management rules explicit
+- [ ] Write tool used for files
+- [ ] Brief confirmations only
+- [ ] Structured delivery template
+
+✓ **Reference Files**:
+- [ ] Detailed rules externalized
+- [ ] Shared rules referenced
+- [ ] Templates documented
+
+✓ **Edge Cases**:
+- [ ] Documented and handled
+- [ ] Fallbacks provided
+- [ ] User informed of issues
+
+== Performance Optimization
+
+**Reduce token usage**:
+
+* Use reference files for large content
+* Write files, don't display them
+* Brief confirmations (<300 tokens)
+* Inline validation (no agents)
+
+**Improve speed**:
+
+* Inline quality checks
+* Batch file generation
+* Minimize web fetches
+* Cache frequently used data in references
+
+**Better UX**:
+
+* Sequential questioning
+* Conversational tone
+* Clear progress indicators
+* Helpful error messages
+
+== Verification Checkpoint
+
+Before proceeding, verify you understand:
+
+✓ **Best practices** - Sequential questions, Write tool, inline validation +
+✓ **Anti-patterns** - Asking all at once, displaying files, spawning agents +
+✓ **Token management** - <5K output, Write tool, brief confirmations +
+✓ **Edge case handling** - Document and handle gracefully +
+✓ **Debugging** - Common issues and fixes +
+✓ **Quality checklist** - Verify before release
+
+== Practice Exercise
+
+**Review one of your existing skills** (or create a new one):
+
+. Identify 3 anti-patterns from this module
+. Document how you'll fix them
+. Add missing quality gates
+. Ensure token management rules present
+. Test with edge cases
+
+== Summary
+
+In this module, you learned:
+
+* Ask questions sequentially, one at a time
+* Use Write tool with brief confirmations
+* Perform inline quality checks
+* Externalize detailed rules to reference files
+* Handle edge cases gracefully
+* Avoid common anti-patterns
+* Debug and optimize skills
+* Verify quality before release
+
+== Course Completion
+
+Congratulations! You've completed the Building Claude Skills course.
+
+You now know how to:
+
+* Structure skill files with proper frontmatter and metadata
+* Design sequential, conversational workflows
+* Manage token budgets and output effectively
+* Implement inline quality gates and validation
+* Use reference materials and templates
+* Apply proven patterns from production skills
+* Avoid common mistakes and anti-patterns
+
+**Next steps**:
+
+. Build your first skill using these patterns
+. Study the production skills in `.agents/skills/`
+. Iterate and improve based on user feedback
+. Share your skills with the community
+
+**Resources**:
+
+* Production skills: `.agents/skills/showroom-*/`
+* Shared rules: `@showroom/docs/SKILL-COMMON-RULES.md`
+* Course repository: Your local Showroom projects
+
+Keep building, keep learning, and happy skill development!

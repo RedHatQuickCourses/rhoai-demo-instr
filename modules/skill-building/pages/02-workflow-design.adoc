@@ -1,0 +1,590 @@
+= Module 2: Sequential Workflow Design
+:navtitle: Module 2: Workflow Design
+
+== Learning Objectives
+
+After completing this module, you will be able to:
+
+* Design workflows that ask questions sequentially instead of all at once
+* Implement conditional logic and skip patterns
+* Parse and validate command-line arguments
+* Manage conversation state and context progression
+* Create conversational, not interrogative question flows
+* Handle edge cases and error conditions gracefully
+
+== Introduction
+
+The most critical aspect of skill development is workflow design. A well-designed workflow guides users naturally through complex tasks without overwhelming them or causing confusion.
+
+In this module, you'll learn the patterns used in production Showroom skills to create smooth, conversational workflows.
+
+== The Cardinal Rule: Ask Sequentially, Not All at Once
+
+**CRITICAL**: The #1 mistake in skill development is asking all questions upfront.
+
+❌ **WRONG - Asking everything at once**:
+
+[source,markdown]
+----
+I'll need some information:
+
+1. What's your module filename?
+2. What UserInfo variables do you have?
+3. What's the learning objective?
+4. How many exercises?
+5. What's the target duration?
+6. Do you want troubleshooting sections?
+
+Please provide all of the above.
+----
+
+**Why this fails**:
+
+* Overwhelms the user
+* User doesn't know context for questions yet
+* Some questions depend on previous answers
+* Forces user to context-switch repeatedly
+* Makes the workflow feel robotic
+
+✅ **CORRECT - Sequential questioning**:
+
+[source,markdown]
+----
+## Workflow
+
+### Step 1: Determine Context
+
+First, ask the user:
+
+```
+Welcome! Let's create your workshop together.
+
+Are you starting a brand new lab or adding to an existing one?
+
+1. 🆕 NEW lab (I'll create the whole thing)
+2. ➕ EXISTING lab (I'll add the next module)
+3. 🤔 Something else (tell me what you need)
+
+What's your situation? [1/2/3]
+```
+
+**ONLY AFTER user answers, proceed based on their response.**
+
+### Step 2: Ask for Repository Path
+
+**SKIP THIS STEP IF**: User provided `<directory>` as argument
+
+Ask the user:
+```
+What is the path to your cloned Showroom repository?
+```
+
+[WAIT for answer before proceeding to Step 3]
+
+### Step 3: Plan Overall Story (if new lab)
+
+**SKIP THIS STEP IF**: User selected option 2 (existing lab) in Step 1
+
+Ask conversationally:
+```
+What's the main goal of this lab?
+
+What should learners be able to do when they finish?
+```
+
+[WAIT for answer before proceeding to Step 4]
+----
+
+**Why this works**:
+
+* User is never overwhelmed
+* Each question builds on previous context
+* Conditional logic based on answers
+* Feels conversational, not like a form
+* User understands why each question matters
+
+== The "WAIT for Answer" Pattern
+
+After every question or question group, explicitly tell Claude to wait:
+
+[source,markdown]
+----
+### Step 3.1: Module file name?
+
+Ask: "What would you like to name this module file?"
+
+[WAIT for answer]
+
+### Step 3.2: Reference materials?
+
+Ask: "Do you have reference materials (URLs, files, or text)?"
+
+[WAIT for answer]
+----
+
+**Why this matters**:
+
+* Prevents Claude from skipping ahead
+* Forces sequential execution
+* Gives user time to gather materials
+* Creates natural conversation rhythm
+
+== Conditional Workflow: The "SKIP THIS STEP IF" Pattern
+
+Many workflow steps are conditional. Make this explicit:
+
+[source,markdown]
+----
+### Step 2: Determine Context (New vs Continuation)
+
+**SKIP THIS STEP IF**:
+- User provided `--new` flag in arguments (already know: NEW demo)
+- User provided `--continue <module>` in arguments (already know: EXISTING demo)
+
+**CRITICAL: DO NOT read any files or make assumptions before asking this question!**
+
+First, ask the user:
+[question here...]
+
+**ONLY AFTER user answers, proceed based on their response.**
+----
+
+**Benefits**:
+
+* Makes decision trees crystal clear
+* Prevents unnecessary questions
+* Respects user-provided arguments
+* Documents the logic visibly
+
+**Pattern structure**:
+
+.
+[source,markdown]
+----
+### Step N: [Step Name]
+
+**SKIP THIS STEP IF**:
+- Condition 1
+- Condition 2
+
+**Otherwise**, do this:
+[Instructions]
+----
+
+== Argument Parsing: Smart Defaults
+
+Many skills support both interactive and argument-driven modes.
+
+**Example from create-lab**:
+
+[source,markdown]
+----
+### Step 1: Parse Arguments (If Provided)
+
+**Check if user invoked skill with arguments**.
+
+**Pattern 1: `/create-lab <directory> --new`**
+```
+Parsing arguments: "<directory> --new"
+
+✓ Target directory: <directory>
+✓ Mode: Create new lab
+✓ Will generate: index.adoc → 01-overview → 02-details → 03-module-01
+
+Validating directory...
+[Check if directory exists, create if needed]
+
+Skipping: Step 2 (mode already known: NEW lab)
+Proceeding to: Step 3 (Plan Overall Lab Story)
+```
+
+**Pattern 2: `/create-lab <directory> --continue <module-path>`**
+```
+Parsing arguments: "<directory> --continue <module-path>"
+
+✓ Target directory: <directory>
+✓ Mode: Continue existing lab
+✓ Previous module: <module-path>
+
+Reading previous module: <module-path>
+[Extract story, business context, progression]
+
+Skipping: Step 2 (mode already known: CONTINUE)
+Skipping: Step 3 (story detected from previous module)
+Proceeding to: Step 4 (Module-Specific Details)
+```
+
+**Pattern 3: `/create-lab` (no arguments)**
+```
+No arguments provided.
+
+Using interactive mode.
+
+Proceeding to: Step 2 (Determine Context)
+```
+
+**Argument Validation**:
+- If directory doesn't exist, ask user: "Directory not found. Create it? [Yes/No]"
+- If `--continue` but module path invalid, fall back to asking for story recap
+- All arguments are optional - skill always works in interactive mode
+----
+
+**Key principles**:
+
+* **Arguments are shortcuts** - Not requirements
+* **Always support interactive mode** - Arguments enhance, don't replace
+* **Validate before using** - Check paths exist, values are valid
+* **Provide clear feedback** - Show what was parsed and what will be skipped
+* **Graceful fallback** - If argument is invalid, ask interactively
+
+== Conversational vs Interrogative Questions
+
+The tone and structure of questions dramatically impacts user experience.
+
+❌ **WRONG - Interrogative/form-like**:
+
+[source,markdown]
+----
+Q1: Module file name?
+Q2: UserInfo variables?
+Q3: Presentation objective?
+Q4: Number of demos?
+----
+
+✅ **CORRECT - Conversational**:
+
+[source,markdown]
+----
+**Question 1 - What Should We Call This?**:
+```
+What's the name of your workshop?
+
+Example: "Building AI/ML Workloads on OpenShift AI"
+
+I'll use this to set up your lab title and generate a clean URL-friendly slug.
+
+Your lab name:
+```
+
+**Question 2 - The Learning Goal**:
+```
+What's the main goal of this lab?
+
+What should learners be able to do when they finish?
+
+Example: "Learn to build and deploy AI/ML workloads on OpenShift AI"
+
+Your lab goal:
+```
+----
+
+**What makes conversational questions better**:
+
+* **Context** - Explains why the question matters
+* **Examples** - Shows what good answers look like
+* **Tone** - Friendly, helpful, not bureaucratic
+* **Value** - User understands how answer will be used
+* **Guidance** - Provides constraints and suggestions
+
+**Template for conversational questions**:
+
+[source,markdown]
+----
+**Question N - [Friendly Title]**:
+```
+[Question in plain language]
+
+[Optional: Why this matters or how it's used]
+
+[Optional: Example of a good answer]
+
+[Optional: Format or constraints]
+
+Your answer:
+```
+----
+
+== State Management: Building Context
+
+As the workflow progresses, skills build context from previous answers.
+
+**Pattern**: Reference previous decisions in later questions
+
+[source,markdown]
+----
+### Step 5: Business scenario
+
+**Auto-detect from previous module (if exists)**:
+- Read the previous module path (from Step 2)
+- Extract company name and scenario
+- Use same context for continuity
+
+**Or ask for new scenario**:
+```
+You mentioned this is for {{ audience from Step 3 }}.
+
+What company or business scenario should we use?
+
+Examples: "ACME Corp", "RetailCo", "FinTech Solutions"
+
+Company name: [WAIT for answer]
+
+What business challenge are they facing?
+
+Their challenge: [WAIT for answer]
+```
+----
+
+**Benefits of context awareness**:
+
+* Maintains narrative continuity
+* Reduces repetition
+* Shows the skill is "listening"
+* Personalizes the experience
+* Enables intelligent defaults
+
+== Handling GitHub URLs Automatically
+
+Many skills need repository paths. Support both local and remote:
+
+[source,markdown]
+----
+### Step 2.5: Ask for Showroom Repository Path
+
+Ask the user:
+```
+What is the path to your cloned Showroom repository?
+
+You can provide:
+- A local path:  /Users/yourname/work/showroom-content/my-demo-showroom
+- A GitHub URL:  https://github.com/rhpds/my-demo-showroom
+  (I'll clone it to /tmp/ automatically)
+
+Repo path or URL:
+```
+
+**If the user provides a GitHub URL** (starts with `https://github.com/` or `git@github.com:`):
+- Extract the repo name from the URL (last path segment, strip `.git` suffix if present)
+- Use the Bash tool to run: `git clone <url> /tmp/<repo-name>`
+- Set the repo path to `/tmp/<repo-name>`
+- Inform the user: "Cloned to /tmp/<repo-name> — using that as the working directory."
+
+Use `content/modules/ROOT/pages/` within that path as the target for files.
+----
+
+**Why this pattern works**:
+
+* Users can work with repos they don't have cloned
+* Reduces setup friction
+* Automatic cleanup (in /tmp/)
+* Supports both workflows seamlessly
+
+== Multi-Part Question Groups
+
+Sometimes related questions should be asked together:
+
+✅ **CORRECT - Grouped related questions**:
+
+[source,markdown]
+----
+### Step 7: Technical Environment
+
+Ask all together:
+```
+Let's nail down the technical details:
+
+OpenShift version? (e.g., "4.18", "4.20", or I can use {ocp_version} placeholder)
+
+Product versions? (e.g., "OpenShift Pipelines 1.12, OpenShift AI 2.8")
+
+Cluster type? (SNO or multinode)
+
+Access level? (admin only, or multi-user with keycloak/htpasswd)
+
+Your environment details:
+
+Note: If you're not sure, I'll use placeholders that work across versions.
+```
+
+[WAIT for all answers before proceeding]
+----
+
+**When to group questions**:
+
+* Questions are tightly related (all about same topic)
+* Answers don't depend on each other
+* User benefits from seeing them together
+* Topic is narrow and focused
+
+**When to separate questions**:
+
+* Questions span different topics
+* Later questions depend on earlier answers
+* Risk of overwhelming user
+* Each question needs explanation
+
+== Error Handling and Edge Cases
+
+Good workflows handle errors gracefully:
+
+[source,markdown]
+----
+**Argument Validation**:
+- If directory doesn't exist, ask user: "Directory not found. Create it? [Yes/No]"
+- If `--continue` but module path invalid, fall back to asking for story recap
+- All arguments are optional - skill always works in interactive mode
+
+**Fallback behavior**:
+- If user says "continuing" but cannot provide previous module content:
+  - Ask user to paste content of last module (or key sections)
+  - OR ask short "Story Recap" questions:
+    1. Company/scenario name?
+    2. What topics were covered in previous modules?
+    3. What skills have learners gained so far?
+    4. What's the current state in the story?
+  - This prevents broken continuity
+----
+
+**Error handling principles**:
+
+* **Never fail silently** - Alert user to issues
+* **Provide fallbacks** - Always have plan B
+* **Ask for clarification** - When ambiguous, ask
+* **Validate inputs** - Check paths, values before using
+* **Graceful degradation** - Skill still works with partial info
+
+== The "Then I'll Recommend" Pattern
+
+After gathering information, offer suggestions:
+
+[source,markdown]
+----
+**Then I'll recommend**:
+- Suggested module breakdown (how many modules, what each covers)
+- Progressive learning flow (foundational → intermediate → advanced)
+- Story arc across modules
+- Key milestones and checkpoints
+
+**You can**:
+- Accept the recommended flow
+- Adjust module count and topics
+- Change the progression
+----
+
+**Why this works**:
+
+* Shows the skill is thinking
+* Gives user control
+* Allows refinement before generation
+* Sets expectations
+
+== Complete Workflow Example
+
+Here's an end-to-end workflow structure from `create-lab`:
+
+[source,markdown]
+----
+## Workflow
+
+**CRITICAL RULES**
+
+### 1. Ask Questions SEQUENTIALLY
+- Ask ONE question or ONE group of related questions at a time
+- WAIT for user's answer before proceeding
+- Do NOT ask questions from multiple steps together
+
+### 2. Manage Output Tokens
+- NEVER output full module content
+- Show brief confirmations only
+- Keep total output under 5000 tokens
+
+---
+
+### Step 1: Parse Arguments (If Provided)
+
+[Argument parsing patterns]
+
+---
+
+### Step 2: Determine Context (New Lab vs Existing Lab)
+
+**SKIP THIS STEP IF**:
+- User provided `--new` flag
+- User provided `--continue <module>`
+
+**First, ask the user**:
+[Conversational question]
+
+**ONLY AFTER user answers, proceed based on their response.**
+
+---
+
+### Step 3: Plan Overall Lab Story (if first module)
+
+**SKIP THIS STEP IF**: Continuing existing lab
+
+[Sequential conversational questions]
+
+---
+
+### Step 4: Gather Module-Specific Details
+
+[More specific questions building on context]
+
+---
+
+### Step 5-8: Process and Generate
+
+[Generation and validation steps]
+
+---
+
+### Step 9: Update Navigation (REQUIRED)
+
+[Navigation update instructions]
+
+---
+
+### Step 10: Deliver
+
+[Token-managed delivery]
+----
+
+== Verification Checkpoint
+
+Before proceeding, verify you understand:
+
+✓ **Sequential questioning** - One question/group at a time, WAIT for answers +
+✓ **Skip patterns** - "SKIP THIS STEP IF" for conditional logic +
+✓ **Argument support** - Parse arguments, but always support interactive mode +
+✓ **Conversational tone** - Friendly questions with context and examples +
+✓ **State management** - Build context from previous answers +
+✓ **Error handling** - Validate inputs, provide fallbacks +
+✓ **Multi-part groups** - When to group vs separate questions
+
+== Practice Exercise
+
+**Design a workflow for a skill that converts documentation to slides**:
+
+. Write Step 1: Parse arguments (support `<doc-file>` and optional `--format pdf|pptx`)
+. Write Step 2: Ask about source material (if not provided)
+. Write Step 3: Ask about presentation style (executive vs technical)
+. Write Step 4: Ask about slide count (or auto-determine)
+. Include proper "SKIP THIS STEP IF" conditions
+. Use conversational question formatting
+
+== Summary
+
+In this module, you learned:
+
+* Ask questions sequentially, one at a time
+* Use "SKIP THIS STEP IF" for conditional logic
+* Support arguments but don't require them
+* Make questions conversational, not interrogative
+* Build context from previous answers
+* Handle errors and edge cases gracefully
+* Group related questions when appropriate
+
+== What's Next
+
+Module 3 will teach you how to manage Claude's output token budget to prevent overwhelming users with verbose responses.

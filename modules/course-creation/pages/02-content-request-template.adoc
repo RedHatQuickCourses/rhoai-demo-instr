@@ -1,0 +1,565 @@
+= Content Request Template for Claude Code
+:navtitle: Content Request Template
+
+== Introduction
+
+When asking Claude Code to create new course pages, sections, or labs, a structured request ensures consistent depth, style, and quality. This template provides the framework for requesting content that matches professional Red Hat QuickCourse standards.
+
+== Why Use a Template?
+
+**Without structure**:
+- Claude may miss important requirements
+- Depth and style vary inconsistently
+- Integration with existing content is weak
+- Production guidance is lacking
+
+**With this template**:
+- ✅ Clear scope and boundaries
+- ✅ Consistent depth across all sections
+- ✅ Strong integration with course narrative
+- ✅ Production-ready guidance included
+
+== Template Structure
+
+[source,markdown]
+----
+GOAL: Create [single page | section | lab | chapter] on [topic]
+
+TARGET AUDIENCE:
+- Role: [Platform Engineer | Developer | SRE | Architect]
+- Expertise Level: [Beginner | Intermediate | Advanced]
+- Use Case Context: [Development | Testing | Production | Enterprise Scale]
+
+SCOPE:
+Must Cover:
+- [Topic 1 with specific subtopics]
+- [Topic 2 with specific subtopics]
+- [Topic 3 with specific subtopics]
+
+Must Exclude:
+- [Topics to defer to other sections]
+- [Out-of-scope content]
+
+Placement:
+- Course: [course name]
+- Chapter: [chapter number/name]
+- Position: [Before X / After Y / Between X and Y]
+
+REFERENCE MATERIALS:
+Style Reference:
+- Primary: [Path to exemplar page in your course]
+- Secondary: [Any additional style references]
+
+Content Reference:
+- [Path to vendor documentation]
+- [Path to example materials]
+- [Path to PDFs or external docs]
+
+DEPTH AND STYLE:
+Reading Time: [X minutes]
+Content Balance:
+- Conceptual (WHY): [X%]
+- Architectural (WHAT): [Y%]
+- Practical (HOW): [Z%]
+
+Tone:
+- [X] Technical depth with business context
+- [X] Production-ready guidance
+- [X] Self-contained (assumes prior chapters read)
+
+Required Elements:
+- [ ] Concrete examples with real scenarios
+- [ ] Before/After comparisons
+- [ ] ASCII diagrams where helpful
+- [ ] Decision matrices for production choices
+- [ ] Callouts (TIP, WARNING, NOTE, IMPORTANT)
+- [ ] Annotated YAML/code examples
+- [ ] Specific timing/metrics (not "quickly" - use "45 seconds")
+- [ ] Integration with course narrative
+
+SUCCESS CRITERIA:
+Learning Objectives - Students should be able to:
+- [Objective 1 - action verb + specific outcome]
+- [Objective 2 - action verb + specific outcome]
+- [Objective 3 - action verb + specific outcome]
+
+Verification:
+- [How to verify students achieved objectives]
+
+Integration Points:
+- Builds on: [Previous section concepts]
+- Prepares for: [Next section concepts]
+- Cross-references: [Related chapters/sections]
+----
+
+== Example Request: OpenShift Virtualization
+
+Here's a complete example for creating content about virtual machine templates:
+
+[source,markdown]
+----
+GOAL: Create single page on OpenShift Virtualization VM Templates
+
+TARGET AUDIENCE:
+- Role: Platform Engineer
+- Expertise Level: Intermediate (completed Chapter 1 installation)
+- Use Case Context: Production enterprise platform running VM workloads
+
+SCOPE:
+Must Cover:
+- What are VM templates and why they exist (business driver: standardization)
+- Pre-built templates vs. custom templates
+- Template components (VM spec, OS, cloud-init)
+- Creating templates from existing VMs
+- Template customization and parameters
+- Golden image workflow
+- Trade-offs: Template complexity vs. flexibility
+
+Must Exclude:
+- Advanced template automation with GitOps (defer to Chapter 4)
+- VM cloning deep dive (out of scope)
+
+Placement:
+- Course: openshift-virtualization-admin
+- Chapter: ch2-vm-management
+- Position: First section after chapter index
+
+REFERENCE MATERIALS:
+Style Reference:
+- Primary: modules/ch1-installation/pages/s2-architecture.adoc
+
+Content Reference:
+- OpenShift Virtualization Documentation: Templates
+- Red Hat KnowledgeBase articles on golden images
+- existing-vm-examples/ (if available)
+
+DEPTH AND STYLE:
+Reading Time: 18 minutes
+Content Balance:
+- Conceptual (WHY): 30% - Business case for templates (consistency, speed)
+- Architectural (WHAT): 40% - Template structure, components, workflow
+- Practical (HOW): 30% - Creating and using templates
+
+Tone:
+- [X] Technical depth with business context
+- [X] Production-ready guidance (decision matrices)
+- [X] Self-contained (assumes Chapter 1 knowledge)
+
+Required Elements:
+- [ ] Concrete example: Multi-team platform with standardized RHEL templates
+- [ ] Before/After: Deployment time without/with templates
+- [ ] ASCII diagram: Template workflow from golden image to VM
+- [ ] Decision matrix: When to use pre-built vs. custom templates
+- [ ] Callouts: TIP for template versioning, WARNING about secret management
+- [ ] Annotated VirtualMachine YAML with template reference
+- [ ] Specific metrics: "Reduces deployment from 20 minutes to 3 minutes"
+- [ ] Integration: References VM creation from Chapter 1
+
+SUCCESS CRITERIA:
+Learning Objectives - Students should be able to:
+- Explain what VM templates are and articulate business value
+- Identify appropriate template strategies for their use cases
+- Create custom templates from existing VMs
+- Use template parameters to customize VM deployments
+- Choose between pre-built and custom templates for production
+
+Verification:
+- Students can create a template from an existing VM
+- Students can explain trade-offs between template approaches
+
+Integration Points:
+- Builds on: Chapter 1 VM creation, VirtualMachine resource
+- Prepares for: Chapter 2 networking lab (using templates)
+- Cross-references: Chapter 3 automation (template as code)
+----
+
+== Example Request: Ansible Automation Platform
+
+Here's an example for Ansible content:
+
+[source,markdown]
+----
+GOAL: Create lab for deploying Automation Controller on OpenShift
+
+TARGET AUDIENCE:
+- Role: Platform Engineer / DevOps Engineer
+- Expertise Level: Intermediate to Advanced
+- Use Case Context: Production automation platform for enterprise
+
+SCOPE:
+Must Cover:
+- Prerequisites: OpenShift cluster, storage, credentials
+- Install AAP operator via OLM
+- Create AutomationController Custom Resource
+- Configure authentication (LDAP, OIDC options)
+- Verify installation and access UI
+- Initial configuration (projects, credentials, inventories)
+- Basic troubleshooting
+
+Must Exclude:
+- Advanced workflow configuration (defer to Chapter 3)
+- Detailed automation job creation (defer to Chapter 4)
+- High availability setup (out of scope)
+
+Placement:
+- Course: ansible-automation-platform-openshift
+- Chapter: ch2-controller-deployment
+- Position: Section 2 (after architecture overview)
+
+REFERENCE MATERIALS:
+Style Reference:
+- Primary: modules/ch1-aap-overview/pages/s3-lab-install.adoc
+
+Content Reference:
+- AAP 2.5 Operator Documentation
+- OpenShift OLM guides
+- aap-reference/ directory (if exists)
+
+DEPTH AND STYLE:
+Reading Time: 25 minutes
+Content Balance:
+- Conceptual (WHY): 20% - Why operator-based deployment
+- Architectural (WHAT): 20% - AutomationController CR components
+- Practical (HOW): 60% - Step-by-step installation and configuration
+
+Tone:
+- [X] Technical depth with business context
+- [X] Production-ready guidance
+- [X] Hands-on (actual commands with output)
+
+Required Elements:
+- [ ] Concrete scenario: Enterprise installing AAP for 50+ automation workflows
+- [ ] Step-by-step installation with verification at each step
+- [ ] Annotated AutomationController CR YAML with explanations
+- [ ] Verification commands showing expected output
+- [ ] Troubleshooting table: Common issues and solutions
+- [ ] TIP callouts for production settings
+- [ ] WARNING about resource requirements
+- [ ] Specific timings: "Installation completes in 5-8 minutes"
+
+SUCCESS CRITERIA:
+Learning Objectives - Students should be able to:
+- Deploy Automation Controller using the operator
+- Configure basic authentication
+- Verify installation health
+- Access and navigate the Automation Controller UI
+- Troubleshoot common installation issues
+
+Verification:
+- Automation Controller UI is accessible
+- Authentication works
+- All pods are running
+- Students can create a test project
+
+Integration Points:
+- Builds on: Chapter 1 architecture understanding
+- Prepares for: Chapter 3 automation workflows
+- Cross-references: OLM concepts if covered earlier
+----
+
+== Template Sections Explained
+
+=== GOAL
+
+State clearly what you're creating:
+
+* "Create single page" - Presentation or lecture content
+* "Create lab" - Hands-on exercise with commands
+* "Create quiz" - Knowledge check questions
+* "Create chapter" - Multiple related sections
+
+=== TARGET AUDIENCE
+
+Specify three dimensions:
+
+**Role**: Who is learning this?
+- Platform Engineer
+- Developer
+- SRE/Operations
+- Architect
+- System Administrator
+
+**Expertise Level**: What's their background?
+- Beginner - New to the technology
+- Intermediate - Comfortable with basics, building skills
+- Advanced - Experienced, optimizing production systems
+
+**Use Case Context**: Where will they apply this?
+- Development environments
+- Testing/staging
+- Production systems
+- Enterprise scale deployments
+
+=== SCOPE
+
+**Must Cover**: Everything that must be included
+
+Be specific:
+* ❌ "Installation steps"
+* ✅ "Install operator via OLM, create CR, configure storage, verify pods"
+
+**Must Exclude**: Explicitly state what to defer or omit
+
+This prevents scope creep:
+* "Advanced configuration (defer to Chapter X)"
+* "Performance tuning (out of scope for this course)"
+
+=== REFERENCE MATERIALS
+
+**Style Reference**: Point to an exemplar page
+
+This shows Claude the quality bar:
+```
+modules/ch1-install/pages/s2-architecture.adoc
+```
+
+**Content Reference**: Technical source materials
+
+Provide accurate technical details:
+* Vendor documentation links
+* PDF guides
+* Example YAML files
+* Reference implementations
+
+=== DEPTH AND STYLE
+
+**Reading Time**: Set expectations
+
+* Presentation: 5-15 minutes
+* Lab: 15-30 minutes
+* Quiz: 3-5 minutes
+
+**Content Balance**: WHY/WHAT/HOW proportions
+
+Typical patterns:
+* **Presentation**: 30% WHY, 40% WHAT, 30% HOW
+* **Lab**: 10% WHY, 20% WHAT, 70% HOW
+* **Overview**: 40% WHY, 40% WHAT, 20% HOW
+
+**Tone**: Production-ready, business-focused
+
+Always include:
+* Technical depth with business context
+* Production guidance (not just tutorial)
+* Self-contained (assumes prior chapters)
+
+=== REQUIRED ELEMENTS
+
+The quality checklist for content:
+
+**Examples**:
+* ✅ Concrete, specific scenarios
+* ✅ Real metrics and timing
+* ❌ Generic, abstract examples
+
+**Comparisons**:
+* Before/After transformations
+* Option A vs. Option B trade-offs
+
+**Visual Aids**:
+* ASCII diagrams for workflows
+* Tables for decision matrices
+
+**Code Quality**:
+* Annotated YAML with callouts
+* Commands with expected output
+* Verification steps
+
+=== SUCCESS CRITERIA
+
+**Learning Objectives**: What students will be able to do
+
+Use action verbs:
+* Explain, Identify, Create, Configure, Deploy
+* Troubleshoot, Choose, Evaluate, Verify
+
+**Verification**: How to confirm learning
+
+Concrete checkpoints:
+* "Students can deploy X without assistance"
+* "Students can explain trade-offs between A and B"
+
+=== INTEGRATION POINTS
+
+**Builds on**: Prior knowledge required
+
+Reference specific sections:
+* "Chapter 1, Section 2 (Operator concepts)"
+* "Assumes students deployed cluster in Chapter 1"
+
+**Prepares for**: Future concepts this enables
+
+Preview what's next:
+* "Prepares for Chapter 3 automation workflows"
+* "Foundation for advanced configuration in Chapter 4"
+
+**Cross-references**: Related content
+
+Link to related topics:
+* "See Chapter X for storage details"
+* "Relates to networking section in Chapter Y"
+
+== Using the Template with Claude Code
+
+=== Step 1: Fill Out the Template
+
+Copy the template and customize for your topic:
+
+[source,bash]
+----
+# In your course repository
+cd prompts/
+vi content-request-vm-templates.md
+# Fill out the template
+----
+
+=== Step 2: Start Claude Code
+
+[source,bash]
+----
+claude
+----
+
+=== Step 3: Submit the Request
+
+Paste your filled-out template:
+
+----
+> "I have a content request for a new course page. Here's the detailed request:
+
+[paste your filled template]
+
+Please read the style reference first, then use plan mode to design this content."
+----
+
+=== Step 4: Review the Plan
+
+Claude will present a plan:
+* Section structure
+* Example scenarios
+* Code snippets planned
+* Estimated reading time
+
+Review and approve or request changes.
+
+=== Step 5: Implement
+
+Once approved, Claude creates:
+* The content file
+* Navigation updates
+* Cross-reference links
+* Builds and verifies
+
+== Quality Checklist
+
+Before marking content complete, verify:
+
+=== Content Depth
+- [ ] Explains WHY (business value, problem it solves)
+- [ ] Explains WHAT (concepts, components, architecture)
+- [ ] Explains HOW (configuration, commands, workflow)
+- [ ] Includes concrete examples (not generic/abstract)
+- [ ] Uses specific metrics/timing (not vague terms)
+
+=== Technical Accuracy
+- [ ] YAML examples are valid and tested
+- [ ] Commands include expected output
+- [ ] Version-specific details are correct
+- [ ] Terminology matches official documentation
+
+=== Course Integration
+- [ ] Builds on previous sections (references prior concepts)
+- [ ] Prepares for next sections (previews upcoming content)
+- [ ] Cross-references work (xref links are valid)
+- [ ] Transitions are smooth (What's Next sections)
+
+=== Production Guidance
+- [ ] Decision matrices for production choices
+- [ ] Best practices callouts (TIP)
+- [ ] Anti-patterns warnings (WARNING)
+- [ ] Support and SLA considerations
+
+=== Readability
+- [ ] Reading time estimate accurate
+- [ ] Headings follow hierarchy (=, ==, ===, ====)
+- [ ] Code examples are annotated (<1> callouts)
+- [ ] ASCII diagrams are formatted correctly
+- [ ] Callouts enhance (not distract from) content
+
+=== AsciiDoc Quality
+- [ ] Builds without errors (`npm run build`)
+- [ ] Navigation links work
+- [ ] Images render correctly
+- [ ] Tables display properly
+- [ ] Code syntax highlighting works
+
+== Common Template Patterns
+
+=== Pattern: Installation/Configuration Content
+
+----
+GOAL: Create lab for installing [product/feature]
+TARGET AUDIENCE: Platform Engineer, Intermediate
+SCOPE:
+  Must Cover:
+  - Prerequisites and preparation
+  - Installation steps with operator
+  - Configuration via Custom Resource
+  - Verification and testing
+  - Basic troubleshooting
+  Must Exclude:
+  - Advanced configuration (defer)
+  - HA setup (out of scope)
+DEPTH: 20% WHY, 20% WHAT, 60% HOW
+Reading Time: 20-25 minutes
+----
+
+=== Pattern: Architecture/Concepts Content
+
+----
+GOAL: Create page explaining [architecture/concept]
+TARGET AUDIENCE: Platform Engineer, Intermediate to Advanced
+SCOPE:
+  Must Cover:
+  - Business value and use cases
+  - Architecture and components
+  - How components interact
+  - Production considerations
+  Must Exclude:
+  - Implementation details (defer to lab)
+DEPTH: 35% WHY, 45% WHAT, 20% HOW
+Reading Time: 15-20 minutes
+----
+
+=== Pattern: Troubleshooting Content
+
+----
+GOAL: Create troubleshooting guide for [feature/component]
+TARGET AUDIENCE: Platform Engineer/SRE, Intermediate to Advanced
+SCOPE:
+  Must Cover:
+  - Common failure scenarios
+  - Diagnostic commands
+  - Log locations and interpretation
+  - Resolution steps
+  - Prevention best practices
+  Must Exclude:
+  - Rare edge cases (link to docs)
+DEPTH: 20% WHY, 30% WHAT, 50% HOW
+Reading Time: 15-18 minutes
+----
+
+== What You've Learned
+
+You now understand:
+
+* ✅ Why structured content requests improve quality
+* ✅ How to fill out the content request template
+* ✅ What each template section accomplishes
+* ✅ How to use the template with Claude Code
+* ✅ Common patterns for different content types
+* ✅ Quality verification checklist
+
+== What's Next
+
+In the next section, you'll learn the writing style standards that Claude should follow when creating content, including depth patterns, example structures, and callout usage.

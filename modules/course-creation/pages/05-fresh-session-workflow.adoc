@@ -1,0 +1,646 @@
+= Working Across Multiple Claude Code Sessions
+:navtitle: Fresh Session Workflow
+
+== Introduction
+
+Creating a complete course takes days or weeks, often spanning multiple Claude Code conversation sessions. Each new session starts fresh without memory of previous work.
+
+This guide shows you how to maintain consistency and quality across sessions.
+
+== The Fresh Session Challenge
+
+**The Problem**:
+
+* Monday: You and Claude create Chapter 1 with excellent depth and style
+* Wednesday: New Claude session to create Chapter 2
+* Claude doesn't remember:
+  - The style and depth you established
+  - Terms you defined in Chapter 1
+  - Examples you already used
+  - The course narrative flow
+
+**The Result Without Structure**:
+
+* ❌ Chapter 2 has different style than Chapter 1
+* ❌ Terminology is inconsistent
+* ❌ Examples are repetitive
+* ❌ Integration points are weak
+* ❌ Quality varies across chapters
+
+**The Solution**:
+
+A structured "fresh prompt" that loads context at the start of each session.
+
+== The Fresh Prompt Workflow
+
+=== Overview
+
+**Before starting a new session**:
+
+. Prepare your content request (using the template)
+. Identify integration points
+. Gather reference materials
+
+**At the start of the session**:
+
+. Provide course context
+. Point to style references
+. Specify integration requirements
+. Submit your content request
+. Ask Claude to plan before writing
+
+**During the session**:
+
+. Claude reads references
+. Claude creates a plan
+. You review and approve
+. Claude implements
+. Claude verifies quality
+
+=== Pre-Session Preparation
+
+**Step 1: Fill Out Content Request Template**
+
+Before starting Claude:
+
+[source,bash]
+----
+cd prompts/
+vi content-request-chapter3.md
+# Fill out the CONTENT-REQUEST-TEMPLATE
+----
+
+**Step 2: Map Integration Points**
+
+Identify:
+
+**Prior concepts to reference**:
+* Chapter 2, Section 1 (Operator installation)
+* Chapter 2, Section 3 (Custom Resources basics)
+
+**Future concepts to prepare**:
+* Chapter 4 lab will use automation workflows
+* Chapter 5 will cover advanced scheduling
+
+**Cross-references needed**:
+* Link to installation instructions
+* Reference terminology from Chapter 1
+
+**Step 3: Check Existing Content**
+
+Review what you've already created:
+
+[source,bash]
+----
+# Read existing chapters
+cat modules/ch1-*/pages/index.adoc
+cat modules/ch2-*/pages/index.adoc
+
+# Check terminology
+grep -i "automation\|workflow\|template" TERMINOLOGY.md
+
+# Review recent content style
+cat modules/ch2-workflows/pages/s2-jobs.adoc
+----
+
+== The Fresh Prompt Template
+
+Copy and customize this template at the start of each new session:
+
+[source,markdown]
+----
+# CONTEXT: Course Content Creation Request
+
+I'm creating content for the **[Course Name]** course. This is part of an
+ongoing content development effort, and I need to maintain consistency
+with existing materials.
+
+## Course Information
+
+**Course**: [Course name from antora.yml]
+**Working Directory**: [Full path to course repository]
+**Current Chapter**: [Chapter number/name]
+**Target Section**: [New section name/number]
+
+## Style and Quality Standards
+
+**Style Reference Page**:
+Read this exemplar page to understand required style, depth, and structure:
+`[path]/modules/[chapter]/pages/[exemplar-page].adoc`
+
+This page demonstrates:
+- Three-layer depth approach (WHY/WHAT/HOW)
+- Concrete examples with specific metrics
+- Production guidance and decision matrices
+- Integration with course narrative
+
+**Style Guide**:
+Follow patterns documented in:
+`[path]/STYLE-GUIDE.md` or `modules/course-creation/pages/03-writing-style-standards.adoc`
+
+**Terminology Reference**:
+Check canonical definitions in:
+`[path]/TERMINOLOGY.md` or `modules/course-creation/pages/04-terminology-consistency.adoc`
+
+**Key Style Requirements**:
+- Depth: Conceptual (WHY) + Architectural (WHAT) + Tactical (HOW)
+- Tone: Technical depth with business context
+- Audience: [Platform Engineers | Developers | SREs] working on [context]
+- Examples: Concrete scenarios with specific timing/metrics
+- Callouts: Production guidance (TIP), warnings (WARNING)
+- Integration: Reference prior concepts, prepare for future concepts
+
+## Integration Requirements
+
+**This content builds on**:
+- [Chapter/Section]: [Key concepts students already learned]
+- [Chapter/Section]: [Prior knowledge to reference]
+
+**This content prepares for**:
+- [Next Section/Lab]: [How this section sets up future content]
+
+**Cross-references needed**:
+- Link to: [Existing pages/sections to reference]
+
+## Content Request
+
+[PASTE YOUR FILLED-OUT CONTENT REQUEST TEMPLATE HERE]
+
+## Reference Materials
+
+**Style exemplar**:
+`[path to exemplar page]`
+
+**Technical references**:
+Located in: `[reference-dir]/`
+- [file1.pdf]: [description]
+- [file2.pdf]: [description]
+
+**Vendor documentation**:
+- [URL 1]: [description]
+- [URL 2]: [description]
+
+## Instructions
+
+1. **Read references first**:
+   - Style exemplar page (to understand depth and structure)
+   - STYLE-GUIDE.md (writing patterns)
+   - TERMINOLOGY.md (canonical term definitions)
+   - Technical reference materials
+   - Related existing pages for context
+
+2. **Use Plan Mode**:
+   - Design the page outline before writing
+   - Show how it matches the style exemplar
+   - Identify integration points with existing content
+   - Present plan for approval
+
+3. **After approval, implement**:
+   - Create content following the approved plan
+   - Update navigation and cross-references
+   - Build and verify (npm run build)
+   - Check for errors and broken links
+
+4. **Verify quality**:
+   - All three depth layers present (WHY/WHAT/HOW)
+   - Concrete examples with specific metrics
+   - Production guidance included
+   - Integration points work
+   - Terminology is consistent
+----
+
+== Example Fresh Prompt: Ansible Course
+
+Here's a complete, ready-to-use example:
+
+[source,markdown]
+----
+# CONTEXT: Course Content Creation Request
+
+I'm creating content for the **Ansible Automation Platform on OpenShift** course.
+This is part of an ongoing content development effort, and I need to maintain
+consistency with existing materials.
+
+## Course Information
+
+**Course**: Ansible Automation Platform on OpenShift
+**Working Directory**: /Users/[username]/Documents/GitHub/aap-on-openshift/
+**Current Chapter**: Chapter 3 - Automation Workflows
+**Target Section**: s1-job-templates.adoc (new section)
+
+## Style and Quality Standards
+
+**Style Reference Page**:
+Read this exemplar to understand required style and depth:
+`modules/ch2-controller/pages/s2-controller-architecture.adoc`
+
+This page demonstrates three-layer depth, production guidance,
+and strong integration with course narrative.
+
+**Style Guide**:
+`modules/course-creation/pages/03-writing-style-standards.adoc`
+
+**Terminology Reference**:
+`TERMINOLOGY.md`
+
+**Key Style Requirements**:
+- Depth: Conceptual (WHY) + Architectural (WHAT) + Tactical (HOW)
+- Tone: Technical depth with business context for enterprise automation
+- Audience: Platform Engineers and DevOps teams deploying enterprise automation
+- Examples: Concrete automation scenarios with timing metrics
+- Callouts: Production best practices (TIP), credential warnings (WARNING)
+- Integration: Reference Chapter 2 controller concepts
+
+## Integration Requirements
+
+**This content builds on**:
+- Chapter 2, Section 1: Automation Controller architecture and components
+- Chapter 2, Section 3: Execution Environments basics
+- Students have deployed Automation Controller in Chapter 2 lab
+
+**This content prepares for**:
+- Chapter 3, Section 2: Workflow Job Templates (chains multiple job templates)
+- Chapter 4: Advanced scheduling and notifications
+
+**Cross-references needed**:
+- Link to Execution Environment definition from Chapter 2
+- Reference Project (Git repo) concept from Chapter 2
+- Link to Credential types from Chapter 2
+
+## Content Request
+
+**GOAL**: Create comprehensive page on Job Templates
+
+**TARGET AUDIENCE**:
+- Role: Platform Engineer / DevOps Engineer
+- Expertise Level: Intermediate (completed Chapter 2 on Controller)
+- Use Case Context: Production enterprise automation platform
+
+**SCOPE**:
+
+Must Cover:
+- What is a Job Template (vs. ad-hoc job vs. workflow)
+- Why Job Templates exist (reusability, standardization, self-service)
+- Job Template components (project, playbook, inventory, credentials, EE)
+- Creating Job Templates via UI and API
+- Template parameters and surveys for user input
+- Privilege escalation and credential security
+- Job output and logging
+- Trade-offs: Template complexity vs. flexibility
+
+Must Exclude:
+- Workflow Job Templates (defer to next section)
+- Advanced notification configuration (defer to Chapter 4)
+- Custom credential types (out of scope)
+
+Placement:
+- Course: aap-on-openshift
+- Chapter: ch3-workflows
+- Position: First section after chapter index
+
+**REFERENCE MATERIALS**:
+
+Style Reference:
+- Primary: modules/ch2-controller/pages/s2-controller-architecture.adoc
+  (Match depth of "Controller Components" section)
+
+Content Reference:
+- AAP 2.5 Documentation: Job Templates
+- aap-reference/ directory (playbook examples)
+- Related page: modules/ch2-controller/pages/s3-execution-environments.adoc
+
+**DEPTH AND STYLE**:
+
+Reading Time: 18 minutes
+Content Balance:
+- Conceptual (WHY): 25% - Business case for job templates
+- Architectural (WHAT): 35% - Template components and structure
+- Practical (HOW): 40% - Creating and using templates
+
+Tone:
+- [X] Technical depth with business context
+- [X] Production-ready guidance (security, best practices)
+- [X] Self-contained (assumes Chapter 2 knowledge)
+
+Required Elements:
+- [ ] Concrete example: Multi-team platform with 20+ standardized job templates
+- [ ] Before/After: Automation without/with job templates (time/consistency metrics)
+- [ ] ASCII diagram: Job template workflow from creation to execution
+- [ ] Decision matrix: When to use parameters vs. surveys vs. workflow templates
+- [ ] Callouts: TIP for template organization, WARNING about credential scope
+- [ ] Annotated JobTemplate API payload (JSON/YAML)
+- [ ] Specific metrics: "Reduces deployment time from 30 min to 5 min"
+- [ ] Integration: Reference Execution Environments from Chapter 2
+
+**SUCCESS CRITERIA**:
+
+Learning Objectives - Students should be able to:
+- Explain what Job Templates are and articulate business value
+- Identify required components for a Job Template
+- Create Job Templates via UI and API
+- Configure template parameters and surveys
+- Choose appropriate credential scope for templates
+- Understand trade-offs between template flexibility and simplicity
+
+Verification:
+- Students can create a functional Job Template
+- Students can explain when to use surveys vs. extra variables
+- Students understand credential security implications
+
+Integration Points:
+- Builds on: Chapter 2 Controller architecture, Execution Environments, Projects
+- Prepares for: Chapter 3 Workflow Job Templates (chaining templates)
+- Cross-references: Execution Environment (ch2/s3), Credentials (ch2/s4)
+
+## Reference Materials
+
+**Technical documentation**:
+- AAP 2.5 Job Templates: https://docs.ansible.com/...
+- API Reference: https://docs.ansible.com/.../api/
+
+**Example playbooks**:
+Located in: `aap-reference/playbooks/`
+- webserver-deploy.yml
+- db-backup.yml
+
+## Instructions
+
+1. **Read references first**:
+   - modules/ch2-controller/pages/s2-controller-architecture.adoc (style exemplar)
+   - modules/course-creation/pages/03-writing-style-standards.adoc (style guide)
+   - TERMINOLOGY.md (check AutomationController, ExecutionEnvironment definitions)
+   - AAP documentation on Job Templates
+   - Example playbooks in aap-reference/
+
+2. **Use Plan Mode**:
+   - Design page outline matching style exemplar depth
+   - Show Job Template component breakdown (like architecture page structure)
+   - Plan concrete example scenario (multi-team automation platform)
+   - Present plan for my approval
+
+3. **After approval, implement**:
+   - Create modules/ch3-workflows/pages/s1-job-templates.adoc
+   - Update modules/ch3-workflows/nav.adoc
+   - Add cross-references to Chapter 2 content
+   - Build and verify: npm run build
+
+4. **Verify quality**:
+   - WHY/WHAT/HOW layers all present
+   - Concrete example with metrics
+   - Production guidance (credential security, template organization)
+   - Integration with Chapter 2 concepts
+   - Terminology matches TERMINOLOGY.md
+   - Cross-references work
+----
+
+== Session Workflow
+
+=== Phase 1: Context Loading
+
+**You**: Paste the fresh prompt
+
+**Claude**: Should confirm what it will read:
+```
+I'll start by reading:
+1. The style exemplar (ch2-controller/s2-controller-architecture.adoc)
+2. The style guide
+3. TERMINOLOGY.md for canonical definitions
+4. Technical references on Job Templates
+5. Related existing pages for context
+
+Then I'll use plan mode to design the content.
+```
+
+**Verify**: Claude actually reads the files before planning
+
+=== Phase 2: Planning
+
+**Claude**: Presents a detailed plan:
+* Section outline
+* Integration points identified
+* Example scenarios sketched
+* Code examples planned
+* Estimated reading time
+
+**You**: Review the plan:
+* Does it match the style exemplar depth?
+* Are integration points correct?
+* Is the example concrete and specific?
+* Are all three layers (WHY/WHAT/HOW) covered?
+
+**Approve or refine**: Ask for changes if needed
+
+=== Phase 3: Implementation
+
+**Claude**: Creates content following the approved plan
+
+**You**: Monitor progress:
+* Are files created in the right locations?
+* Is navigation being updated?
+* Are cross-references added?
+
+=== Phase 4: Verification
+
+**Claude**: Should verify:
+* Build succeeds (`npm run build`)
+* Cross-references work
+* Terminology is consistent
+* All quality checklist items met
+
+**You**: Final review:
+* Read the content
+* Check integration with existing chapters
+* Verify examples are concrete and specific
+* Confirm production guidance is present
+
+== Maintaining Course Coherence
+
+=== Track What You've Created
+
+Keep a working document:
+
+`PROGRESS.md`:
+```markdown
+# Course Development Progress
+
+## Completed Chapters
+
+### Chapter 1: Introduction to AAP
+- ✅ s1-overview.adoc (2026-04-10)
+- ✅ s2-architecture.adoc (2026-04-10) **Style Exemplar**
+- ✅ s3-installation-lab.adoc (2026-04-11)
+
+### Chapter 2: Automation Controller
+- ✅ s1-controller-overview.adoc (2026-04-12)
+- ✅ s2-controller-deploy-lab.adoc (2026-04-12)
+- ⏳ s3-credentials.adoc (In progress)
+
+### Chapter 3: Workflows (CURRENT)
+- 🎯 s1-job-templates.adoc (Next up - 2026-04-13)
+- ⬜ s2-workflow-templates.adoc
+- ⬜ s3-workflow-lab.adoc
+
+## Key Decisions and Patterns
+
+- Style exemplar: ch1/s2-architecture.adoc
+- Concrete example pattern: Multi-team enterprise platform (50+ teams)
+- Metrics theme: Time reduction + error reduction
+- Integration: Always reference prior chapter concepts in first paragraph
+
+## Terms Introduced
+
+- Chapter 1: AutomationController, ExecutionEnvironment, Project
+- Chapter 2: Inventory, Credential, Organization
+- Chapter 3: Job Template (next), Workflow Template (planned)
+```
+
+=== Before Each Session
+
+**Quick prep checklist**:
+
+- [ ] Review PROGRESS.md to see where you left off
+- [ ] Read the last section you created (refresh style)
+- [ ] Check TERMINOLOGY.md for terms you'll reference
+- [ ] Fill out content request template
+- [ ] Identify which prior chapters to reference
+
+=== After Each Session
+
+**Update tracking**:
+
+- [ ] Mark completed sections in PROGRESS.md
+- [ ] Add any new terms to TERMINOLOGY.md
+- [ ] Note any style patterns discovered
+- [ ] Commit changes to git
+- [ ] Update integration notes for next session
+
+== Common Fresh Session Pitfalls
+
+=== Pitfall 1: Claude Doesn't Match Style Depth
+
+**Symptom**: New content is too shallow or too tutorial-like
+
+**Solution**:
+* Explicitly point to the style exemplar in fresh prompt
+* Ask Claude to read it first
+* Request plan mode to design before writing
+* In the plan review, point out depth expectations
+
+**Fix during session**:
+----
+> "This outline is too shallow. Please re-read the style exemplar
+  (ch2/s2-controller-architecture.adoc) and match the depth of the
+  'Controller Components' section. I need WHY/WHAT/HOW for each
+  major concept."
+----
+
+=== Pitfall 2: Terminology Inconsistency
+
+**Symptom**: Different terms or definitions than prior chapters
+
+**Solution**:
+* Include TERMINOLOGY.md in every fresh prompt
+* Ask Claude to verify terminology before writing
+* Check cross-references to prior definitions
+
+**Fix during session**:
+----
+> "Please check TERMINOLOGY.md for the canonical definition of
+  'Execution Environment'. Use that exact definition and reference
+  Chapter 2, Section 3 where it was first introduced."
+----
+
+=== Pitfall 3: Weak Integration
+
+**Symptom**: Content doesn't reference prior chapters sufficiently
+
+**Solution**:
+* Explicitly list integration requirements in fresh prompt
+* Specify which chapters/concepts to reference
+* Ask Claude to read related prior content
+
+**Fix during session**:
+----
+> "This section needs stronger integration with Chapter 2. Please add:
+  1. Reference to Automation Controller from ch2/s1
+  2. Link to Execution Environment definition from ch2/s3
+  3. Build on the Project concept from ch2/s2"
+----
+
+=== Pitfall 4: Repetitive Examples
+
+**Symptom**: Same examples used in multiple chapters
+
+**Solution**:
+* Review prior chapters before creating new content
+* Specify in fresh prompt: "Use different examples than Chapter X"
+* Track examples in PROGRESS.md
+
+**Fix during session**:
+----
+> "Chapter 2 already used a web application deployment example.
+  For this chapter, please use a different scenario—perhaps
+  database backup automation or infrastructure compliance checking."
+----
+
+== Quick Start Checklist
+
+**Before starting new Claude session**:
+
+- [ ] Fill out content request template
+- [ ] Review last 2-3 sections created (refresh style/context)
+- [ ] Check TERMINOLOGY.md for terms you'll use
+- [ ] Identify prior chapters to reference
+- [ ] Note what examples you've already used
+- [ ] Prepare fresh prompt with all context
+
+**In fresh prompt, always include**:
+
+- [ ] Course name and working directory
+- [ ] Chapter and section being created
+- [ ] Path to style exemplar page
+- [ ] Path to style guide
+- [ ] Path to TERMINOLOGY.md
+- [ ] Integration requirements (builds on, prepares for)
+- [ ] Filled-out content request
+- [ ] Instructions to read references first and use plan mode
+
+**During session, ensure Claude**:
+
+- [ ] Reads style reference first
+- [ ] Uses plan mode
+- [ ] Presents plan before writing
+- [ ] Integrates with prior content
+- [ ] Builds and tests content
+- [ ] Verifies against quality checklist
+
+**After session, do**:
+
+- [ ] Update PROGRESS.md with completed sections
+- [ ] Add new terms to TERMINOLOGY.md
+- [ ] Commit all changes
+- [ ] Note any patterns for next session
+
+== What You've Learned
+
+You now understand:
+
+* ✅ Why fresh sessions need structured context loading
+* ✅ How to prepare before starting a new session
+* ✅ The fresh prompt template structure
+* ✅ How to work with Claude through the session phases
+* ✅ How to maintain course coherence over time
+* ✅ Common pitfalls and how to avoid them
+* ✅ Quality verification across sessions
+
+== What's Next
+
+You've now learned the complete workflow for creating professional Red Hat QuickCourses:
+
+. **QuickCourse generation workflow** - The 5-phase process
+. **Content request templates** - Structured requirements
+. **Writing style standards** - Depth and quality patterns
+. **Terminology consistency** - Canonical definitions
+. **Fresh session workflow** - Multi-session coherence
+
+Apply these techniques to your next course creation project. Start with Phase 1 (Course Design) and work through systematically, using Claude Code to accelerate development while maintaining professional quality.

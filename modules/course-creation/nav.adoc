@@ -1,0 +1,6 @@
+* xref:index.adoc[Creating Red Hat QuickCourses]
+** xref:01-quickcourse-workflow.adoc[The QuickCourse Generation Workflow]
+** xref:02-content-request-template.adoc[Content Request Template]
+** xref:03-writing-style-standards.adoc[Writing Style Standards]
+** xref:04-terminology-consistency.adoc[Terminology Consistency]
+** xref:05-fresh-session-workflow.adoc[Fresh Session Workflow]
