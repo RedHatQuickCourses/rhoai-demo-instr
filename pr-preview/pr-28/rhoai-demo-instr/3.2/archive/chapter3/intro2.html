@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>The Gateway&#8217;s Core Requirements :: DEV</title>
+    <meta name="generator" content="Antora 3.1.3">
+<link rel="stylesheet" href="../../../../_/css/site.css">
+<link rel="stylesheet" href="../../../../_/css/vendor/tabs.css">
+<link rel="stylesheet" href="../../../../_/css/vendor/collapsible.css">
+<link rel="stylesheet" href="../../../../_/css/vendor/reading-time.css">
+<link rel="stylesheet" href="../../../../_/css/progress-tracker.css">    <script>var uiRootPath = '../../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../../..">DEV</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/rhoai-demo-instr/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhoai-demo-instr" data-version="3.2">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">DEV</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../claude-basics/index.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Introduction to Claude Code
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../claude-basics/01-getting-started.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/01-getting-started.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Getting Started with Claude Code
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../claude-basics/02-skills-vs-prompts.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/02-skills-vs-prompts.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Skills vs. Conversational Prompts
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../claude-basics/03-working-in-repos.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/03-working-in-repos.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Working in Git Repositories
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../claude-basics/04-effective-prompting.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/04-effective-prompting.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Effective Prompting Techniques
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../skill-building/index.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Building Claude Skills
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../skill-building/01-skill-anatomy.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/01-skill-anatomy.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 1: Skill Anatomy
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../skill-building/02-workflow-design.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/02-workflow-design.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 2: Workflow Design
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../skill-building/03-token-management.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/03-token-management.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 3: Token Management
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../skill-building/04-quality-gates.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/04-quality-gates.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 4: Quality Gates
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../skill-building/05-references-templates.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/05-references-templates.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 5: References &amp; Templates
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../skill-building/06-real-examples.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/06-real-examples.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 6: Real Examples
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../skill-building/07-best-practices.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/07-best-practices.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 7: Best Practices
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../course-creation/index.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Creating Red Hat QuickCourses
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../course-creation/01-quickcourse-workflow.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/01-quickcourse-workflow.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      The QuickCourse Generation Workflow
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../course-creation/02-content-request-template.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/02-content-request-template.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Content Request Template
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../course-creation/03-writing-style-standards.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/03-writing-style-standards.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Writing Style Standards
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../course-creation/04-terminology-consistency.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/04-terminology-consistency.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Terminology Consistency
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../course-creation/05-fresh-session-workflow.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/05-fresh-session-workflow.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Fresh Session Workflow
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Archive — Chapter 1: GPU as a Service</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/intro.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/intro.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Serving at Scale
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/gpu-aas.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-aas.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Architecting GPU as a Service
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/gpu-sharing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-sharing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Sharing Technologies
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/gpu-time.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-time.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Timeslicing
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/gpu-mig.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-mig.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Multi-Instance GPU (MIG)
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/gpu-mps.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-mps.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      NVIDIA’s Multi-Process Service (MPS)
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/gpu-agg.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-agg.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Aggregation
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/tensor.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/tensor.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Tensor Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/pipeline.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/pipeline.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Pipeline Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/data-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/data-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Data Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter1/expert-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/expert-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Expert Parallelism
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/start.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/start.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Models with GitOps
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gpu-sizing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-sizing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Sizing for GPUs
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gpu-scaling.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-scaling.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Scaling Architectures
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gpu-multi.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-multi.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-GPU Model Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gpu-nodes.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-nodes.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-Node, Multi-GPU Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/gitops.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gitops.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Deploying Models with GitOps
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/api-reqs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/api-reqs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      API Gateway Requirements for MaaS
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MaaS Logical Architecture
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/intro2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/intro2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      The Gateway&#8217;s Core Requirements
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/api_checklist.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/api_checklist.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Hands-On Lab: Productizing and Consuming an AI Model
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/api-security.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/api-security.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Securing the AI Factory: A Defense-in-Depth Approach
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/rhaiis_overview.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/rhaiis_overview.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      <strong>Red Hat AI Inference Server (RHAIIS)</strong>
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/gpu-rhaiis.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/gpu-rhaiis.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPUs for AI Inference
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/rhaiis_lab.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/rhaiis_lab.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Model Serving with Red Hat AI Inference Server
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/arcade.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/arcade.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Arcade Interactive Lab Walkthrough
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Archive — Chapter 3: MaaS &amp; API</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="api-reqs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/api-reqs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      API Gateway Requirements for MaaS
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MaaS Logical Architecture
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#chapter3/intro.adoc" data-progress-path="#chapter3/intro.adoc">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      chapter3/intro.adoc
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api_checklist.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/api_checklist.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Hands-On Lab: Productizing and Consuming an AI Model
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api-security.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/api-security.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Securing the AI Factory: A Defense-in-Depth Approach
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter4/start.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/start.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Models with GitOps
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter4/gpu-sizing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-sizing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Sizing for GPUs
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter4/gpu-scaling.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-scaling.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Scaling Architectures
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter4/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter4/gpu-multi.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-multi.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-GPU Model Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter4/gpu-nodes.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-nodes.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-Node, Multi-GPU Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter4/gitops.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gitops.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Deploying Models with GitOps
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Archive — Chapter 5</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter5/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      LLM optimization and inference efficiency
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section1.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section1.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section3.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section3.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter5/section4.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section4.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter6/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Agentic AI Placeholder
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section1.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section1.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section3.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section3.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter6/section4.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section4.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter7/intro.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/intro.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Serving at Scale
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter7/gpu-aas.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-aas.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Architecting GPU as a Service
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter7/gpu-sharing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-sharing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Sharing Technologies
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter7/gpu-time.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-time.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Timeslicing
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter7/gpu-mig.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-mig.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Multi-Instance GPU (MIG)
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter7/gpu-mps.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-mps.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      NVIDIA’s Multi-Process Service (MPS)
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter7/gpu-agg.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-agg.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Aggregation
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter7/tensor.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/tensor.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Tensor Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter7/pipeline.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/pipeline.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Pipeline Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter7/data-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/data-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Data Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../chapter7/expert-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/expert-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Expert Parallelism
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter7/start.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/start.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Models with GitOps
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter7/gpu-sizing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-sizing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Sizing for GPUs
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter7/gpu-scaling.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-scaling.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Scaling Architectures
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter7/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter7/gpu-multi.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-multi.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-GPU Model Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter7/gpu-nodes.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-nodes.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-Node, Multi-GPU Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter7/gitops.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gitops.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Deploying Models with GitOps
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter7/api-reqs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/api-reqs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      API Gateway Requirements for MaaS
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter7/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MaaS Logical Architecture
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter7/intro2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/intro2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      The Gateway&#8217;s Core Requirements
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter7/api_checklist.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/api_checklist.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Hands-On Lab: Productizing and Consuming an AI Model
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter7/api-security.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/api-security.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Securing the AI Factory: A Defense-in-Depth Approach
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../appendix/appendix.html" data-progress-path="/rhoai-demo-instr/3.2/archive/appendix/appendix.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Appendix
+    </a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../labenv/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab Environment
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../labenv/rhoai_self_managed.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/rhoai_self_managed.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      OpenShift AI Lab
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../labenv/oai_install.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/oai_install.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      OpenShift AI Install
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../labenv/minio-install.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/minio-install.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MinIO S3 Compatible Storage Setup
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../labenv/hyperscaler_lab_env.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/hyperscaler_lab_env.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Cloud Provider Lab Environments
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../labenv/red-hat-docs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/red-hat-docs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Red Hat Documentation Reference
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../root/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/root/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Serving LLMs at Scale
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">DEV</span>
+    <span class="version">3.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../../index.html">DEV</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">3.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">DEV</a></li>
+    <li><a href="intro2.html">The Gateway&#8217;s Core Requirements</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">The Gateway&#8217;s Core Requirements</h1>
+<div class="sect1">
+<h2 id="_the_factorys_front_entrance"><a class="anchor" href="#_the_factorys_front_entrance"></a>The Factory&#8217;s Front Entrance</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Every factory needs a secure front entrance, a security desk, and a shipping department to manage what comes in and out. In our Models-as-a-Service (MaaS) platform, the <strong>API Gateway</strong> performs all of these critical functions.</p>
+</div>
+<div class="paragraph">
+<p>It is the single, managed entry point for all AI model traffic, allowing us to enforce security, manage usage, and transform a simple model endpoint into a robust, enterprise-grade service.  Without a capable API Gateway, our AI Factory is just a warehouse with no doors and no security.</p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_consultants_gateway_checklist"><a class="anchor" href="#_the_consultants_gateway_checklist"></a>The Consultant&#8217;s Gateway Checklist</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As a consultant, you will often find that customers already have an API Gateway (e.g., Kong, Apigee, Mulesoft). Your first task is to validate whether their existing infrastructure can support the unique demands of an AI platform.  Use the following checklist to guide your discovery and technical discussions with the customer&#8217;s platform team.</p>
+</div>
+<div class="sect2">
+<h3 id="_part_1_core_ai_traffic_handling_capabilities"><a class="anchor" href="#_part_1_core_ai_traffic_handling_capabilities"></a>Part 1: Core AI Traffic Handling Capabilities</h3>
+<div class="paragraph">
+<p>These are the non-negotiable technical capabilities required to correctly process modern AI workloads.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Does the gateway support streaming responses via Server-Sent Events (SSE)?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> LLMs don&#8217;t return responses all at once; they stream tokens as they are generated.  The gateway must be able to handle this continuous stream of data to provide a responsive user experience.  It cannot simply buffer a single large response.  This is a mandatory capability for processing SSE events.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Can the gateway perform request payload transformation?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> We need the gateway to inject metadata into the request before it reaches the model server.  This is essential for adding mandatory corporate headers or enabling usage tracking in the vLLM serving engine.  For example, the gateway may need to add the <code>stream_options</code> parameter to the request body to tell vLLM to include token usage statistics in its response.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Can the gateway parse the response payload to extract custom metrics?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> When usage tracking is enabled, vLLM includes the token counts (prompt, completion, total) in the final SSE message.  The gateway must be able to parse this data from the JSON response body so it can be forwarded to a monitoring system like Prometheus.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_part_2_security_identity_integration_capabilities"><a class="anchor" href="#_part_2_security_identity_integration_capabilities"></a>Part 2: Security &amp; Identity Integration Capabilities</h3>
+<div class="paragraph">
+<p>This ensures the platform is secure and integrates with the customer&#8217;s existing user management systems.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Does the gateway integrate with an OIDC-compliant Identity Provider?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> All requests must be authenticated.  The gateway needs to validate user identity, often through OIDC and by validating JWTs (JSON Web Tokens) issued by a corporate SSO like Keycloak, Okta, or Azure AD.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Does the gateway support Application and API Key validation?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> Beyond user authentication, we must identify and authorize specific applications.  The gateway must manage and validate application-specific API keys to control which applications can call which models.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Does the gateway provide a developer portal for user onboarding and key management?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> To enable self-service, developers need a central place to discover available models, read API documentation, and manage their applications and keys through a streamlined process.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_part_3_observability_business_value_capabilities"><a class="anchor" href="#_part_3_observability_business_value_capabilities"></a>Part 3: Observability &amp; Business Value Capabilities</h3>
+<div class="paragraph">
+<p>This layer transforms technical metrics into business insights, enabling cost management.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Can the gateway export standard metrics to a monitoring system like Prometheus?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> We need to monitor the health and performance of the API service.  The gateway must expose standard metrics like request/response counts, error rates, and latency.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> <strong>Can the gateway report on custom, extracted metrics like token counts?</strong></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Why it&#8217;s critical:</em> This is the key to chargeback and showback for AI services.  The prompt and completion token counts parsed in Part 1 must be exported as custom metrics with labels identifying the user and application.  This allows the business to track exactly how much each team is using the service and manage costs effectively.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_advanced_value_add_capabilities"><a class="anchor" href="#_advanced_value_add_capabilities"></a>Advanced &amp; Value-Add Capabilities</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Once the core requirements are met, these features represent the next level of maturity for an enterprise AI platform.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Rate Limiting</strong>: Protects model servers from being overwhelmed by setting limits on how many requests a user or application can make in a given time period.</p>
+</li>
+<li>
+<p><strong>Request Prioritization</strong>: Implements logic to give critical applications (e.g., a customer-facing chatbot) priority access to GPU resources over less critical batch processing workloads.</p>
+</li>
+<li>
+<p><strong>Cost Management</strong>: Enables business functions like chargeback and showback based on granular usage data (e.g., tokens consumed per department).</p>
+</li>
+<li>
+<p><strong>Corporate Guardrails</strong>: Uses the gateway as a central point to enforce content moderation or other corporate policies on all LLM requests and responses.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../../_/js/site.js" data-ui-root-path="../../../../_"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../../_/js/vendor/reading-time.js"></script>
+<script src="../../../../_/js/progress-tracker.js"></script>  </body>
+</html>

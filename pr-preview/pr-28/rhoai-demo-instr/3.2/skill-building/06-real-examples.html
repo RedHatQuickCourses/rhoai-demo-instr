@@ -1,0 +1,1900 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Module 6: Real-World Examples :: DEV</title>
+    <link rel="prev" href="05-references-templates.html">
+    <link rel="next" href="07-best-practices.html">
+    <meta name="generator" content="Antora 3.1.3">
+<link rel="stylesheet" href="../../../_/css/site.css">
+<link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
+<link rel="stylesheet" href="../../../_/css/vendor/collapsible.css">
+<link rel="stylesheet" href="../../../_/css/vendor/reading-time.css">
+<link rel="stylesheet" href="../../../_/css/progress-tracker.css">    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">DEV</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/rhoai-demo-instr/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhoai-demo-instr" data-version="3.2">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">DEV</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../claude-basics/index.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Introduction to Claude Code
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../claude-basics/01-getting-started.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/01-getting-started.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Getting Started with Claude Code
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../claude-basics/02-skills-vs-prompts.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/02-skills-vs-prompts.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Skills vs. Conversational Prompts
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../claude-basics/03-working-in-repos.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/03-working-in-repos.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Working in Git Repositories
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../claude-basics/04-effective-prompting.html" data-progress-path="/rhoai-demo-instr/3.2/claude-basics/04-effective-prompting.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Effective Prompting Techniques
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Building Claude Skills
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-skill-anatomy.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/01-skill-anatomy.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 1: Skill Anatomy
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-workflow-design.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/02-workflow-design.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 2: Workflow Design
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-token-management.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/03-token-management.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 3: Token Management
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-quality-gates.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/04-quality-gates.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 4: Quality Gates
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-references-templates.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/05-references-templates.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 5: References &amp; Templates
+    </a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="06-real-examples.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/06-real-examples.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 6: Real Examples
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07-best-practices.html" data-progress-path="/rhoai-demo-instr/3.2/skill-building/07-best-practices.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Module 7: Best Practices
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../course-creation/index.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Creating Red Hat QuickCourses
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../course-creation/01-quickcourse-workflow.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/01-quickcourse-workflow.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      The QuickCourse Generation Workflow
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../course-creation/02-content-request-template.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/02-content-request-template.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Content Request Template
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../course-creation/03-writing-style-standards.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/03-writing-style-standards.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Writing Style Standards
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../course-creation/04-terminology-consistency.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/04-terminology-consistency.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Terminology Consistency
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../course-creation/05-fresh-session-workflow.html" data-progress-path="/rhoai-demo-instr/3.2/course-creation/05-fresh-session-workflow.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Fresh Session Workflow
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Archive — Chapter 1: GPU as a Service</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/intro.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/intro.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Serving at Scale
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/gpu-aas.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-aas.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Architecting GPU as a Service
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/gpu-sharing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-sharing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Sharing Technologies
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/gpu-time.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-time.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Timeslicing
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/gpu-mig.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-mig.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Multi-Instance GPU (MIG)
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/gpu-mps.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-mps.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      NVIDIA’s Multi-Process Service (MPS)
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/gpu-agg.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-agg.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Aggregation
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/tensor.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/tensor.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Tensor Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/pipeline.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/pipeline.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Pipeline Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/data-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/data-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Data Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter1/expert-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/expert-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Expert Parallelism
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/start.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/start.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Models with GitOps
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gpu-sizing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-sizing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Sizing for GPUs
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gpu-scaling.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-scaling.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Scaling Architectures
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gpu-multi.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-multi.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-GPU Model Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gpu-nodes.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gpu-nodes.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-Node, Multi-GPU Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/gitops.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/gitops.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Deploying Models with GitOps
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter1/api-reqs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/api-reqs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      API Gateway Requirements for MaaS
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MaaS Logical Architecture
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/intro2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/intro2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      The Gateway&#8217;s Core Requirements
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/api_checklist.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/api_checklist.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Hands-On Lab: Productizing and Consuming an AI Model
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter1/api-security.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter1/api-security.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Securing the AI Factory: A Defense-in-Depth Approach
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/rhaiis_overview.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/rhaiis_overview.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      <strong>Red Hat AI Inference Server (RHAIIS)</strong>
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/gpu-rhaiis.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/gpu-rhaiis.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPUs for AI Inference
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/rhaiis_lab.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/rhaiis_lab.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Model Serving with Red Hat AI Inference Server
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter2/arcade.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter2/arcade.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Arcade Interactive Lab Walkthrough
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Archive — Chapter 3: MaaS &amp; API</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter3/api-reqs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/api-reqs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      API Gateway Requirements for MaaS
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter3/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MaaS Logical Architecture
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#chapter3/intro.adoc" data-progress-path="#chapter3/intro.adoc">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      chapter3/intro.adoc
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter3/api_checklist.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/api_checklist.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Hands-On Lab: Productizing and Consuming an AI Model
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter3/api-security.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter3/api-security.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Securing the AI Factory: A Defense-in-Depth Approach
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter4/start.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/start.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Models with GitOps
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gpu-sizing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-sizing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Sizing for GPUs
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gpu-scaling.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-scaling.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Scaling Architectures
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gpu-multi.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-multi.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-GPU Model Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gpu-nodes.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gpu-nodes.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-Node, Multi-GPU Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter4/gitops.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter4/gitops.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Deploying Models with GitOps
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Archive — Chapter 5</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter5/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      LLM optimization and inference efficiency
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter5/section1.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section1.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter5/section2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter5/section3.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section3.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter5/section4.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter5/section4.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter6/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Agentic AI Placeholder
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter6/section1.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section1.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter6/section2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter6/section3.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section3.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/chapter6/section4.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter6/section4.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      blank
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/intro.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/intro.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Serving at Scale
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/gpu-aas.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-aas.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Architecting GPU as a Service
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/gpu-sharing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-sharing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Sharing Technologies
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/gpu-time.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-time.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Timeslicing
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/gpu-mig.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-mig.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Multi-Instance GPU (MIG)
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/gpu-mps.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-mps.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      NVIDIA’s Multi-Process Service (MPS)
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/gpu-agg.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-agg.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      GPU Aggregation
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/tensor.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/tensor.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Tensor Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/pipeline.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/pipeline.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Pipeline Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/data-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/data-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Data Parallelism
+    </a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../archive/chapter7/expert-para.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/expert-para.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Expert Parallelism
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/start.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/start.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Models with GitOps
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gpu-sizing.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-sizing.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Sizing for GPUs
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gpu-scaling.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-scaling.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Scaling Architectures
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/vllm-adv.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/vllm-adv.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Advanced vLLM Configuration
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gpu-multi.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-multi.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-GPU Model Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gpu-nodes.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gpu-nodes.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab: Multi-Node, Multi-GPU Deployment
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/gitops.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/gitops.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Deploying Models with GitOps
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/chapter7/api-reqs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/api-reqs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      API Gateway Requirements for MaaS
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MaaS Logical Architecture
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/intro2.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/intro2.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      The Gateway&#8217;s Core Requirements
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/api_checklist.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/api_checklist.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Hands-On Lab: Productizing and Consuming an AI Model
+    </a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../archive/chapter7/api-security.html" data-progress-path="/rhoai-demo-instr/3.2/archive/chapter7/api-security.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Securing the AI Factory: A Defense-in-Depth Approach
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../archive/appendix/appendix.html" data-progress-path="/rhoai-demo-instr/3.2/archive/appendix/appendix.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Appendix
+    </a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../archive/labenv/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Lab Environment
+    </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/rhoai_self_managed.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/rhoai_self_managed.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      OpenShift AI Lab
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/oai_install.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/oai_install.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      OpenShift AI Install
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/minio-install.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/minio-install.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      MinIO S3 Compatible Storage Setup
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/hyperscaler_lab_env.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/hyperscaler_lab_env.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Cloud Provider Lab Environments
+    </a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../archive/labenv/red-hat-docs.html" data-progress-path="/rhoai-demo-instr/3.2/archive/labenv/red-hat-docs.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Red Hat Documentation Reference
+    </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../archive/root/index.html" data-progress-path="/rhoai-demo-instr/3.2/archive/root/index.html">
+      <span class="nav-progress-mark" aria-hidden="true">✓</span>
+      Serving LLMs at Scale
+    </a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">DEV</span>
+    <span class="version">3.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">DEV</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">3.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">DEV</a></li>
+    <li><a href="index.html">Building Claude Skills</a></li>
+    <li><a href="06-real-examples.html">Module 6: Real Examples</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Module 6: Real-World Examples</h1>
+<div class="sect1">
+<h2 id="_learning_objectives"><a class="anchor" href="#_learning_objectives"></a>Learning Objectives</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After completing this module, you will be able to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Analyze production skills from the Showroom ecosystem</p>
+</li>
+<li>
+<p>Understand design decisions in real skills</p>
+</li>
+<li>
+<p>Identify patterns used across multiple skills</p>
+</li>
+<li>
+<p>Learn from working examples</p>
+</li>
+<li>
+<p>Apply patterns to your own skills</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The best way to learn skill development is to study real, production skills. In this module, we&#8217;ll analyze complete examples from the Showroom ecosystem.</p>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll see all the patterns from previous modules working together in actual skills that generate hundreds of workshop modules and demos.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_example_1_showroom_create_lab"><a class="anchor" href="#_example_1_showroom_create_lab"></a>Example 1: showroom-create-lab</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This skill creates hands-on workshop modules with exercises and verification checkpoints.</p>
+</div>
+<div class="paragraph">
+<p><strong>Location</strong>: <code>.agents/skills/showroom-create-lab/skill.md</code></p>
+</div>
+<div class="sect2">
+<h3 id="_skill_frontmatter"><a class="anchor" href="#_skill_frontmatter"></a>Skill Frontmatter</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+name: showroom:create-lab
+description: This skill should be used when the user asks to "create a lab module", "write a workshop module", "build a Showroom lab", "convert docs to a lab", "write a hands-on exercise", "create an AsciiDoc module", or "turn this documentation into a lab exercise".
+---
+
+---
+context: main
+model: claude-opus-4-6
+---</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Analysis</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Namespace</strong> - <code>showroom:</code> prefix groups related skills</p>
+</li>
+<li>
+<p><strong>Trigger phrases</strong> - Comprehensive list of user variations</p>
+</li>
+<li>
+<p><strong>Model</strong> - Opus for complex content generation</p>
+</li>
+<li>
+<p><strong>Context</strong> - Main conversation (not isolated)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_critical_rules_section"><a class="anchor" href="#_critical_rules_section"></a>Critical Rules Section</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">## Workflow
+
+**CRITICAL RULES**
+
+### 1. Ask Questions SEQUENTIALLY
+- Ask ONE question or ONE group of related questions at a time
+- WAIT for user's answer before proceeding
+- Do NOT ask questions from multiple steps together
+
+### 2. File Generation Order (First Module ONLY)
+**If this is the FIRST module of a NEW lab, you MUST generate files in this EXACT order:**
+
+1. **index.adoc** - Learner landing page (NOT facilitator guide)
+2. **01-overview.adoc** - Business scenario and learning objectives
+3. **02-details.adoc** - Technical requirements
+4. **03-module-01-*.adoc** - First hands-on module
+
+**NEVER skip index/overview/details for first module!**
+
+### 3. Manage Output Tokens
+- **NEVER output full module content** - Use Write tool
+- **Show brief confirmations only**
+- **Keep total output under 5000 tokens**</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Why this works</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visible at top</strong> - Rules can&#8217;t be missed</p>
+</li>
+<li>
+<p><strong>Numbered priorities</strong> - Clear hierarchy</p>
+</li>
+<li>
+<p><strong>Bold critical points</strong> - Eye-catching emphasis</p>
+</li>
+<li>
+<p><strong>Specific commands</strong> - No ambiguity</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_argument_parsing"><a class="anchor" href="#_argument_parsing"></a>Argument Parsing</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 1: Parse Arguments (If Provided)
+
+**Pattern 1: `/create-lab &lt;directory&gt; --new`**
+```
+Parsing arguments: "&lt;directory&gt; --new"
+
+✓ Target directory: &lt;directory&gt;
+✓ Mode: Create new lab
+✓ Will generate: index.adoc → 01-overview → 02-details → 03-module-01
+
+Skipping: Step 2 (mode already known: NEW lab)
+Proceeding to: Step 3 (Plan Overall Lab Story)
+```
+
+**Pattern 2: `/create-lab &lt;directory&gt; --continue &lt;module-path&gt;`**
+[...]
+
+**Pattern 3: `/create-lab` (no arguments)**
+```
+No arguments provided.
+Using interactive mode.
+Proceeding to: Step 2 (Determine Context)
+```</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Analysis</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>All patterns documented</strong> - Covers all invocation modes</p>
+</li>
+<li>
+<p><strong>Visual confirmation</strong> - Shows what was parsed</p>
+</li>
+<li>
+<p><strong>Skip logic explained</strong> - Makes workflow transparent</p>
+</li>
+<li>
+<p><strong>Fallback supported</strong> - Always works in interactive mode</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sequential_conversational_questions"><a class="anchor" href="#_sequential_conversational_questions"></a>Sequential Conversational Questions</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 3: Plan Overall Lab Story (if first module)
+
+**Question 1 - What Should We Call This?**:
+```
+What's the name of your workshop?
+
+Example: "Building AI/ML Workloads on OpenShift AI"
+
+I'll use this to set up your lab title and generate a clean URL-friendly slug.
+
+Your lab name:
+```
+
+**Question 2 - The Learning Goal**:
+```
+What's the main goal of this lab?
+
+What should learners be able to do when they finish?
+
+Example: "Learn to build and deploy AI/ML workloads"
+
+Your lab goal:
+```</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Why this is excellent</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Conversational headers</strong> - "What Should We Call This?" not "Q1: Module name?"</p>
+</li>
+<li>
+<p><strong>Context</strong> - Explains why the question matters</p>
+</li>
+<li>
+<p><strong>Examples</strong> - Shows what good answers look like</p>
+</li>
+<li>
+<p><strong>Tone</strong> - Friendly, helpful, collaborative</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_skip_patterns"><a class="anchor" href="#_skip_patterns"></a>Skip Patterns</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 2: Determine Context (New Lab vs Existing Lab)
+
+**SKIP THIS STEP IF**:
+- User provided `--new` flag in arguments (already know: NEW lab)
+- User provided `--continue &lt;module&gt;` in arguments (already know: EXISTING lab)
+
+**CRITICAL: DO NOT read any files or make assumptions before asking this question!**
+
+**First, ask the user**:
+[Question here...]
+
+**ONLY AFTER user answers, proceed based on their response.**</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Pattern analysis</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Conditional logic explicit</strong> - No ambiguity</p>
+</li>
+<li>
+<p><strong>Multiple skip conditions</strong> - Covers all cases</p>
+</li>
+<li>
+<p><strong>Warning against assumptions</strong> - Prevents premature file reads</p>
+</li>
+<li>
+<p><strong>Enforces sequential flow</strong> - "ONLY AFTER user answers"</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quality_gate_integration"><a class="anchor" href="#_quality_gate_integration"></a>Quality Gate Integration</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 10: Final Quality Check (Inline)
+
+The generated module is already in context — check it directly.
+
+Read @showroom/docs/SKILL-COMMON-RULES.md for the full quality gate criteria, then verify against this list:
+
+**Must fix before delivering (fix silently, note in Step 12 summary)**:
+
+| Check | Rule |
+|---|---|
+| Headings | Sentence case — not Title Case |
+| Em dashes | Zero `—` — rewrite or use `--` |
+| Prohibited terms | No "robust", "powerful", "leverage" |
+| Student command blocks | All commands use `[source,role="execute"]` |
+| Expected output blocks | Use plain `----` with no source declaration |
+[...]
+
+If anything fails, fix it now. Do not ask the user — just fix and note what was corrected in the Step 12 delivery summary.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Pattern strengths</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Inline</strong> - No agent spawning</p>
+</li>
+<li>
+<p><strong>Content in context</strong> - Already available</p>
+</li>
+<li>
+<p><strong>Auto-fix</strong> - Silent correction</p>
+</li>
+<li>
+<p><strong>Documentation</strong> - Note corrections in delivery</p>
+</li>
+<li>
+<p><strong>Shared rules reference</strong> - Links to comprehensive guide</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_token_managed_delivery"><a class="anchor" href="#_token_managed_delivery"></a>Token-Managed Delivery</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 12: Deliver
+
+**CRITICAL: Manage Output Tokens to Prevent Overflow**
+
+**Token Management Rules**:
+1. **Write files using Write tool** - Don't output contents
+2. **Show brief confirmations only** - "✅ Created: file (X lines)"
+3. **Provide summary at end** - List what was created
+4. **Never output entire module content** - Files are written
+5. **Keep total output under 5000 tokens** - Brief summaries only
+
+**Output Format**:
+
+```
+✅ Workshop Generation Complete
+
+**Files Created**:
+- content/modules/ROOT/pages/index.adoc (32 lines)
+- content/modules/ROOT/pages/01-overview.adoc (85 lines)
+- content/modules/ROOT/pages/02-details.adoc (67 lines)
+- content/modules/ROOT/pages/03-module-01-intro.adoc (234 lines)
+- content/modules/ROOT/nav.adoc (updated)
+```</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Why this is effective</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Explicit token rules</strong> - Can&#8217;t be misinterpreted</p>
+</li>
+<li>
+<p><strong>Template provided</strong> - Exact format specified</p>
+</li>
+<li>
+<p><strong>Examples of wrong approaches</strong> - Shows what not to do</p>
+</li>
+<li>
+<p><strong>Token budget stated</strong> - Clear limit</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reference_file_usage"><a class="anchor" href="#_reference_file_usage"></a>Reference File Usage</h3>
+<div class="paragraph">
+<p>The skill references external files throughout:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">## Shared Rules
+
+See @showroom/docs/SKILL-COMMON-RULES.md for:
+- Version pinning and attribute placeholders (REQUIRED)
+- Reference enforcement (REQUIRED)
+- Image path conventions (REQUIRED)
+- Navigation update expectations (REQUIRED)
+
+### Step 9: Generate Files
+
+**CRITICAL: AsciiDoc rules**:
+See `@showroom/skills/create-lab/references/asciidoc-rules.md` for all rules.
+
+### Step 13: Generate Conclusion Module
+
+→ Full conclusion template: `@showroom/skills/create-lab/references/conclusion-template.md`</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Benefits</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Main skill file stays focused on workflow</p>
+</li>
+<li>
+<p>Detailed rules externalized</p>
+</li>
+<li>
+<p>Easy to update rules independently</p>
+</li>
+<li>
+<p>Users can read references directly</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_key_takeaways_from_create_lab"><a class="anchor" href="#_key_takeaways_from_create_lab"></a>Key Takeaways from create-lab</h3>
+<div class="paragraph">
+<p>✓ <strong>Sequential questioning</strong> - One step at a time<br>
+✓ <strong>Argument support</strong> - Shortcuts available, not required<br>
+✓ <strong>Conversational tone</strong> - Friendly, helpful questions<br>
+✓ <strong>Skip patterns</strong> - Explicit conditional logic<br>
+✓ <strong>Inline quality gates</strong> - Auto-fix in context<br>
+✓ <strong>Token management</strong> - Strict output control<br>
+✓ <strong>Reference files</strong> - External rules and templates</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_example_2_showroom_create_demo"><a class="anchor" href="#_example_2_showroom_create_demo"></a>Example 2: showroom-create-demo</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This skill creates presenter-led demos with Know/Show structure.</p>
+</div>
+<div class="paragraph">
+<p><strong>Location</strong>: <code>.agents/skills/showroom-create-demo/skill.md</code></p>
+</div>
+<div class="sect2">
+<h3 id="_different_content_structure"><a class="anchor" href="#_different_content_structure"></a>Different Content Structure</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">## Know/Show Structure
+
+Demos use a different format than workshops:
+
+- **Know sections**: Business context, customer pain points, value propositions
+- **Show sections**: Step-by-step presenter instructions, demonstrations
+
+This separates what presenters need to **understand** (business value) from what they need to **do** (technical demonstration).</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Analysis</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Domain-specific structure</strong> - Different from workshops</p>
+</li>
+<li>
+<p><strong>Clear separation</strong> - Know vs Show explicitly defined</p>
+</li>
+<li>
+<p><strong>Purpose stated</strong> - Why this structure exists</p>
+</li>
+<li>
+<p><strong>Audience clarified</strong> - For presenters, not learners</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_demo_specific_quality_gates"><a class="anchor" href="#_demo_specific_quality_gates"></a>Demo-Specific Quality Gates</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 10: Final Quality Check (Inline)
+
+**Must fix before delivering**:
+
+| Check | Rule |
+|---|---|
+| Know/Show structure | Every section has Know (context) before Show (demonstration) |
+| Business value | ROI or outcome framing stated in every Know section |
+| Presenter notes | At least one `[NOTE]` block per section with talking points |
+| No participant steps | Demo is presenter-led — no hands-on exercises |
+| Headings | Sentence case |
+| Presenter command blocks | All commands presenter runs use `[source,role="execute"]` |
+| Hardcoded values | Use `{user}`, `{password}`, not actual values |</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Differences from labs</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Know/Show enforcement</strong> - Unique to demos</p>
+</li>
+<li>
+<p><strong>Business value required</strong> - Every Know section</p>
+</li>
+<li>
+<p><strong>Presenter notes</strong> - Talk tracks included</p>
+</li>
+<li>
+<p><strong>No hands-on</strong> - Different from workshop labs</p>
+</li>
+<li>
+<p><strong>Same formatting rules</strong> - Headings, commands, values</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_content_rules_reference"><a class="anchor" href="#_content_rules_reference"></a>Content Rules Reference</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">**CRITICAL: Content rules** (originality, em dashes, Know/Show bullets vs numbers, demo language, talk track):
+
+See `@showroom/skills/create-demo/references/content-rules.md` for all rules with correct/incorrect examples.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>The reference file includes</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Content originality (no plagiarism)</p>
+</li>
+<li>
+<p>Em dash prohibition</p>
+</li>
+<li>
+<p>Bullets vs numbers (Know uses bullets, Show uses numbers)</p>
+</li>
+<li>
+<p>Demo language (not learner language)</p>
+</li>
+<li>
+<p>Talk track separation ("What I say" vs "What I do")</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Why externalized</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Comprehensive examples too large for main skill</p>
+</li>
+<li>
+<p>Easy to update without changing workflow</p>
+</li>
+<li>
+<p>Users can review detailed rules independently</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conclusion_module_generation"><a class="anchor" href="#_conclusion_module_generation"></a>Conclusion Module Generation</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 13: Generate Conclusion Module (MANDATORY)
+
+After the final module, ask if this is the last module. If YES: read all previous modules to extract learning outcomes and references, then generate a conclusion module consolidating all references.
+
+**Embedded Demo Conclusion Template**:
+
+Read template from `@showroom/skills/create-demo/references/conclusion-template.md`
+
+Customize with:
+- Business impact from all modules
+- ROI metrics collected
+- Demo capabilities shown
+- Next steps for evaluation
+- **ALL REFERENCES** used across entire demo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Pattern</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Mandatory step</strong> - Can&#8217;t be skipped</p>
+</li>
+<li>
+<p><strong>Reference consolidation</strong> - Reads all previous modules</p>
+</li>
+<li>
+<p><strong>Template-based</strong> - Consistent structure</p>
+</li>
+<li>
+<p><strong>Complete attribution</strong> - All references included</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_key_takeaways_from_create_demo"><a class="anchor" href="#_key_takeaways_from_create_demo"></a>Key Takeaways from create-demo</h3>
+<div class="paragraph">
+<p>✓ <strong>Domain-specific structure</strong> - Know/Show for demos<br>
+✓ <strong>Content-type quality gates</strong> - Tailored validation rules<br>
+✓ <strong>Reference file for content rules</strong> - Detailed examples externalized<br>
+✓ <strong>Business focus</strong> - ROI and value propositions required<br>
+✓ <strong>Mandatory conclusion</strong> - Reference consolidation</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_example_3_showroom_blog_generate"><a class="anchor" href="#_example_3_showroom_blog_generate"></a>Example 3: showroom-blog-generate</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This skill transforms workshop/demo content into blog posts.</p>
+</div>
+<div class="paragraph">
+<p><strong>Location</strong>: <code>.agents/skills/showroom-blog-generate/skill.md</code></p>
+</div>
+<div class="sect2">
+<h3 id="_transformation_workflow"><a class="anchor" href="#_transformation_workflow"></a>Transformation Workflow</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">## Workflow
+
+### Step 1: Identify Source Content
+
+Which completed modules to base the blog on?
+
+### Step 2: Determine Blog Parameters
+
+Target platform, format, blog type, technical depth
+
+### Step 3: Read Source Content
+
+Extract key concepts, procedures, business value
+
+### Step 4: Transform Content
+
+**Workshop → Developer Blog**:
+- Convert step-by-step exercises → narrative "how to" flow
+- Keep technical depth and code samples
+- Add context and explanation
+
+**Demo → Product Announcement**:
+- Extract business value from Know sections
+- Highlight capabilities from Show sections
+- Emphasize customer benefits
+
+**Workshop → Marketing Blog**:
+- Focus on "what you can achieve" not "how to do it"
+- Minimize technical steps
+- Emphasize business outcomes</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Analysis</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Source-aware</strong> - Reads existing content</p>
+</li>
+<li>
+<p><strong>Multiple transformation paths</strong> - Workshop/demo to different blog types</p>
+</li>
+<li>
+<p><strong>Content reshaping</strong> - Not just reformatting</p>
+</li>
+<li>
+<p><strong>Audience adaptation</strong> - Technical vs marketing vs executive</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_platform_specific_formatting"><a class="anchor" href="#_platform_specific_formatting"></a>Platform-Specific Formatting</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 6: Apply Platform-Specific Formatting
+
+**Red Hat Developer Blog** (developers.redhat.com):
+- **Format**: Markdown (.md)
+- Code blocks with syntax highlighting
+- Developer-focused tone
+- Technical accuracy paramount
+
+**Medium, dev.to, Hashnode**:
+- **Format**: Markdown (.md)
+- Standard Markdown support
+- Add cover images
+- Platform-specific tags
+
+**Internal Red Hat Blogs** (Source, Memo):
+- **Format**: Markdown (.md) DEFAULT
+- **Format**: AsciiDoc (.adoc) - Only if team requires it
+- Red Hat product naming standards
+
+**Marketing/Announcement Format**:
+- **Format**: Markdown (.md)
+- Business language
+- Minimal jargon
+- Lead generation CTAs</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Pattern strengths</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Platform awareness</strong> - Adapts to destination</p>
+</li>
+<li>
+<p><strong>Format defaults</strong> - Markdown primary</p>
+</li>
+<li>
+<p><strong>Tone adaptation</strong> - Developer vs marketing</p>
+</li>
+<li>
+<p><strong>Context inclusion</strong> - What matters on each platform</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_source_traceability"><a class="anchor" href="#_source_traceability"></a>Source Traceability</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">**Source Traceability** (REQUIRED):
+
+Every blog must include attribution to prevent over-claiming.
+
+**For Red Hat Developer Blog**:
+```markdown
+---
+
+**About this tutorial**: This post is based on a hands-on workshop created for Red Hat field demonstrations. [Try the full lab on Red Hat Showroom](https://showroom.example.com/...).
+```
+
+**For Internal Blogs**:
+```markdown
+---
+
+**Source**: Adapted from the "OpenShift Pipelines" demo used in customer technical briefings.
+```
+
+**Rules**:
+- Always include at end of blog
+- Link to full lab if publishing externally
+- Use "adapted from" or "based on" language</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Why this matters</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Prevents over-claiming</strong> - Clear about source</p>
+</li>
+<li>
+<p><strong>Builds trust</strong> - Transparent attribution</p>
+</li>
+<li>
+<p><strong>Drives traffic</strong> - Links back to full content</p>
+</li>
+<li>
+<p><strong>Required pattern</strong> - Can&#8217;t be skipped</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_inline_blog_quality_gates"><a class="anchor" href="#_inline_blog_quality_gates"></a>Inline Blog Quality Gates</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">### Step 7: Validate and Deliver
+
+**Inline quality check**:
+
+| Check | Rule |
+|---|---|
+| Tone | Narrative, conversational — not step-by-step instructions |
+| Prohibited terms | No "robust", "powerful", "leverage", "synergy" |
+| Headings | Sentence case |
+| Inclusive language | No "he/she" — use "they/them" |
+| Word count | 800–1200 words for blog audience |
+| Call to action | Clear CTA at end — link to full lab |
+| Code samples | All code blocks complete and syntactically valid |
+| Links | All external links valid |</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Blog-specific rules</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Narrative tone</strong> - Not instructional</p>
+</li>
+<li>
+<p><strong>Word count target</strong> - Appropriate for blogs</p>
+</li>
+<li>
+<p><strong>CTA requirement</strong> - Drive action</p>
+</li>
+<li>
+<p><strong>Code validity</strong> - Must run without errors</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_key_takeaways_from_blog_generate"><a class="anchor" href="#_key_takeaways_from_blog_generate"></a>Key Takeaways from blog-generate</h3>
+<div class="paragraph">
+<p>✓ <strong>Transformation workflow</strong> - Reshapes existing content<br>
+✓ <strong>Platform adaptation</strong> - Format and tone per destination<br>
+✓ <strong>Source traceability</strong> - Required attribution<br>
+✓ <strong>Content-type quality gates</strong> - Blog-specific rules<br>
+✓ <strong>Markdown default</strong> - Universal blog format</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_example_4_generate_course_structure"><a class="anchor" href="#_example_4_generate_course_structure"></a>Example 4: generate-course-structure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This skill generates Antora course structures from design documents.</p>
+</div>
+<div class="paragraph">
+<p><strong>Location</strong>: <code>.agents/skills/generate-course-structure/skill.md</code></p>
+</div>
+<div class="sect2">
+<h3 id="_prerequisites_check"><a class="anchor" href="#_prerequisites_check"></a>Prerequisites Check</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">## Prerequisites Check
+
+0. **Verify directory structure**
+   - Check that `modules/ROOT/` exists
+   - Check that `templates/` directory exists
+   - If missing critical directories, inform user and stop
+
+1. **Verify course design document exists**
+   - Check that `prompts/course-design.md` exists
+   - If missing, inform the user and stop</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Analysis</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Environment validation</strong> - Checks before proceeding</p>
+</li>
+<li>
+<p><strong>Fail fast</strong> - Stops if prerequisites missing</p>
+</li>
+<li>
+<p><strong>User informed</strong> - Clear error messages</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_edge_case_documentation"><a class="anchor" href="#_edge_case_documentation"></a>Edge Case Documentation</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">## Edge Cases
+
+Handle the following edge cases gracefully:
+
+- **Single learning objective**: Create ch1-{keyword} normally
+- **Learning objective with no sections**: Create chapter with index.adoc only, add note
+- **Unknown session type**: Use default `.adoc` suffix, inform user
+- **Duplicate keywords**: Append sequential numbers (-1, -2)
+- **Empty section descriptions**: Use "section-{number}" as keyword, warn user
+- **Malformed table**: Show sample rows, ask for clarification
+- **Missing template directory**: Create basic structure, inform user
+- **Failed file creation**: Report error, ask user if they want to continue</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Why this is excellent</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Comprehensive</strong> - Covers all edge cases</p>
+</li>
+<li>
+<p><strong>Graceful handling</strong> - Doesn&#8217;t crash</p>
+</li>
+<li>
+<p><strong>User communication</strong> - Informs about issues</p>
+</li>
+<li>
+<p><strong>Fallback behavior</strong> - Always has a path forward</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_keyword_extraction_algorithm"><a class="anchor" href="#_keyword_extraction_algorithm"></a>Keyword Extraction Algorithm</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">**Keyword extraction algorithm**:
+* Take the first paragraph or clause from the section description
+* Remove any leading bullet points or list markers
+* Identify 1-3 key nouns or noun phrases (e.g., "device fleets", "gitops")
+* Convert to lowercase kebab-case (e.g., "device-fleets", "gitops")
+* Ensure uniqueness within the chapter
+* Use different keywords for sections in the same chapter
+* It's OK to use the same keyword for sections from different chapters</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Analysis</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Algorithmic</strong> - Specific procedure</p>
+</li>
+<li>
+<p><strong>Examples</strong> - Shows expected output</p>
+</li>
+<li>
+<p><strong>Uniqueness handling</strong> - Prevents collisions</p>
+</li>
+<li>
+<p><strong>Scope clarified</strong> - Same chapter vs different chapters</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_validation_step"><a class="anchor" href="#_validation_step"></a>Validation Step</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-markdown hljs" data-lang="markdown">## Validation
+
+12. **Verify structure**
+    - Validate each created file:
+      * Check AsciiDoc syntax (minimum: one = heading)
+      * Verify nav.adoc xref targets point to existing files
+      * Confirm all template placeholders replaced
+    - Check navigation consistency
+    - Report summary to user:
+      * Number of chapters created
+      * Number of sections per chapter (broken down by type)
+      * List of missing templates
+      * Any issues encountered
+      * Total files created</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Pattern</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Post-generation validation</strong> - Ensures correctness</p>
+</li>
+<li>
+<p><strong>Comprehensive checks</strong> - Syntax, references, placeholders</p>
+</li>
+<li>
+<p><strong>User summary</strong> - Clear report of what was done</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_key_takeaways_from_generate_course_structure"><a class="anchor" href="#_key_takeaways_from_generate_course_structure"></a>Key Takeaways from generate-course-structure</h3>
+<div class="paragraph">
+<p>✓ <strong>Prerequisites validation</strong> - Check environment first<br>
+✓ <strong>Edge case handling</strong> - Graceful fallbacks<br>
+✓ <strong>Algorithm documentation</strong> - Clear procedures<br>
+✓ <strong>Post-generation validation</strong> - Verify output<br>
+✓ <strong>Comprehensive reporting</strong> - Detailed summaries</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_common_patterns_across_all_skills"><a class="anchor" href="#_common_patterns_across_all_skills"></a>Common Patterns Across All Skills</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Looking at these four skills, we see consistent patterns:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>Sequential workflows</strong></dt>
+<dd>
+<p>All skills ask questions one at a time, waiting for answers</p>
+</dd>
+<dt class="hdlist1"><strong>Argument support</strong></dt>
+<dd>
+<p>Optional arguments provide shortcuts, interactive mode always works</p>
+</dd>
+<dt class="hdlist1"><strong>Inline quality gates</strong></dt>
+<dd>
+<p>Validation happens in context, auto-fixes silently</p>
+</dd>
+<dt class="hdlist1"><strong>Token management</strong></dt>
+<dd>
+<p>Write files, show brief confirmations, keep output under 5K tokens</p>
+</dd>
+<dt class="hdlist1"><strong>Reference files</strong></dt>
+<dd>
+<p>External files for detailed rules and templates</p>
+</dd>
+<dt class="hdlist1"><strong>Shared rules</strong></dt>
+<dd>
+<p>Common patterns in <code>@namespace/docs/SKILL-COMMON-RULES.md</code></p>
+</dd>
+<dt class="hdlist1"><strong>Content-type awareness</strong></dt>
+<dd>
+<p>Different validation for labs, demos, blogs, courses</p>
+</dd>
+<dt class="hdlist1"><strong>User communication</strong></dt>
+<dd>
+<p>Conversational tone, clear next steps, transparent processes</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_verification_checkpoint"><a class="anchor" href="#_verification_checkpoint"></a>Verification Checkpoint</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before proceeding, verify you understand:</p>
+</div>
+<div class="paragraph">
+<p>✓ <strong>create-lab patterns</strong> - Sequential questions, inline quality, token control<br>
+✓ <strong>create-demo patterns</strong> - Know/Show structure, business focus<br>
+✓ <strong>blog-generate patterns</strong> - Transformation workflow, platform adaptation<br>
+✓ <strong>generate-course-structure patterns</strong> - Prerequisites, edge cases, validation<br>
+✓ <strong>Common patterns</strong> - Shared across all skills</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_practice_exercise"><a class="anchor" href="#_practice_exercise"></a>Practice Exercise</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Pick one skill</strong> (create-lab, create-demo, or blog-generate) from your .agents/skills/ directory:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Read the complete skill.md file</p>
+</li>
+<li>
+<p>Identify 3 workflow patterns from this module</p>
+</li>
+<li>
+<p>Note 2 quality gates specific to that skill</p>
+</li>
+<li>
+<p>Document 1 reference file it uses</p>
+</li>
+<li>
+<p>Write down what makes it effective</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this module, you learned:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Production skills use consistent patterns</p>
+</li>
+<li>
+<p>Sequential questioning appears in all workflows</p>
+</li>
+<li>
+<p>Quality gates are content-type specific</p>
+</li>
+<li>
+<p>Token management is critical for generation skills</p>
+</li>
+<li>
+<p>Reference files keep main skills focused</p>
+</li>
+<li>
+<p>Edge case handling prevents failures</p>
+</li>
+<li>
+<p>Clear communication builds trust</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_whats_next"><a class="anchor" href="#_whats_next"></a>What&#8217;s Next</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Module 7 will compile best practices and anti-patterns to help you build high-quality skills efficiently.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="05-references-templates.html">Module 5: References &amp; Templates</a></span>
+  <span class="next"><a href="07-best-practices.html">Module 7: Best Practices</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../_/js/vendor/reading-time.js"></script>
+<script src="../../../_/js/progress-tracker.js"></script>  </body>
+</html>
